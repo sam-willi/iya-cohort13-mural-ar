@@ -6,6 +6,8 @@
 // All content (riddles, student names, links, pop-out art) lives in data/objects.json,
 // so most changes never need to touch this file.
 
+import { drawClutter } from './clutter.js';
+
 const OBJECTS_URL = 'data/objects.json';
 const TOAST_COOLDOWN_MS = 3000;
 
@@ -34,6 +36,8 @@ let queue = [];        // riddles still to play, in order
 let current = null;    // the object the current riddle is about
 let foundCount = 0;
 const popouts = new Map(); // object id -> pop-out entity
+
+document.querySelectorAll('svg.clutter').forEach((svg) => drawClutter(svg));
 
 init().catch((err) => {
   console.error(err);

@@ -1,11 +1,23 @@
+/* Look and feel borrowed from the classic I Spy picture-riddle books:
+   a busy pile of toys, a cream circle badge with an orange ring, a tall red "I SPY",
+   and riddles set in an old-fashioned serif. */
+
 :root {
-  --ink: #1b1b3a;
-  --paper: #fffaf0;
-  --sun: #ffc93c;
-  --coral: #ff6f59;
-  --muted: #5c5c7a;
-  --radius: 18px;
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --red: #d42a2a;
+  --red-dark: #9e1a1d;
+  --orange: #ef7d1a;
+  --gold: #f6b730;
+  --green: #17713b;
+  --blue: #2357a6;
+  --cream: #fff8e7;
+  --paper: #fffdf6;
+  --ink: #1d1a17;
+  --ink-soft: #5a4f43;
+  --wood: #1a120c;
+
+  --font-logo: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --font-label: "Oswald", "Arial Narrow", sans-serif;
+  --font-serif: "Libre Baskerville", Georgia, "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; }
@@ -16,7 +28,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: #000;
-  font-family: var(--font);
+  font-family: var(--font-serif);
   color: var(--ink);
 }
 
@@ -24,6 +36,8 @@ html, body {
 body { position: relative; }
 #ar-scene { position: fixed; inset: 0; width: 100%; height: 100%; }
 .a-enter-vr, .a-enter-ar { display: none !important; } /* A-Frame's VR/fullscreen button isn't needed */
+
+/* ---------- Cover screens (start + done) ---------- */
 
 .screen {
   position: fixed;
@@ -33,15 +47,130 @@ body { position: relative; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 24px;
+  gap: clamp(20px, 4vh, 36px);
+  padding: 24px 16px 72px;
   text-align: center;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--wood);
+  overflow: hidden;
 }
-.screen h1 { font-size: clamp(3rem, 14vw, 5rem); margin: 0; color: var(--sun); letter-spacing: -0.02em; }
-.screen p { max-width: 32ch; margin: 0; line-height: 1.5; }
-.screen .fine-print { font-size: 0.85rem; opacity: 0.7; }
+
+.clutter { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Darken the edges a little so the badge pops, like a photo with a vignette. */
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 35%, rgb(0 0 0 / 0.45) 100%);
+  pointer-events: none;
+}
+.cover > :not(.clutter) { position: relative; z-index: 1; }
+
+.badge {
+  --badge: min(80vw, 46vh, 360px);
+  --u: calc(var(--badge) / 100); /* 1% of the badge width, so everything inside scales together */
+  position: relative;
+  width: var(--badge);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 calc(10 * var(--u));
+  background: radial-gradient(circle at 50% 40%, var(--paper) 0%, var(--cream) 100%);
+  border: calc(4.6 * var(--u)) solid var(--orange);
+  box-shadow:
+    inset 0 0 0 calc(1.2 * var(--u)) var(--paper),
+    inset 0 0 0 calc(1.8 * var(--u)) var(--gold),
+    0 14px 40px rgb(0 0 0 / 0.6);
+}
+
+.badge-arc {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.badge-arc text {
+  font-family: var(--font-serif);
+  font-size: 9.5px;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  fill: var(--ink-soft);
+}
+
+.logo {
+  margin: calc(4 * var(--u)) 0 0;
+  font-family: var(--font-logo);
+  font-weight: 400;
+  font-size: calc(29 * var(--u));
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: var(--red);
+  text-shadow: calc(0.6 * var(--u)) calc(0.8 * var(--u)) 0 rgb(0 0 0 / 0.18);
+  white-space: nowrap;
+}
+.logo-long { font-size: calc(21 * var(--u)); }
+
+.badge-sub {
+  margin: calc(2 * var(--u)) 0 0;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: calc(5 * var(--u));
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.badge-sub-big {
+  font-family: var(--font-logo);
+  font-weight: 400;
+  font-variant: normal;
+  font-size: calc(13 * var(--u));
+  letter-spacing: 0.02em;
+  color: var(--blue);
+}
+
+.badge-credits {
+  margin: calc(2.5 * var(--u)) 0 0;
+  font-size: calc(4 * var(--u));
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.badge-credits em { color: var(--red-dark); font-weight: 700; }
+
+.cover-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+.fine-print {
+  margin: 0;
+  max-width: 34ch;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgb(26 18 12 / 0.82);
+  color: var(--cream);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* The little red label at the bottom of every cover. */
+.publisher-tab {
+  position: absolute !important;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  margin: 0;
+  padding: 5px 16px;
+  border-radius: 4px;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+/* ---------- Cards over the camera (riddle + found) ---------- */
 
 .card {
   position: fixed;
@@ -50,40 +179,98 @@ body { position: relative; }
   right: 16px;
   max-width: 480px;
   margin: 0 auto;
-  padding: 18px 20px;
-  border-radius: var(--radius);
+  padding: 26px 22px 20px;
+  border-radius: 22px;
   background: var(--paper);
-  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+  border: 5px solid var(--orange);
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 5px var(--gold), 0 12px 32px rgb(0 0 0 / 0.45);
+  text-align: center;
 }
 .card-bottom { bottom: calc(16px + env(safe-area-inset-bottom)); }
-.card h2 { margin: 4px 0; font-size: 1.5rem; }
-.card p { margin: 6px 0; }
 
-.eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coral); }
-.screen .eyebrow { color: var(--paper); opacity: 0.8; }
-.riddle { font-size: 1.15rem; line-height: 1.45; }
-.hint { color: var(--muted); font-style: italic; }
+.mini-badge {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-6deg);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--cream);
+  border: 4px solid var(--orange);
+  box-shadow: inset 0 0 0 2px var(--gold), 0 4px 10px rgb(0 0 0 / 0.35);
+  font-family: var(--font-logo);
+  font-size: 1.2rem;
+  color: var(--red);
+}
 
-.row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.eyebrow {
+  margin: 4px 0 8px;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.riddle {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  white-space: pre-line; /* riddles can be written as rhyming lines */
+}
+.hint { margin: 10px 0 0; font-style: italic; color: var(--ink-soft); }
+
+.found-name {
+  margin: 0;
+  font-family: var(--font-logo);
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.found-student { margin: 6px 0 0; font-style: italic; color: var(--ink-soft); }
+
+.row { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+/* ---------- Buttons ---------- */
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  padding: 0 18px;
+  padding: 0 20px;
   border: 2px solid var(--ink);
   border-radius: 999px;
-  background: transparent;
+  background: var(--paper);
   color: var(--ink);
-  font: inherit;
-  font-weight: 700;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
+  transition: transform 120ms ease;
 }
-.btn-primary { background: var(--sun); border-color: var(--sun); color: var(--ink); }
-.btn:disabled { opacity: 0.5; cursor: default; }
-.screen .btn-primary { min-width: 180px; font-size: 1.1rem; }
+.btn:active { transform: scale(0.96); }
+.btn-primary {
+  background: var(--red);
+  border-color: var(--red-dark);
+  color: #fff;
+  box-shadow: 0 3px 0 var(--red-dark);
+}
+.btn-big { min-width: 200px; min-height: 54px; font-size: 1.3rem; border-width: 3px; }
+.btn:disabled { opacity: 0.6; cursor: default; }
+.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* ---------- Toast ---------- */
 
 #toast {
   position: fixed;
@@ -93,10 +280,16 @@ body { position: relative; }
   transform: translateX(-50%);
   width: max-content;
   max-width: calc(100% - 32px);
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
-  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: var(--cream);
+  border: 3px solid var(--orange);
+  color: var(--ink);
+  font-style: italic;
   text-align: center;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
 }
