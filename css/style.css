@@ -4,16 +4,17 @@
 
 :root {
   --red: #d42a2a;
+  --logo-red: #d01c23;
+  --red-text: #b81c22;
+  --ring: #ee6a1f;
   --red-dark: #9e1a1d;
-  --orange: #ef7d1a;
   --gold: #f6b730;
   --green: #17713b;
   --blue: #2357a6;
-  --cream: #fff8e7;
   --paper: #fffdf6;
   --ink: #1d1a17;
   --ink-soft: #5a4f43;
-  --wood: #1a120c;
+  --wood: #5a3a22;
 
   /* The book covers use a tall, condensed, high-contrast serif; Noto Serif Display Condensed is the closest free match. */
   --font-logo: "Noto Serif Display", "Didot", "Bodoni 72", Georgia, serif;
@@ -48,27 +49,19 @@ body { position: relative; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 4vh, 36px);
-  padding: 24px 16px 72px;
+  gap: clamp(18px, 3.5vh, 32px);
+  padding: 24px 16px 64px;
   text-align: center;
   background: var(--wood);
   overflow: hidden;
 }
 
 .clutter { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-/* Darken the edges a little so the badge pops, like a photo with a vignette. */
-.cover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 35%, rgb(0 0 0 / 0.45) 100%);
-  pointer-events: none;
-}
 .cover > :not(.clutter) { position: relative; z-index: 1; }
 
+/* The cover circle: see-through white with a single orange ring, so the toys show through. */
 .badge {
-  --badge: min(80vw, 46vh, 360px);
+  --badge: min(86vw, 50vh, 400px);
   --u: calc(var(--badge) / 100); /* 1% of the badge width, so everything inside scales together */
   position: relative;
   width: var(--badge);
@@ -78,73 +71,98 @@ body { position: relative; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 calc(6 * var(--u));
-  background: radial-gradient(circle at 50% 40%, var(--paper) 0%, var(--cream) 100%);
-  border: calc(4.6 * var(--u)) solid var(--orange);
-  box-shadow:
-    inset 0 0 0 calc(1.2 * var(--u)) var(--paper),
-    inset 0 0 0 calc(1.8 * var(--u)) var(--gold),
-    0 14px 40px rgb(0 0 0 / 0.6);
+  padding: calc(7 * var(--u));
+  background: rgb(255 255 255 / 0.9);
+  border: calc(3.4 * var(--u)) solid var(--ring);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
 }
 
 .badge-arc {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: calc(2 * var(--u));
+  width: calc(100% - 4 * var(--u));
+  height: calc(100% - 4 * var(--u));
   overflow: visible;
 }
 .badge-arc text {
   font-family: var(--font-serif);
-  font-size: 9.5px;
+  font-size: 8.5px;
   font-style: italic;
-  letter-spacing: 0.08em;
-  fill: var(--ink-soft);
+  letter-spacing: 0.04em;
+  fill: var(--ink);
 }
 
 .logo {
-  margin: calc(7 * var(--u)) 0 calc(3 * var(--u));
+  margin: calc(9 * var(--u)) 0 calc(2 * var(--u));
   font-family: var(--font-logo);
   font-weight: 900;
   font-stretch: 62.5%;
-  font-size: calc(36 * var(--u));
+  font-size: calc(33 * var(--u));
   line-height: 0.88;
   /* The book logo is narrower and taller than any free font, so squeeze it a little. */
   transform: scale(0.84, 1.14);
   letter-spacing: 0;
-  color: var(--red);
-  text-shadow: calc(0.6 * var(--u)) calc(0.8 * var(--u)) 0 rgb(0 0 0 / 0.18);
+  color: var(--logo-red);
   white-space: nowrap;
 }
-.logo-long { font-size: calc(25 * var(--u)); }
+.logo-long { font-size: calc(24 * var(--u)); }
 
-.badge-sub {
-  margin: calc(2 * var(--u)) 0 0;
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: calc(5 * var(--u));
-  font-variant: small-caps;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  color: var(--ink);
-}
-.badge-sub-big {
+/* The second, coloured title word, like "THINGS THAT GO" or "CHRISTMAS". */
+.badge-title {
+  margin: 0;
   font-family: var(--font-logo);
   font-weight: 900;
   font-stretch: 62.5%;
-  font-variant: normal;
-  font-size: calc(13 * var(--u));
-  letter-spacing: 0.02em;
+  font-size: calc(14 * var(--u));
+  line-height: 0.95;
+  text-transform: uppercase;
   color: var(--blue);
+  white-space: nowrap;
+}
+
+.badge-sub {
+  margin: calc(2.2 * var(--u)) 0 0;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: calc(3.7 * var(--u));
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 .badge-credits {
-  margin: calc(2.5 * var(--u)) 0 0;
-  font-size: calc(4 * var(--u));
-  font-style: italic;
-  color: var(--ink-soft);
+  margin: calc(2 * var(--u)) 0 0;
+  font-size: calc(3.5 * var(--u));
+  line-height: 1.45;
+  color: var(--ink);
 }
-.badge-credits em { color: var(--red-dark); font-weight: 700; }
+.badge-credits em { font-style: normal; font-weight: 700; color: var(--red-text); }
+
+/* Green round sticker on the badge's edge, like "NEW CHALLENGES INCLUDED!" */
+.sticker {
+  position: absolute;
+  z-index: 2;
+  top: calc(-1 * var(--u));
+  left: calc(-2 * var(--u));
+  width: calc(24 * var(--u));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  border: calc(0.9 * var(--u)) solid #fff;
+  outline: calc(0.6 * var(--u)) solid var(--green);
+  color: #fff;
+  font-family: var(--font-logo);
+  font-weight: 900;
+  font-stretch: 62.5%;
+  font-size: calc(5.4 * var(--u));
+  line-height: 0.95;
+  text-transform: uppercase;
+  transform: rotate(-14deg);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.35);
+}
 
 .cover-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
@@ -152,31 +170,38 @@ body { position: relative; }
   margin: 0;
   max-width: 34ch;
   padding: 8px 14px;
-  border-radius: 10px;
-  background: rgb(26 18 12 / 0.82);
-  color: var(--cream);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
   font-size: 0.85rem;
   line-height: 1.5;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.35);
 }
 
-/* The little red label at the bottom of every cover. */
+/* The little red publisher label at the bottom of every cover. */
 .publisher-tab {
   position: absolute !important;
-  bottom: calc(16px + env(safe-area-inset-bottom));
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0;
-  padding: 5px 16px;
-  border-radius: 4px;
+  padding: 4px 14px;
   background: var(--red);
   color: #fff;
-  font-family: var(--font-label);
+  font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   font-weight: 700;
-  font-stretch: 80%;
-  font-size: 0.8rem;
-  letter-spacing: 0.25em;
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
 }
+.tab-icon {
+  width: 14px;
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M0 1l5.5 1.2V10L0 8.8zM12 1L6.5 2.2V10L12 8.8z' fill='white'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 
-/* ---------- Cards over the camera (riddle + found) ---------- */
+/* ---------- Cards over the camera (riddle + found), like the white riddle boxes in the books ---------- */
 
 .card {
   position: fixed;
@@ -185,44 +210,43 @@ body { position: relative; }
   right: 16px;
   max-width: 480px;
   margin: 0 auto;
-  padding: 26px 22px 20px;
-  border-radius: 22px;
-  background: var(--paper);
-  border: 5px solid var(--orange);
-  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 5px var(--gold), 0 12px 32px rgb(0 0 0 / 0.45);
+  padding: 34px 22px 20px;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
   text-align: center;
 }
 .card-bottom { bottom: calc(16px + env(safe-area-inset-bottom)); }
 
 .mini-badge {
   position: absolute;
-  top: -34px;
+  top: -36px;
   left: 50%;
   transform: translateX(-50%) rotate(-6deg);
-  width: 64px;
-  height: 64px;
+  width: 66px;
+  height: 66px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--cream);
-  border: 4px solid var(--orange);
-  box-shadow: inset 0 0 0 2px var(--gold), 0 4px 10px rgb(0 0 0 / 0.35);
+  background: #fff;
+  border: 4px solid var(--ring);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.3);
   font-family: var(--font-logo);
   font-weight: 900;
   font-stretch: 62.5%;
-  font-size: 1.35rem;
-  color: var(--red);
+  font-size: 1.4rem;
+  color: var(--logo-red);
 }
 
 .eyebrow {
-  margin: 4px 0 8px;
+  margin: 0 0 8px;
   font-family: var(--font-label);
-  font-weight: 700;
-  font-stretch: 80%;
-  font-size: 0.85rem;
-  letter-spacing: 0.18em;
+  font-weight: 900;
+  font-stretch: 62.5%;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--red-text);
 }
 
 .riddle {
@@ -238,13 +262,14 @@ body { position: relative; }
   font-family: var(--font-logo);
   font-weight: 900;
   font-stretch: 62.5%;
-  font-size: 2rem;
-  line-height: 1.1;
+  font-size: 2.2rem;
+  line-height: 1.05;
   letter-spacing: 0;
   text-transform: uppercase;
   color: var(--blue);
 }
-.found-student { margin: 6px 0 0; font-style: italic; color: var(--ink-soft); }
+.found-student { margin: 6px 0 0; color: var(--ink); }
+.found-student b { color: var(--red-text); }
 
 .row { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
 
@@ -292,9 +317,8 @@ body { position: relative; }
   width: max-content;
   max-width: calc(100% - 32px);
   padding: 10px 18px;
-  border-radius: 14px;
-  background: var(--cream);
-  border: 3px solid var(--orange);
+  border-radius: 4px;
+  background: #fff;
   color: var(--ink);
   font-style: italic;
   text-align: center;

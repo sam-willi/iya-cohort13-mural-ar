@@ -24,19 +24,21 @@
     <section id="start-screen" class="screen cover">
       <svg class="clutter" aria-hidden="true"></svg>
       <div class="badge">
+        <span class="sticker" aria-hidden="true">Now<br />in AR!</span>
         <svg class="badge-arc" viewBox="0 0 200 200" aria-hidden="true">
-          <path id="arc-start" d="M 28 100 A 72 72 0 0 1 172 100" fill="none" />
-          <text><textPath href="#arc-start" startOffset="50%" text-anchor="middle">IYA Cohort 13 Mural</textPath></text>
+          <path id="arc-start" d="M 18 100 A 82 82 0 0 1 182 100" fill="none" />
+          <text><textPath href="#arc-start" startOffset="50%" text-anchor="middle">An Interactive IYA Mural</textPath></text>
         </svg>
         <h1 class="logo">I SPY</h1>
+        <p class="badge-title">Cohort 13</p>
         <p class="badge-sub">A Mural of Picture Riddles</p>
-        <p class="badge-credits">Art by <em>IYA Cohort 13</em></p>
+        <p class="badge-credits">Art by <em>IYA Cohort 13</em><br />Riddles by <em>IYA Cohort 13</em></p>
       </div>
       <div class="cover-actions">
         <button id="start-button" class="btn btn-primary btn-big" disabled>Loading…</button>
         <p class="fine-print">Find each object on the mural and watch it come to life.<br />You'll be asked to allow camera access.</p>
       </div>
-      <p class="publisher-tab">IYA · Cohort 13</p>
+      <p class="publisher-tab"><span class="tab-icon" aria-hidden="true"></span>IYA Cohort 13</p>
     </section>
 
     <!-- 2. Riddle card, shown over the camera while the player searches -->
@@ -68,17 +70,17 @@
       <svg class="clutter" aria-hidden="true"></svg>
       <div class="badge">
         <svg class="badge-arc" viewBox="0 0 200 200" aria-hidden="true">
-          <path id="arc-done" d="M 28 100 A 72 72 0 0 1 172 100" fill="none" />
-          <text><textPath href="#arc-done" startOffset="50%" text-anchor="middle">IYA Cohort 13 Mural</textPath></text>
+          <path id="arc-done" d="M 18 100 A 82 82 0 0 1 182 100" fill="none" />
+          <text><textPath href="#arc-done" startOffset="50%" text-anchor="middle">An Interactive IYA Mural</textPath></text>
         </svg>
         <h1 class="logo logo-long">I SPIED</h1>
-        <p class="badge-sub badge-sub-big">Them All!</p>
-        <p class="badge-credits">Thanks for exploring the mural</p>
+        <p class="badge-title">Them All!</p>
+        <p class="badge-sub">Thanks for exploring the mural</p>
       </div>
       <div class="cover-actions">
         <button id="restart-button" class="btn btn-primary btn-big">Play again</button>
       </div>
-      <p class="publisher-tab">IYA · Cohort 13</p>
+      <p class="publisher-tab"><span class="tab-icon" aria-hidden="true"></span>IYA Cohort 13</p>
     </section>
 
     <div id="toast" role="status" aria-live="polite" hidden></div>

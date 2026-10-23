@@ -212,7 +212,12 @@ function skipRiddle() {
 function showFound(obj) {
   ui.riddleCard.hidden = true;
   ui.foundName.textContent = obj.name;
-  ui.foundStudent.textContent = obj.student?.name ? `Created by ${obj.student.name}` : '';
+  ui.foundStudent.replaceChildren();
+  if (obj.student?.name) {
+    const name = document.createElement('b');
+    name.textContent = obj.student.name;
+    ui.foundStudent.append('Art by ', name);
+  }
   const url = obj.student?.pageUrl;
   ui.studentLink.hidden = !url;
   if (url) ui.studentLink.href = url;
