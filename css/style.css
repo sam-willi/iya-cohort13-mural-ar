@@ -1,0 +1,102 @@
+:root {
+  --ink: #1b1b3a;
+  --paper: #fffaf0;
+  --sun: #ffc93c;
+  --coral: #ff6f59;
+  --muted: #5c5c7a;
+  --radius: 18px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font);
+  color: var(--ink);
+}
+
+/* MindAR puts the camera <video> inside body; the scene sits on top of it. */
+body { position: relative; }
+#ar-scene { position: fixed; inset: 0; width: 100%; height: 100%; }
+.a-enter-vr, .a-enter-ar { display: none !important; } /* A-Frame's VR/fullscreen button isn't needed */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  background: var(--ink);
+  color: var(--paper);
+}
+.screen h1 { font-size: clamp(3rem, 14vw, 5rem); margin: 0; color: var(--sun); letter-spacing: -0.02em; }
+.screen p { max-width: 32ch; margin: 0; line-height: 1.5; }
+.screen .fine-print { font-size: 0.85rem; opacity: 0.7; }
+
+.card {
+  position: fixed;
+  z-index: 10;
+  left: 16px;
+  right: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+}
+.card-bottom { bottom: calc(16px + env(safe-area-inset-bottom)); }
+.card h2 { margin: 4px 0; font-size: 1.5rem; }
+.card p { margin: 6px 0; }
+
+.eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coral); }
+.screen .eyebrow { color: var(--paper); opacity: 0.8; }
+.riddle { font-size: 1.15rem; line-height: 1.45; }
+.hint { color: var(--muted); font-style: italic; }
+
+.row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-primary { background: var(--sun); border-color: var(--sun); color: var(--ink); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.screen .btn-primary { min-width: 180px; font-size: 1.1rem; }
+
+#toast {
+  position: fixed;
+  z-index: 30;
+  top: calc(16px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-align: center;
+}

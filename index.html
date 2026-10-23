@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>I Spy · IYA Cohort 13 Mural</title>
+    <meta name="theme-color" content="#1b1b3a" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0. -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="js/app.js" type="module"></script>
+  </head>
+  <body>
+    <!-- 1. Start screen (camera permission is requested when "Start" is tapped) -->
+    <section id="start-screen" class="screen">
+      <p class="eyebrow">IYA Cohort 13 Mural</p>
+      <h1>I Spy</h1>
+      <p>Read the riddle, find the object on the mural, and point your camera at it to bring it to life.</p>
+      <button id="start-button" class="btn btn-primary" disabled>Loading…</button>
+      <p class="fine-print">You'll be asked to allow camera access.</p>
+    </section>
+
+    <!-- 2. Riddle card, shown over the camera while the player searches -->
+    <section id="riddle-card" class="card card-bottom" hidden>
+      <p class="eyebrow">I spy with my little eye… <span id="progress"></span></p>
+      <p id="riddle-text" class="riddle"></p>
+      <p id="hint-text" class="hint" hidden></p>
+      <div class="row">
+        <button id="hint-button" class="btn">Hint</button>
+        <button id="skip-button" class="btn">Skip</button>
+      </div>
+    </section>
+
+    <!-- 3. Found card, shown once the right object pops out -->
+    <section id="found-card" class="card card-bottom" hidden>
+      <p class="eyebrow">You found it!</p>
+      <h2 id="found-name"></h2>
+      <p id="found-student"></p>
+      <div class="row">
+        <a id="student-link" class="btn btn-primary" target="_blank" rel="noopener">Meet the artist</a>
+        <button id="next-button" class="btn">Next riddle</button>
+      </div>
+    </section>
+
+    <!-- 4. End screen -->
+    <section id="done-screen" class="screen" hidden>
+      <h1>You spied them all!</h1>
+      <p>Thanks for exploring the IYA Cohort 13 mural.</p>
+      <button id="restart-button" class="btn btn-primary">Play again</button>
+    </section>
+
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+
+    <!--
+      The AR scene. One <a-entity mindar-image-target> per mural object is added by js/app.js
+      from data/objects.json. targets/targets.mind holds the compiled images (see docs/adding-an-object.md).
+    -->
+    <a-scene
+      id="ar-scene"
+      mindar-image="imageTargetSrc: targets/targets.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
+      color-space="sRGB"
+      renderer="colorManagement: true; physicallyCorrectLights: true"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      embedded
+    >
+      <a-assets id="assets"></a-assets>
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <a-light type="ambient" intensity="1.2"></a-light>
+      <a-light type="directional" position="0 1 1" intensity="1"></a-light>
+    </a-scene>
+  </body>
+</html>

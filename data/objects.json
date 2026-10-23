@@ -1,0 +1,19 @@
+{
+  "objects": [
+    {
+      "id": "demo-card",
+      "targetIndex": 0,
+      "name": "Demo card (placeholder)",
+      "riddle": "PLACEHOLDER: the riddle team will write this. For now, point your camera at targets/source/00-demo-card.png on another screen.",
+      "hint": "Open the demo card image on a laptop and aim your phone at it.",
+      "student": {
+        "name": "Student Name",
+        "pageUrl": "https://example.com"
+      },
+      "popout": {
+        "image": "targets/source/00-demo-card.png",
+        "model": null
+      }
+    }
+  ]
+}
