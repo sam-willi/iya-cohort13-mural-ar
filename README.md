@@ -89,23 +89,16 @@ npm run sizes        # check everything players download is small enough
 
 ## Status / to do
 
-- [x] Starter game loop: riddle → find → pop out → student link → next riddle
-- [x] Demo target so we can test before the mural exists
-- [x] Add the mural concept art as the design reference
-- [x] Spinning 3D renderings as the pop-outs (auto-sized, preview tool)
-- [ ] Make the 3D renderings of the objects (see docs/3d-models.md), then `npm run models`
-- [x] Compression: background loading of the AR engine, trimmed fonts, model compressor, size check on every deploy
-- [x] Pop-outs land on the object's exact spot; mini-map and "which way" arrow
-- [ ] Decide on markers (AprilTags) vs. the painting alone, before painting (see docs/how-it-works.md)
-- [ ] Photograph the finished mural and mark positions with tools/locate.html
-- [ ] Compile the real `targets.mind`
-- [x] Read riddles live from the riddle team's Google Sheet
-- [x] Publish the riddle sheet as CSV and connect it in `data/objects.json`
-- [x] An `objects.json` entry for every product in the riddle sheet
-- [ ] Fill in each object's position and student name/link
-- [ ] Get student page URLs from the website team
-- [ ] Test at the mural in its real lighting, on iPhone and Android
-- [ ] Generate and print the QR code
+**What's left lives in [GitHub issues](https://github.com/sam-willi/iya-cohort13-mural-ar/issues), starting with the pinned
+[Launch checklist](https://github.com/sam-willi/iya-cohort13-mural-ar/issues/15).** Comment on an issue or assign yourself to claim it.
+
+Done so far:
+
+- [x] Game loop: riddle → find → 3D rendering rises and spins → student link → next riddle
+- [x] Lens lands on the object's exact spot; mini-map, panel and window directions, "which way" arrow
+- [x] Riddles read live from the riddle team's Google Sheet; an `objects.json` entry for every product
+- [x] Design matching the mural (badge, palette, workshop art); concept art kept in `reference/`
+- [x] Tools: position marking, 3D model preview, model compressor, size check on every deploy
 
 ## Contributing
 
