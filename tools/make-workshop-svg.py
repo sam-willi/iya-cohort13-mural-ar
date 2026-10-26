@@ -4,7 +4,8 @@ Original vector art closely following the mural concept (reference/): a grand st
 window where two silhouettes look out at the sky, with a hanging I-Y-A mobile and two red figures on a balcony;
 curving ochre handrails; woodcut browns with heavy black shadows, orange streaks and ragged white gaps; shelves in
 perspective with a ladder; lamps on chains throwing yellow light; a round clock; lanterns with glowing halos; an
-hourglass on a pillar; and a desk of papers with the giant magnifying glass. Objects are fully rendered.
+hourglass on a pillar; a desk of papers with the giant magnifying glass; and, I Spy style, dozens of small
+things hidden on every surface (marbles, dice, letter blocks, sneakers, a padlock...). Objects are fully rendered.
 
 Edit this file, not the SVG, then run:  python3 tools/make-workshop-svg.py
 The picture is 900 x 1400. Phones show roughly x 130-770 with the badge over y 300-840; wide screens show y 300-1100.
@@ -107,6 +108,144 @@ def gear_path(cx, cy, r, teeth=12):
         rr = r if i % 4 in (0, 1) else r * 0.84
         pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
     return poly(*pts)
+
+
+# ---------------------------------------------------------------- small hidden things, I Spy style
+# Each is drawn about 40 units across around (0, 0); place() positions, turns and sizes it.
+
+def place(draw, x, y, s=1.0, rot=0):
+    add(f'<g transform="translate({x:.0f} {y:.0f}) rotate({rot}) scale({s})">')
+    draw()
+    add("</g>")
+
+
+def marble(col):
+    def d():
+        part(ellipse(0, 0, 11), col, ink=2.5)
+        add(f'<path d="M-6 3 Q0 -8 6 2" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3"/>')
+    return d
+
+
+def die():
+    part(rect(-14, -14, 28, 28, 6), "#fbf8f1", ink=2.5)
+    for dx, dy in ((-6, -6), (0, 0), (6, 6)):
+        add(f'<circle cx="{dx}" cy="{dy}" r="2.6" fill="{INK}"/>')
+
+
+def block(letter, col):
+    def d():
+        part(rect(-16, -16, 32, 32, 3), "#e9c48a", ink=2.5)
+        add(f'<rect x="-12" y="-12" width="24" height="24" fill="none" stroke="{col}" stroke-width="2.5"/>')
+        add(f'<text y="8" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="22" fill="{col}">{letter}</text>')
+    return d
+
+
+def toy_car():
+    part("M-24 4 L-20 -6 L-8 -8 L-2 -16 H12 L18 -8 L24 -6 V4 Z", C["crimson"], ink=2.5)
+    part(rect(-1, -14, 11, 6, 1), C["glass"], ink=1.5)
+    for wx in (-13, 14):
+        add(f'<circle cx="{wx}" cy="5" r="6" fill="{C["black"]}" stroke="{INK}" stroke-width="2"/>')
+        add(f'<circle cx="{wx}" cy="5" r="2" fill="{C["metal"]}"/>')
+
+
+def sneaker():
+    part("M-22 6 V-6 Q-18 -14 -8 -12 L4 -4 Q16 -2 22 2 V6 Z", C["blue"], ink=2.5)
+    add(f'<path d="M-22 6 H22 V10 H-22 Z" fill="#fff" stroke="{INK}" stroke-width="2"/>')
+    for k in range(3):
+        line(-8 + k * 5, -9 + k * 2, -4 + k * 5, -3 + k * 2, "#fff", 2)
+
+
+def sunglasses():
+    for cx in (-10, 10):
+        part(ellipse(cx, 0, 9, 7), C["black"], ink=2.5)
+    line(-1, -2, 1, -2, INK, 3)
+    line(-19, -2, -24, -5, INK, 3)
+    line(19, -2, 24, -5, INK, 3)
+    shine(-13, -3, -10, -5, 2)
+
+
+def umbrella():
+    part("M-4 -22 L4 -22 L7 14 L-7 14 Z", C["green"], ink=2.5)
+    add(f'<path d="M0 14 V22 Q0 28 -6 26" fill="none" stroke="{INK}" stroke-width="3"/>')
+    line(0, -22, 0, -28, INK, 3)
+
+
+def padlock():
+    add(f'<path d="M-9 -2 V-10 A9 9 0 0 1 9 -10 V-2" fill="none" stroke="{C["metal_d"]}" stroke-width="5"/>')
+    add(f'<path d="M-9 -2 V-10 A9 9 0 0 1 9 -10 V-2" fill="none" stroke="{INK}" stroke-width="1.5"/>')
+    part(rect(-13, -3, 26, 20, 3), C["gold"], ink=2.5)
+    add(f'<circle cx="0" cy="6" r="2.5" fill="{INK}"/>')
+
+
+def key():
+    part(ellipse(-12, 0, 7), C["gold"], ink=2.5)
+    add(f'<circle cx="-12" cy="0" r="2.5" fill="{C["wood_d"]}"/>')
+    part("M-5 -2.5 H18 V2.5 H14 V7 H10 V2.5 H-5 Z", C["gold"], ink=2)
+
+
+def headphones():
+    add(f'<path d="M-15 4 V-2 A15 15 0 0 1 15 -2 V4" fill="none" stroke="{INK}" stroke-width="6"/>')
+    add(f'<path d="M-15 4 V-2 A15 15 0 0 1 15 -2 V4" fill="none" stroke="{C["crimson"]}" stroke-width="3"/>')
+    for cx in (-15, 15):
+        part(rect(cx - 6, 0, 12, 16, 5), C["black"], ink=2.5)
+
+
+def trumpet():
+    part("M-24 -3 H6 L20 -12 V12 L6 3 H-24 Z", C["gold"], ink=2.5)
+    for vx in (-12, -6, 0):
+        part(rect(vx - 2, -10, 4, 8, 1), C["gold"], ink=1.5)
+    part(rect(-28, -4, 5, 8, 1), C["gold"], ink=1.5)
+
+
+def frying_pan():
+    part(ellipse(-6, 0, 15, 11), C["black"], ink=2.5)
+    add(f'<ellipse cx="-6" cy="0" rx="10" ry="7" fill="{C["metal_d"]}"/>')
+    part(rect(8, -3, 18, 6, 3), C["wood_l"], ink=2)
+
+
+def flashlight():
+    part(rect(-18, -5, 24, 10, 3), C["blue"], ink=2.5)
+    part("M6 -8 H16 V8 H6 Z", C["metal"], ink=2.5)
+    add(f'<path d="M16 -6 L34 -14 V14 L16 6 Z" fill="#fff3b0" opacity=".7"/>')
+
+
+def comb():
+    part(rect(-18, -6, 36, 6, 2), C["crimson"], ink=2)
+    for k in range(-16, 18, 4):
+        line(k, 0, k, 7, C["crimson"], 2)
+
+
+def toothbrush():
+    part(rect(-20, -2.5, 32, 5, 2.5), C["violet"], ink=2)
+    part(rect(8, -8, 12, 6, 1.5), "#fff", ink=1.5)
+
+
+def duck():
+    part(ellipse(0, 4, 14, 10), C["gold"], ink=2.5)
+    part(ellipse(8, -8, 8), C["gold"], ink=2.5)
+    add(f'<path d="M14 -8 L22 -6 L14 -4 Z" fill="{C["ochre"]}" stroke="{INK}" stroke-width="1.5"/>')
+    add(f'<circle cx="9" cy="-10" r="1.8" fill="{INK}"/>')
+
+
+def spool(col):
+    def d():
+        part(rect(-10, -12, 20, 24, 2), col, ink=2.5)
+        part(rect(-13, -15, 26, 5, 2), C["wood_l"], ink=2)
+        part(rect(-13, 10, 26, 5, 2), C["wood_l"], ink=2)
+    return d
+
+
+def pencil(col):
+    def d():
+        part(rect(-20, -3.5, 30, 7, 1), col, ink=2)
+        add(f'<path d="M10 -3.5 L20 0 L10 3.5 Z" fill="#f3d9a8" stroke="{INK}" stroke-width="2"/>')
+        part(rect(-24, -3.5, 5, 7, 1), C["pink"], ink=1.5)
+    return d
+
+
+def coin():
+    part(ellipse(0, 0, 9), C["gold"], ink=2.5)
+    add(f'<circle cx="0" cy="0" r="5" fill="none" stroke="{C["ochre"]}" stroke-width="1.5"/>')
 
 
 # ---------------------------------------------------------------- defs
@@ -359,6 +498,39 @@ part(rect(224, 1064, 82, 50, 6), C["black"])
 part(rect(304, 1076, 30, 24, 4), C["metal_d"])
 add(f'<circle cx="334" cy="1088" r="10" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
 add("</g>")
+
+
+# ---------------------------------------------------------------- hidden things everywhere (the I Spy part)
+
+MARBLES = [marble(c) for c in (C["crimson"], C["blue"], C["green"], C["gold"], C["violet"])]
+things = [die, toy_car, sneaker, sunglasses, padlock, key, headphones, trumpet, frying_pan, flashlight, comb,
+          toothbrush, duck, coin, block("I", C["crimson"]), block("S", C["blue"]), block("P", C["green"]),
+          block("Y", C["crimson"]), spool(C["crimson"]), spool(C["blue"]), pencil(C["gold"]), pencil(C["green"])]
+# on the stairs: a few things on every step, kept clear of the middle (where the Start button sits),
+# the desk and magnifier, and the suitcases; cycling through the list so nothing repeats too often
+pool = (things + MARBLES) * 3
+rnd.shuffle(pool)
+for i in range(13):
+    t = (i + 0.4) / 13
+    y = 836 + 564 * t ** 1.25 + 4
+    half = 230 + 380 * t
+    for side in (-1, 1):
+        for k in range(rnd.randint(1, 2)):
+            x = 450 + side * rnd.uniform(140, half - 30)
+            hidden = (x > 560 and y > 1000) or (x < 190 and y > 1170)
+            if 0 < x < W and not hidden:
+                place(pool.pop(), x, y, 0.75 + t * 0.6, rnd.randint(-25, 25))
+# on the beams, the window sill, the shelves and the desk
+for draw, x, y, s, r in [
+    (umbrella, 300, 120, 1, 70), (MARBLES[0], 420, 112, 1, 0), (MARBLES[1], 446, 110, 1, 0), (die, 600, 128, 1, 12),
+    (block("A", C["blue"]), 120, 160, 1, -8), (key, 760, 150, 1, 15), (coin, 520, 125, .9, 0), (duck, 360, 112, 1, 0),
+    (sneaker, 300, 790, 1, 0), (toy_car, 590, 790, 1, 0), (sunglasses, 540, 800, .9, 0),
+    (spool(C["green"]), 170, 900, 1, 0), (block("C", C["crimson"]), 30, 1050, 1.1, 8), (padlock, 120, 1040, 1, 0),
+    (headphones, 800, 690, 1, 0), (trumpet, 820, 560, .9, 0), (frying_pan, 820, 1010, 1, -10),
+    (flashlight, 760, 1180, 1, -12), (pencil(C["crimson"]), 640, 1290, 1.1, -20), (comb, 820, 1300, 1, 10),
+    (toothbrush, 600, 1350, 1, 15), (MARBLES[2], 700, 1300, 1.2, 0), (MARBLES[3], 730, 1320, 1.2, 0), (die, 860, 1340, 1.2, -15),
+]:
+    place(draw, x, y, s, r)
 
 # ---------------------------------------------------------------- lamps on chains, throwing light (drawn last)
 
