@@ -30,11 +30,12 @@ js/app.js                game logic
 css/style.css            styles
 data/objects.json        ⭐ one entry per mural object: riddle, student, link, pop-out art
 targets/targets.mind     compiled image targets MindAR looks for (one file for all objects)
-targets/source/          the source photo of each object, in target order (00-, 01-, ...)
+targets/source/          the source photo of each AR target, in target order (00-, 01-, ...)
 models/                  optional 3D models (.glb) to pop out instead of a flat image
 images/workshop.svg      the illustrated workshop behind the start/end screens (drawn in the mural's style)
 reference/               ⭐ the mural concept art and notes, the design reference for everything
-docs/                    how-to guides
+tools/locate.html        mark where each object and AR target is on a photo of the wall
+docs/                    how-to guides (start with docs/how-it-works.md)
 ```
 
 ## Design
@@ -64,6 +65,7 @@ Phones need HTTPS for the camera, so `http://<your-laptop-ip>:8000` won't work. 
 
 ## Common tasks
 
+- **Understand the whole experience:** [docs/how-it-works.md](docs/how-it-works.md)
 - **Add or replace a mural object:** [docs/adding-an-object.md](docs/adding-an-object.md)
 - **Get riddles and links from the other teams:** [docs/team-handoff.md](docs/team-handoff.md)
 - **Make the QR code:** point it at the GitHub Pages URL. Add `?object=<id>` to start on one specific riddle.
@@ -74,7 +76,9 @@ Phones need HTTPS for the camera, so `http://<your-laptop-ip>:8000` won't work. 
 - [x] Demo target so we can test before the mural exists
 - [x] Add the mural concept art as the design reference
 - [ ] Make 3D renderings of the objects for the AR pop-outs
-- [ ] Photograph the finished mural and crop each object
+- [x] Pop-outs land on the object's exact spot; mini-map and "which way" arrow
+- [ ] Decide on markers (AprilTags) vs. the painting alone, before painting (see docs/how-it-works.md)
+- [ ] Photograph the finished mural and mark positions with tools/locate.html
 - [ ] Compile the real `targets.mind`
 - [x] Read riddles live from the riddle team's Google Sheet
 - [ ] Publish the riddle sheet as CSV and paste the link into `data/objects.json`

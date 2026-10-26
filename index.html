@@ -38,7 +38,14 @@
       </div>
     </section>
 
-    <!-- Magnifying glass (from the mural) shown over the camera while the player searches -->
+    <!-- Shown when the camera is on the wrong part of the mural; the arrow appears after a hint or a few wrong tries -->
+    <div id="direction" class="direction" role="status" aria-live="polite" hidden>
+      <span id="direction-arrow" class="direction-arrow" aria-hidden="true" hidden></span>
+      <span id="direction-text"></span>
+    </div>
+
+    <!-- Magnifying glass (from the mural) shown over the camera while the player searches.
+         When the object is found it flies to the object's spot and becomes the lens in AR. -->
     <div id="magnifier" class="magnifier" aria-hidden="true" hidden>
       <span class="magnifier-lens"></span>
       <span class="magnifier-handle"></span>
@@ -62,6 +69,8 @@
       <p class="eyebrow">You spied it!</p>
       <h2 id="found-name" class="found-name"></h2>
       <p id="found-student" class="found-student"></p>
+      <svg id="mini-map" class="mini-map" role="img" aria-label="Where it is on the mural"></svg>
+      <p id="found-where" class="found-where"></p>
       <div class="row">
         <a id="student-link" class="btn btn-primary" target="_blank" rel="noopener">Meet the artist</a>
         <button id="next-button" class="btn">Next riddle</button>

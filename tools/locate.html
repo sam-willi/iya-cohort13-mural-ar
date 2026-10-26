@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mark Mural Positions</title>
+    <style>
+      :root {
+        --ink: #1b120b;
+        --wood: #6b4122;
+        --amber: #f0a93a;
+        --cream: #fbf3e3;
+        --blue: #2a8bc0;
+        --rust: #a8520a;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--cream); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
+      header { padding: 16px 20px; border-bottom: 3px solid var(--ink); background: #fff; }
+      h1 { margin: 0 0 4px; font-size: 1.3rem; }
+      header p { margin: 0; color: var(--wood); }
+      main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; padding: 20px; }
+      @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+      .panel { padding: 14px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; }
+      .panel + .panel { margin-top: 14px; }
+      .panel h2 { margin: 0 0 8px; font-size: 1rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      label { font-weight: 600; }
+      input[type="number"] { width: 80px; }
+      input, select, button, textarea { font: inherit; }
+      button { padding: 6px 12px; border: 2px solid var(--ink); border-radius: 999px; background: #fff; cursor: pointer; }
+      button.primary { background: var(--amber); }
+      button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+      #stage { position: relative; border: 2px solid var(--ink); border-radius: 10px; background: #2e1b0e; overflow: hidden; }
+      #stage p { margin: 0; padding: 60px 20px; color: var(--cream); text-align: center; }
+      canvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
+      .hint { margin: 10px 0 0; color: var(--wood); }
+      ol { margin: 0; padding: 0; list-style: none; }
+      li { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid #e5d9c3; }
+      li.selected { background: #fff2d6; }
+      li .swatch { width: 14px; height: 14px; border: 2px solid var(--ink); border-radius: 3px; }
+      li input { width: 100%; min-width: 0; }
+      li small { grid-column: 2 / 4; color: var(--wood); }
+      textarea { width: 100%; height: 220px; font: 12px/1.4 ui-monospace, monospace; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mark mural positions</h1>
+      <p>Draw boxes on a straight-on photo of the wall to record where each object and AR target is, in inches. Paste the result into <code>data/objects.json</code>.</p>
+    </header>
+    <main>
+      <section>
+        <div id="stage"><p>Choose a photo of the mural to start →</p></div>
+        <p class="hint" id="step-hint"></p>
+      </section>
+
+      <aside>
+        <div class="panel">
+          <h2>1. Photo and wall size</h2>
+          <div class="row"><input type="file" id="photo" accept="image/*" /></div>
+          <div class="row" style="margin-top: 8px">
+            <button id="use-reference" type="button">Practice on the concept art</button>
+          </div>
+          <div class="row" style="margin-top: 10px">
+            <label>Wall</label>
+            <input type="number" id="wall-w" value="576" min="1" /> ×
+            <input type="number" id="wall-h" value="144" min="1" /> in
+            <label>Panel</label> <input type="number" id="panel" value="48" min="1" />
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>2. What you're drawing</h2>
+          <div class="row" role="group" aria-label="Box type">
+            <button type="button" data-mode="wall" aria-pressed="true">Wall edge</button>
+            <button type="button" data-mode="object" aria-pressed="false">Object</button>
+            <button type="button" data-mode="target" aria-pressed="false">AR target</button>
+          </div>
+          <p class="hint" style="margin-top: 8px">Start with <b>Wall edge</b>: drag a box around just the painted area. Then mark objects and targets.</p>
+          <div class="row" style="margin-top: 8px">
+            <button type="button" id="load-existing">Load positions from objects.json</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>3. Boxes</h2>
+          <ol id="list"></ol>
+        </div>
+
+        <div class="panel">
+          <h2>4. Result</h2>
+          <textarea id="output" readonly></textarea>
+          <div class="row" style="margin-top: 8px">
+            <button type="button" class="primary" id="copy">Copy</button>
+            <span id="copied" class="hint" hidden>Copied</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module">
+      // Positions are stored in inches from the painted wall's top-left corner (x right, y down),
+      // the same system data/objects.json and js/app.js use.
+      const COLORS = { wall: '#2a8bc0', object: '#f0a93a', target: '#c8173a' };
+      const $ = (id) => document.getElementById(id);
+      const stage = $('stage');
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      let img = null;
+      let mode = 'wall';
+      let wallBox = null; // in image pixels
+      let boxes = [];     // { kind: 'object' | 'target', name, x, y, w, h } in image pixels
+      let selected = -1;
+      let drag = null;
+
+      const wall = () => ({ w: +$('wall-w').value, h: +$('wall-h').value, panel: +$('panel').value });
+
+      // ---------- loading a photo ----------
+
+      $('photo').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) loadImage(URL.createObjectURL(file));
+      });
+      $('use-reference').addEventListener('click', () => loadImage('../reference/mural-concept.webp'));
+
+      function loadImage(src) {
+        const next = new Image();
+        next.onload = () => {
+          img = next;
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          stage.replaceChildren(canvas);
+          wallBox = null;
+          boxes = [];
+          selected = -1;
+          setMode('wall');
+          render();
+        };
+        next.src = src;
+      }
+
+      // ---------- drawing boxes ----------
+
+      document.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+      function setMode(m) {
+        mode = m;
+        document.querySelectorAll('[data-mode]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.mode === m));
+        $('step-hint').textContent = {
+          wall: 'Drag a box around the painted area. Then check the white grid lines up with the panel seams on the wall; if it doesn\'t, redraw the edge (or retake the photo straighter).',
+          object: 'Drag a box tightly around one object, then type its product name (as in the riddle sheet).',
+          target: 'Drag a box around an area MindAR should recognise, e.g. one panel. Number them in the order you compile them.',
+        }[m];
+      }
+
+      const toImage = (e) => {
+        const r = canvas.getBoundingClientRect();
+        return { x: ((e.clientX - r.left) / r.width) * canvas.width, y: ((e.clientY - r.top) / r.height) * canvas.height };
+      };
+      canvas.addEventListener('pointerdown', (e) => {
+        if (!img) return;
+        canvas.setPointerCapture(e.pointerId);
+        const p = toImage(e);
+        drag = { x0: p.x, y0: p.y, x: p.x, y: p.y };
+      });
+      canvas.addEventListener('pointermove', (e) => {
+        if (!drag) return;
+        Object.assign(drag, toImage(e));
+        render();
+      });
+      canvas.addEventListener('pointerup', () => {
+        if (!drag) return;
+        const box = normalizeDrag(drag);
+        drag = null;
+        if (box.w < 4 || box.h < 4) return render();
+        if (mode === 'wall') {
+          wallBox = box;
+          setMode('object');
+          alertHint('Check the white grid lines up with the panel seams in the photo. If not, choose Wall edge and redraw. Then box each object.');
+        } else {
+          if (!wallBox) { alertHint('Mark the wall edge first.'); return render(); }
+          boxes.push({ kind: mode, name: '', ...box });
+          selected = boxes.length - 1;
+        }
+        update();
+        if (selected >= 0) $('list').querySelectorAll('input')[selected]?.focus({ preventScroll: true });
+      });
+
+      function normalizeDrag(d) {
+        return { x: Math.min(d.x0, d.x), y: Math.min(d.y0, d.y), w: Math.abs(d.x - d.x0), h: Math.abs(d.y - d.y0) };
+      }
+      function alertHint(text) { $('step-hint').textContent = text; }
+
+      // ---------- converting between photo pixels and wall inches ----------
+
+      function toInches(b) {
+        const { w, h } = wall();
+        const round = (v) => Math.round(v * 2) / 2; // nearest half inch
+        return {
+          x: round(((b.x - wallBox.x) / wallBox.w) * w),
+          y: round(((b.y - wallBox.y) / wallBox.h) * h),
+          w: round((b.w / wallBox.w) * w),
+          h: round((b.h / wallBox.h) * h),
+        };
+      }
+      function toPixels(r) {
+        const { w, h } = wall();
+        return { x: wallBox.x + (r.x / w) * wallBox.w, y: wallBox.y + (r.y / h) * wallBox.h, w: (r.w / w) * wallBox.w, h: (r.h / h) * wallBox.h };
+      }
+
+      // ---------- loading what's already in objects.json ----------
+
+      $('load-existing').addEventListener('click', async () => {
+        if (!wallBox) return alertHint('Mark the wall edge first, then load existing positions.');
+        const data = await (await fetch('../data/objects.json', { cache: 'no-store' })).json();
+        $('wall-w').value = data.mural?.width ?? $('wall-w').value;
+        $('wall-h').value = data.mural?.height ?? $('wall-h').value;
+        $('panel').value = data.mural?.panelSize ?? $('panel').value;
+        boxes = [
+          ...(data.targets ?? []).map((t) => ({ kind: 'target', name: t.note ?? '', ...toPixels(t) })),
+          ...(data.objects ?? []).filter((o) => o.location).map((o) => ({ kind: 'object', name: o.product ?? o.name, ...toPixels(o.location) })),
+        ];
+        update();
+      });
+
+      // ---------- list, output and drawing ----------
+
+      function update() {
+        renderList();
+        renderOutput();
+        render();
+      }
+
+      function renderList() {
+        const list = $('list');
+        list.replaceChildren();
+        let targetNo = 0;
+        boxes.forEach((b, i) => {
+          const li = document.createElement('li');
+          li.className = i === selected ? 'selected' : '';
+          const swatch = document.createElement('span');
+          swatch.className = 'swatch';
+          swatch.style.background = COLORS[b.kind];
+          const input = document.createElement('input');
+          input.value = b.name;
+          input.placeholder = b.kind === 'object' ? 'Product name, e.g. Typewriter' : 'Note, e.g. Panel 7';
+          input.addEventListener('input', () => { b.name = input.value; renderOutput(); render(); });
+          input.addEventListener('focus', () => { selected = i; render(); });
+          const del = document.createElement('button');
+          del.type = 'button';
+          del.textContent = 'Delete';
+          del.addEventListener('click', () => { boxes.splice(i, 1); selected = -1; update(); });
+          const meta = document.createElement('small');
+          const r = toInches(b);
+          meta.textContent = `${b.kind === 'target' ? `AR target #${targetNo++}` : 'Object'} · x ${r.x}, y ${r.y}, ${r.w} × ${r.h} in`;
+          li.append(swatch, input, del, meta);
+          list.append(li);
+        });
+      }
+
+      function renderOutput() {
+        if (!wallBox) return ($('output').value = '');
+        const { w, h, panel } = wall();
+        const targets = boxes.filter((b) => b.kind === 'target').map((b, index) => ({ index, note: b.name, ...toInches(b) }));
+        const objects = boxes.filter((b) => b.kind === 'object').map((b) => ({ product: b.name, location: toInches(b) }));
+        $('output').value = JSON.stringify({ mural: { width: w, height: h, panelSize: panel }, targets, objects }, null, 2);
+      }
+
+      function render() {
+        if (!img) return;
+        ctx.drawImage(img, 0, 0);
+        const lw = Math.max(2, canvas.width / 600);
+        if (wallBox) {
+          // dim everything outside the wall, and draw the panel grid
+          ctx.fillStyle = 'rgb(0 0 0 / 0.45)';
+          ctx.fillRect(0, 0, canvas.width, wallBox.y);
+          ctx.fillRect(0, wallBox.y + wallBox.h, canvas.width, canvas.height);
+          ctx.fillRect(0, wallBox.y, wallBox.x, wallBox.h);
+          ctx.fillRect(wallBox.x + wallBox.w, wallBox.y, canvas.width, wallBox.h);
+          const { w, h, panel } = wall();
+          ctx.strokeStyle = 'rgb(255 255 255 / 0.35)';
+          ctx.lineWidth = lw / 2;
+          ctx.beginPath();
+          for (let x = panel; x < w; x += panel) { const px = wallBox.x + (x / w) * wallBox.w; ctx.moveTo(px, wallBox.y); ctx.lineTo(px, wallBox.y + wallBox.h); }
+          for (let y = panel; y < h; y += panel) { const py = wallBox.y + (y / h) * wallBox.h; ctx.moveTo(wallBox.x, py); ctx.lineTo(wallBox.x + wallBox.w, py); }
+          ctx.stroke();
+          strokeBox(wallBox, COLORS.wall, lw * 1.5);
+        }
+        boxes.forEach((b, i) => {
+          strokeBox(b, COLORS[b.kind], i === selected ? lw * 2.5 : lw);
+          if (b.name) {
+            ctx.font = `600 ${Math.max(12, canvas.width / 110)}px system-ui`;
+            ctx.fillStyle = COLORS[b.kind];
+            ctx.fillText(b.name, b.x, b.y - lw * 2);
+          }
+        });
+        if (drag) strokeBox(normalizeDrag(drag), COLORS[mode], lw);
+      }
+
+      function strokeBox(b, color, width) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.strokeRect(b.x, b.y, b.w, b.h);
+      }
+
+      ['wall-w', 'wall-h', 'panel'].forEach((id) => $(id).addEventListener('input', update));
+      $('copy').addEventListener('click', async () => {
+        await navigator.clipboard.writeText($('output').value);
+        $('copied').hidden = false;
+        setTimeout(() => ($('copied').hidden = true), 1500);
+      });
+      setMode('wall');
+    </script>
+  </body>
+</html>

@@ -184,9 +184,47 @@ body { position: relative; }
   transform: rotate(-45deg);
   transform-origin: top center;
 }
+/* When the object is found, the magnifier flies onto it (app.js sets --fly-x/-y/-scale), then the AR lens takes over. */
+.magnifier.landing {
+  animation: none;
+  transform: translate(var(--fly-x), var(--fly-y)) scale(var(--fly-scale));
+  opacity: 0;
+  transition: transform 450ms cubic-bezier(0.3, 0.7, 0.2, 1), opacity 200ms ease 350ms;
+}
 @keyframes hover-magnifier {
   from { transform: translate(-6px, -4px); }
   to { transform: translate(6px, 4px); }
+}
+
+/* ---------- "Not here" message with an arrow pointing toward the answer ---------- */
+
+.direction {
+  position: fixed;
+  z-index: 12;
+  top: calc(16px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: var(--cream);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.direction-arrow {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--amber) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12h12M12 6l6 6-6 6' fill='none' stroke='%231b120b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 22px no-repeat;
+  transition: transform 300ms ease;
 }
 
 /* ---------- Cards over the camera (riddle + found) ---------- */
@@ -260,6 +298,15 @@ body { position: relative; }
 .found-student { margin: 6px 0 0; color: var(--ink); }
 .found-student b { color: var(--signed-blue); }
 
+/* Where it is: a little map of the wall (panels as a grid) with the spot circled. */
+.mini-map { display: block; width: 100%; max-width: 360px; margin: 12px auto 0; overflow: visible; }
+.mini-map .map-wall { fill: var(--wood); stroke: var(--ink); stroke-width: 3; }
+.mini-map .map-panels { fill: none; stroke: var(--amber); stroke-opacity: 0.45; stroke-width: 1.5; }
+.mini-map .map-object { fill: var(--amber); stroke: var(--ink); stroke-width: 2; }
+.mini-map .map-ring { fill: none; stroke: var(--lens-rim); stroke-width: 4; animation: map-pulse 1.2s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+@keyframes map-pulse { to { transform: scale(1.25); } }
+.found-where { margin: 6px 0 0; font-size: 0.9rem; font-style: italic; color: var(--wood); }
+
 .row { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
 
 /* ---------- Buttons: amber like the mural's lamps, outlined in ink ---------- */
@@ -311,6 +358,7 @@ body { position: relative; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .magnifier { animation: none; }
+  .magnifier, .mini-map .map-ring { animation: none; }
+  .magnifier.landing, .direction-arrow { transition: none; }
   .btn { transition: none; }
 }

@@ -1,4 +1,19 @@
 {
+  "mural": {
+    "width": 576,
+    "height": 144,
+    "panelSize": 48
+  },
+  "targets": [
+    {
+      "index": 0,
+      "note": "Demo: pretend the MindAR sample card is painted on the wall here. Replace with real mural targets.",
+      "x": 420,
+      "y": 40,
+      "w": 20,
+      "h": 36.24
+    }
+  ],
   "riddleSheet": {
     "csvUrl": "",
     "productColumn": "Products",
@@ -8,11 +23,11 @@
   "objects": [
     {
       "id": "demo-card",
-      "targetIndex": 0,
       "product": "Example: A Snail",
       "name": "Demo card (placeholder)",
       "riddle": "PLACEHOLDER: the riddle team will write this. For now, point your camera at targets/source/00-demo-card.png on another screen.",
       "hint": "Open the demo card image on a laptop and aim your phone at it.",
+      "location": { "x": 420.5, "y": 40.5, "w": 10.75, "h": 14.5 },
       "student": {
         "name": "Student Name",
         "pageUrl": "https://example.com"
