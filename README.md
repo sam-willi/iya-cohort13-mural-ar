@@ -11,7 +11,7 @@ The augmented reality part of the IYA Cohort 13 "I Spy" mural.
 5. On to the next riddle.
 
 **What this repo owns:** the AR web app (steps 1–4).
-**What it doesn't:** the riddle text (riddle team) and the student pages (the other website team). We only store their riddles and links in [`data/objects.json`](data/objects.json).
+**What it doesn't:** the riddle text (riddle team) and the student pages (the other website team). Riddles are read live from the riddle team's Google Sheet, and student links live in [`data/objects.json`](data/objects.json). See [docs/team-handoff.md](docs/team-handoff.md).
 
 ## Tech
 
@@ -76,7 +76,8 @@ Phones need HTTPS for the camera, so `http://<your-laptop-ip>:8000` won't work. 
 - [ ] Make 3D renderings of the objects for the AR pop-outs
 - [ ] Photograph the finished mural and crop each object
 - [ ] Compile the real `targets.mind`
-- [ ] Get riddles from the riddle team
+- [x] Read riddles live from the riddle team's Google Sheet
+- [ ] Publish the riddle sheet as CSV and paste the link into `data/objects.json`
 - [ ] Get student page URLs from the website team
 - [ ] Test at the mural in its real lighting, on iPhone and Android
 - [ ] Generate and print the QR code

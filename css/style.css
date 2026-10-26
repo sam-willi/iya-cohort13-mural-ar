@@ -240,9 +240,10 @@ body { position: relative; }
 
 .riddle {
   margin: 0;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  white-space: pre-line; /* riddles can be written as rhyming lines */
+  font-size: clamp(0.95rem, 4.2vw, 1.15rem);
+  line-height: 1.55;
+  white-space: pre-line; /* keeps the riddle's rhyming lines */
+  text-wrap: balance;
 }
 .hint { margin: 10px 0 0; font-style: italic; color: var(--wood); }
 

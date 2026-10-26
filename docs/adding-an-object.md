@@ -32,17 +32,18 @@ Adding or reordering any image means recompiling the whole file.
 
 ```json
 {
-  "id": "blue-whale",
+  "id": "typewriter",
   "targetIndex": 3,
-  "name": "The Blue Whale",
-  "riddle": "I spy something big and blue that sings below the waves...",
-  "hint": "Look near the bottom left corner.",
+  "product": "Typewriter",
+  "name": "The Typewriter",
+  "riddle": "Backup riddle, used only if the riddle sheet can't be reached",
+  "hint": "",
   "student": {
     "name": "Jordan R.",
     "pageUrl": "https://the-other-teams-site.example/students/jordan"
   },
   "popout": {
-    "image": "targets/source/03-blue-whale.png",
+    "image": "targets/source/03-typewriter.png",
     "model": null
   }
 }
@@ -50,9 +51,10 @@ Adding or reordering any image means recompiling the whole file.
 
 | Field | Notes |
 | --- | --- |
-| `id` | Short, lowercase, dashes. Used in QR links: `?object=blue-whale` |
+| `id` | Short, lowercase, dashes. Used in QR links: `?object=typewriter` |
 | `targetIndex` | Must match the image's position in `targets.mind` |
-| `riddle`, `hint` | From the riddle team. `hint` is optional |
+| `product` | The exact name in the riddle sheet's **Products** column. The riddle and hint come from that row |
+| `riddle`, `hint` | Backup copy used if the sheet can't be reached. `hint` is optional |
 | `student.pageUrl` | From the website team. Leave it `""` to hide the button |
 | `popout.image` | Image that pops out. A **transparent PNG cut-out** of just the object looks best. Same aspect ratio as the source crop so it lines up |
 | `popout.model` | Optional path to a `.glb` in `models/`. If set, it's used instead of `image` |

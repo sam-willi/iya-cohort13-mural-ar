@@ -3,11 +3,12 @@
 // Flow: show a riddle -> player points the camera at the mural -> when MindAR recognises
 // the object that answers the riddle, it pops out in AR and we link to the student's page.
 //
-// All content (riddles, student names, links, pop-out art) lives in data/objects.json,
-// so most changes never need to touch this file.
+// All content (student names, links, pop-out art) lives in data/objects.json, so most changes
+// never need to touch this file. Riddles come live from the riddle team's Google Sheet (see loadSheetRiddles).
 
 const OBJECTS_URL = 'data/objects.json';
 const TOAST_COOLDOWN_MS = 3000;
+const SHEET_TIMEOUT_MS = 5000; // give up on the riddle sheet after this and use objects.json
 
 const sceneEl = document.getElementById('ar-scene');
 const ui = {
@@ -44,6 +45,10 @@ init().catch((err) => {
 
 async function init() {
   objects = await loadObjects();
+  if (objects.length === 0) {
+    ui.startButton.textContent = 'No riddles yet';
+    return;
+  }
   await sceneLoaded();
   await Promise.all(objects.map(addTarget));
 
@@ -67,8 +72,75 @@ async function loadObjects() {
   const res = await fetch(OBJECTS_URL);
   if (!res.ok) throw new Error(`Failed to load ${OBJECTS_URL}: ${res.status}`);
   const data = await res.json();
-  return data.objects;
+  const sheet = await loadSheetRiddles(data.riddleSheet);
+
+  return data.objects
+    .map((obj) => {
+      const row = sheet?.get(normalize(obj.product ?? obj.name));
+      return row ? { ...obj, riddle: row.riddle, hint: row.hint || obj.hint } : obj;
+    })
+    .filter((obj) => obj.riddle); // objects with no riddle yet are left out of the game
 }
+
+// ---------- Riddles from the Google Sheet ----------
+
+// The riddle team writes riddles in a Google Sheet that's published to the web as CSV.
+// Each row's "Products" cell is matched to an object's `product` in objects.json.
+// If the sheet isn't set up, can't be reached, or is missing a riddle, objects.json's own riddle is used.
+async function loadSheetRiddles(sheet) {
+  if (!sheet?.csvUrl) return null;
+  try {
+    const res = await fetch(sheet.csvUrl, { signal: AbortSignal.timeout(SHEET_TIMEOUT_MS) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const [header = [], ...rows] = parseCsv(await res.text());
+
+    const column = (name) => header.findIndex((h) => normalize(h) === normalize(name));
+    const productCol = column(sheet.productColumn ?? 'Products');
+    const riddleCol = column(sheet.riddleColumn ?? 'Riddle');
+    const hintCol = column(sheet.hintColumn ?? 'Hint'); // optional
+    if (productCol < 0 || riddleCol < 0) throw new Error(`Sheet is missing a "${sheet.productColumn ?? 'Products'}" or "${sheet.riddleColumn ?? 'Riddle'}" column`);
+
+    const riddles = new Map();
+    for (const row of rows) {
+      const product = normalize(row[productCol]);
+      const riddle = cleanText(row[riddleCol]);
+      // If a product is listed twice, the first row that has a riddle wins.
+      if (product && riddle && !riddles.has(product)) {
+        riddles.set(product, { riddle, hint: hintCol >= 0 ? cleanText(row[hintCol]) : '' });
+      }
+    }
+    return riddles;
+  } catch (err) {
+    console.warn('Could not load riddles from the sheet, using objects.json instead.', err);
+    return null;
+  }
+}
+
+// Parses CSV text into rows of cells. Handles quoted cells containing commas, quotes and line breaks.
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (c === '"') quoted = false;
+      else cell += c;
+    } else if (c === '"') quoted = true;
+    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i + 1] === '\n') i++;
+      row.push(cell); rows.push(row); row = []; cell = '';
+    } else cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+}
+
+const normalize = (s = '') => s.trim().toLowerCase().replace(/\s+/g, ' ');
+const cleanText = (s = '') => s.trim().replace(/^["“”]+|["“”]+$/g, '').trim(); // some cells wrap the riddle in quotes
 
 function sceneLoaded() {
   return new Promise((resolve) => {
