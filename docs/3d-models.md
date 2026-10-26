@@ -27,7 +27,7 @@ Follow the artist's notes on the concept ([reference/README.md](../reference/REA
 | Format | **`.glb`** (binary glTF) | One file, loads in every phone browser |
 | File name | **`models/<id>.glb`**, using the object's `id` from `data/objects.json` (e.g. `models/typewriter.glb`) | The app finds it automatically |
 | Orientation | **Y up, front facing +Z** (Blender's glTF export does this by default) | Upright, facing the player before it spins |
-| Size on disk | **Under 2 MB**, ideally under 1 MB | Players download it on phone data at the wall |
+| Size on disk | **Under 1.5 MB after compression**, ideally under 1 MB (raw exports can be bigger; see below) | Players download it on phone data at the wall |
 | Triangles | **Under 50,000** | Smooth spinning on older phones |
 | Textures | **1024 px or smaller**; 2048 px max | Memory and download size |
 | Materials | Standard PBR (base colour, roughness, metalness, normal) | Lit by the scene's warm lamp light |
@@ -62,11 +62,11 @@ These optional settings go in the object's entry in `data/objects.json`:
 | `scale` | `1.3` | The model looks too small or big next to the painted object |
 | `rotation` | `"0 0 0"` | It was exported facing the wrong way (degrees around x, y, z) |
 
-## Shrinking a model that's over budget
+## Compressing models
 
-- **In Blender:** use the Decimate modifier for triangles, resize textures to 1024 px, and tick *Compression* (Draco) in the glTF export.
-- **On the command line:** [glTF Transform](https://gltf-transform.dev/) does everything at once:
-  `gltf-transform optimize in.glb out.glb --compress draco --texture-compress webp --texture-size 1024`
+Don't worry about compression when exporting: send the full-quality `.glb`. The AR team compresses every model with
+one command (`npm run models`), which often makes it several times smaller. See [compression.md](compression.md).
+If a model is still over budget after that, it needs fewer triangles: use the Decimate modifier in Blender.
 
 ## Until a model exists
 

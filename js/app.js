@@ -20,6 +20,9 @@ const MIN_OVERLAP = 0.6; // how much of an object must be inside a target for th
 const CARD_DELAY_MS = 1200; // let the object pop out before the "You spied it!" card covers the screen
 const THREE = AFRAME.THREE;
 
+// A-Frame and MindAR load with `defer` so the start screen shows straight away; now that they've loaded,
+// add the AR scene to the page (see the <template> in index.html).
+document.body.append(document.getElementById('ar-scene-template').content.cloneNode(true));
 const sceneEl = document.getElementById('ar-scene');
 const ui = {
   startScreen: document.getElementById('start-screen'),

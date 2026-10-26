@@ -8,15 +8,19 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://aframe.io" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5..100,600..900&family=Oswald:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5,900&family=Oswald:wght@500;600&display=swap"
     />
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0. -->
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0.
+         `defer` lets the start screen show straight away while these ~660 KB download; they still run in order,
+         before js/app.js. Only the weights the CSS uses are requested from Google Fonts (see docs/compression.md). -->
+    <script defer src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="js/app.js" type="module"></script>
   </head>
   <body>
@@ -98,24 +102,27 @@
     <div id="toast" role="status" aria-live="polite" hidden></div>
 
     <!--
-      The AR scene. One <a-entity mindar-image-target> per mural object is added by js/app.js
-      from data/objects.json. targets/targets.mind holds the compiled images (see docs/adding-an-object.md).
+      The AR scene. It sits in a <template> so it's only added to the page (by js/app.js) after A-Frame and MindAR
+      have loaded: A-Frame breaks if it finds a scene that already exists. One <a-entity mindar-image-target> per
+      target is added from data/objects.json; targets/targets.mind holds the compiled images (docs/adding-an-object.md).
     -->
-    <a-scene
-      id="ar-scene"
-      mindar-image="imageTargetSrc: targets/targets.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
-      gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
-      color-space="sRGB"
-      renderer="colorManagement: true; physicallyCorrectLights: true"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-      embedded
-    >
-      <a-assets id="assets"></a-assets>
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-      <!-- warm light for the 3D renderings, like the mural's lamps -->
-      <a-light type="hemisphere" color="#fff6e5" ground-color="#6b4122" intensity="2.2"></a-light>
-      <a-light type="directional" position="0.6 1 1.4" intensity="2.4"></a-light>
-    </a-scene>
+    <template id="ar-scene-template">
+      <a-scene
+        id="ar-scene"
+        mindar-image="imageTargetSrc: targets/targets.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
+        gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
+        color-space="sRGB"
+        renderer="colorManagement: true; physicallyCorrectLights: true"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false"
+        embedded
+      >
+        <a-assets id="assets"></a-assets>
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+        <!-- warm light for the 3D renderings, like the mural's lamps -->
+        <a-light type="hemisphere" color="#fff6e5" ground-color="#6b4122" intensity="2.2"></a-light>
+        <a-light type="directional" position="0.6 1 1.4" intensity="2.4"></a-light>
+      </a-scene>
+    </template>
   </body>
 </html>

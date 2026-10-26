@@ -62,7 +62,7 @@
       import { createSpinningModel, modelUrl, prefetchModel } from '../js/popout.js';
 
       const $ = (id) => document.getElementById(id);
-      const BUDGET = { bytes: 2 * 1024 * 1024, triangles: 50000, texture: 2048 };
+      const BUDGET = { bytes: 1.5 * 1024 * 1024, triangles: 50000, texture: 2048 }; // same soft limits as tools/check-sizes.py
       let objects = [];
 
       const data = await (await fetch('../data/objects.json', { cache: 'no-store' })).json();
