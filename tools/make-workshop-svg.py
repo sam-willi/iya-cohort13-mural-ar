@@ -1,7 +1,7 @@
 """Draws images/workshop.svg, the background behind the start and end screens.
 
 It's original vector art in the style of the mural concept (reference/): chunky woodcut browns with rough ink edges,
-ochre pillars, white unpainted gaps, sketch-style cream objects with brown hatching, a spiral staircase up to an arched
+ochre pillars, white unpainted gaps, fully rendered objects in the same inked style, a spiral staircase up to an arched
 window with two silhouettes, the tall sky window with its hanging I-Y-A mobile and two red figures on a balcony,
 an hourglass on a pillar, glowing lanterns, lamps casting light, cubby shelves and the giant magnifying glass.
 
@@ -19,7 +19,8 @@ C = {
     "gap": "#f6ecda", "wood_dd": "#2a170b", "wood_d": "#4a2a14", "wood": "#7a4a22", "wood_l": "#a8692c",
     "ochre": "#d98f2b", "ochre_l": "#f0b24a", "amber": "#f6c45a", "sky": "#a9d6ee", "sky_l": "#e2f2fb",
     "stone": "#9fb4c2", "crimson": "#c8173a", "pink": "#f2a6c4", "violet": "#8f8fd8", "sun": "#fbe48a",
-    "sketch": "#f1e6d0", "sketch_line": "#8a6440", "rim": "#8a2a1e", "gold": "#f2c230",
+    "cream": "#f6ecd8", "rim": "#8a2a1e", "gold": "#f2c230", "metal": "#b9c3cb", "metal_d": "#6e7a84",
+    "black": "#2b2420", "green": "#2f6f4f", "blue": "#2a6f9e", "leather": "#8b4a24", "tan": "#c98a4a", "glass": "#3f6c7e",
 }
 out = []
 add = out.append
@@ -53,12 +54,16 @@ def wood(d, fill=None, grain="grain-h", ink=4):
     add(f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="{ink}" stroke-linejoin="round"/>')
 
 
-def sketch(*ds, fill=None):
-    """A sketch-style object part: cream, hatched, brown pencil outline (like the concept's unrendered objects)."""
-    for d in ds:
-        add(f'<path d="{d}" fill="{fill or C["sketch"]}"/>')
-        add(f'<path d="{d}" fill="url(#hatch)"/>')
-        add(f'<path d="{d}" fill="none" stroke="{C["sketch_line"]}" stroke-width="2.5" stroke-linejoin="round"/>')
+def part(d, fill, ink=3.5):
+    """One part of a rendered object: solid colour, soft light from the top-left, ink outline."""
+    add(f'<path d="{d}" fill="{fill}"/>')
+    add(f'<path d="{d}" fill="url(#shade)"/>')
+    add(f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="{ink}" stroke-linejoin="round"/>')
+
+
+def shine(x1, y1, x2, y2, width=4):
+    """A white highlight streak on glass or metal."""
+    add(f'<path d="M{x1} {y1}L{x2} {y2}" stroke="#fff" stroke-opacity=".75" stroke-width="{width}" stroke-linecap="round"/>')
 
 
 def line(x1, y1, x2, y2, color=INK, width=3):
@@ -93,9 +98,10 @@ add(f"""<defs>
   <pattern id="grain-v" width="22" height="120" patternUnits="userSpaceOnUse">
     <path d="M6 0 Q2 30 6 60 T6 120 M15 0 Q19 40 15 80 T16 120" fill="none" stroke="{INK}" stroke-opacity=".18" stroke-width="2"/>
   </pattern>
-  <pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
-    <path d="M0 0V9" stroke="{C['sketch_line']}" stroke-opacity=".35" stroke-width="1.3"/>
-  </pattern>
+  <linearGradient id="shade" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity=".35"/>
+  </linearGradient>
   <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0" stop-color="#8fc8e8"/><stop offset=".55" stop-color="{C['sky_l']}"/><stop offset="1" stop-color="#ffffff"/>
   </linearGradient>
@@ -152,7 +158,7 @@ for fx in (395, 470):
     add(f'<circle cx="{fx}" cy="682" r="14" fill="{C["crimson"]}"/>')
 add("</g>")
 
-# the hanging mobile: strings, sun, moon, stars, I-Y-A letters, a sketched balloon
+# the hanging mobile: strings, sun, moon, stars, I-Y-A letters, a little hot-air balloon
 for x, y in [(395, 175), (450, 228), (500, 196), (412, 300), (462, 340), (512, 302), (360, 395), (548, 250)]:
     line(x, 105, x, y - 16, "#6b4a2c", 1.5)
 add(f'<circle cx="450" cy="244" r="30" fill="{C["sun"]}" stroke="{INK}" stroke-width="3"/>')
@@ -164,8 +170,12 @@ for sx, sy in [(500, 196), (548, 250)]:
 for ch, x, y, col, rot in [("I", 412, 318, C["pink"], -8), ("Y", 462, 358, C["violet"], 6), ("A", 512, 320, C["pink"], -4)]:
     add(f'<text x="{x}" y="{y}" transform="rotate({rot} {x} {y - 14})" text-anchor="middle" font-family="Georgia, serif" '
         f'font-weight="900" font-size="40" fill="{col}" stroke="{INK}" stroke-width="2.5" paint-order="stroke">{ch}</text>')
-sketch(ellipse(360, 420, 30, 34), "M343 448 L352 470 H368 L377 448 Z")
-sketch(rect(352, 470, 16, 12, 2))
+part(ellipse(360, 420, 30, 34), C["crimson"])
+add(f'<path d="M352 389 C342 410 344 440 354 452 M368 389 C378 410 376 440 366 452" fill="none" stroke="{C["amber"]}" stroke-width="6"/>')
+part(ellipse(360, 420, 30, 34), "none")
+line(350, 452, 353, 470, INK, 2)
+line(370, 452, 367, 470, INK, 2)
+part(rect(350, 470, 20, 14, 3), C["tan"], ink=3)
 add("</g>")
 
 # ---------------------------------------------------------------- left: arched window, silhouettes, spiral stair
@@ -174,10 +184,19 @@ add('<g filter="url(#rough)">')
 wood("M20 660 V290 A145 145 0 0 1 310 290 V660 Z", C["wood"], "grain-v", ink=6)
 add('<g clip-path="url(#arch-window)">')
 add('<rect x="40" y="140" width="250" height="520" fill="url(#sky)"/>')
-sketch(poly((88, 640), (98, 470), (128, 470), (138, 640)), rect(92, 440, 42, 30, 4), poly((86, 444), (113, 412), (140, 444)))
-add(f'<path d="M96 520 H130 L132 545 H94 Z M93 590 H133 L135 615 H91 Z" fill="{C["crimson"]}" opacity=".7"/>')
-sketch(poly((180, 238), (240, 232), (262, 240), (240, 247), (180, 246)), poly((206, 238), (216, 216), (226, 218), (222, 238)))
-sketch(rect(110, 300, 50, 14, 3), rect(102, 296, 14, 6, 2), rect(154, 296, 14, 6, 2))  # a little drone
+part(poly((88, 640), (98, 470), (128, 470), (138, 640)), "#fbf7ee")                               # lighthouse
+add(f'<path d="M96 520 H130 L132 548 H94 Z M93 590 H133 L135 618 H91 Z" fill="{C["crimson"]}"/>')
+part(poly((88, 640), (98, 470), (128, 470), (138, 640)), "none")
+part(rect(92, 440, 42, 30, 4), C["amber"])
+shine(100, 446, 108, 462, 3)
+part(poly((84, 444), (113, 410), (142, 444)), C["crimson"])
+part(poly((180, 238), (240, 232), (262, 240), (240, 248), (180, 246)), C["cream"])                 # plane
+part(poly((206, 238), (216, 214), (228, 216), (224, 238)), C["blue"])
+part(poly((182, 240), (176, 226), (186, 226), (194, 240)), C["blue"])
+part(rect(110, 300, 50, 14, 4), C["black"])                                                           # drone
+part(rect(98, 293, 22, 5, 2), C["metal"], ink=2.5)
+part(rect(150, 293, 22, 5, 2), C["metal"], ink=2.5)
+add(f'<circle cx="135" cy="314" r="5" fill="{C["glass"]}" stroke="{INK}" stroke-width="2"/>')
 add("</g>")
 line(165, 160, 165, 640, INK, 5)
 line(40, 420, 290, 420, INK, 5)
@@ -201,11 +220,22 @@ pts = " ".join(f"{x:.0f},{y:.0f}" for x, y in rail)
 add(f'<polyline points="{pts}" fill="none" stroke="{INK}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>')
 add(f'<polyline points="{pts}" fill="none" stroke="{C["ochre"]}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>')
 # suitcases stacked under the stairs, and a film camera on a tripod (both in the concept's bottom-left)
-sketch(rect(10, 1120, 120, 50, 6), rect(20, 1078, 100, 42, 6), rect(34, 1046, 72, 32, 5))
-sketch(rect(56, 1112, 28, 8, 3), rect(60, 1070, 20, 8, 3), rect(62, 1040, 16, 6, 2))
-sketch(rect(30, 860, 70, 46, 6), ellipse(38, 852, 18), ellipse(86, 852, 18), rect(100, 872, 26, 18, 3))
-for x2 in (36, 64, 94):
-    line(65, 906, x2, 1000, C["sketch_line"], 4)
+for (x, y, w, h), col in [((10, 1120, 120, 50), C["leather"]), ((20, 1078, 100, 42), C["tan"]), ((34, 1046, 72, 32), C["green"])]:
+    part(rect(x, y, w, h, 6), col)
+    add(f'<path d="M{x + w * .25} {y} V{y + h} M{x + w * .75} {y} V{y + h}" stroke="{C["wood_d"]}" stroke-width="5"/>')
+    part(rect(x + w / 2 - 10, y - 7, 20, 9, 3), C["wood_d"], ink=2.5)
+    add(f'<rect x="{x + w / 2 - 5}" y="{y + 6}" width="10" height="7" rx="1" fill="{C["gold"]}" stroke="{INK}" stroke-width="1.5"/>')
+for x2 in (36, 64, 94):                                                                               # tripod
+    line(65, 906, x2, 1000, INK, 7)
+    line(65, 906, x2, 1000, C["wood_l"], 4)
+part(ellipse(40, 850, 19), C["black"])                                                               # film camera
+part(ellipse(88, 850, 19), C["black"])
+for cx in (40, 88):
+    add(f'<circle cx="{cx}" cy="850" r="7" fill="{C["metal"]}" stroke="{INK}" stroke-width="2"/>')
+part(rect(30, 862, 72, 46, 6), C["black"])
+part(rect(100, 874, 28, 22, 4), C["metal_d"])
+add(f'<circle cx="128" cy="885" r="9" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
+shine(124, 881, 127, 878, 3)
 add("</g>")
 
 # ---------------------------------------------------------------- right: ochre pillar with the hourglass, cubby shelves
@@ -224,17 +254,51 @@ for y0, y1 in [(150, 300), (500, 640), (800, 1000)]:
     wood(rect(694, y0, 230, y1 - y0), C["wood_dd"], ink=5)
     wood(rect(694, y1 - 16, 230, 18), C["wood_l"], ink=4)
 wood(rect(694, 0, 230, 20), C["wood"], ink=5)
-# sketch-style objects on the shelves
-sketch(rect(712, 214, 70, 54, 6), rect(722, 222, 40, 36, 4), ellipse(770, 236, 5), ellipse(770, 252, 5))          # old TV
-sketch(rect(800, 236, 58, 42, 4), ellipse(829, 236, 14, 16))                                                       # camera
-sketch(ellipse(829, 238, 8))
-sketch(rect(712, 560, 66, 40, 4), ellipse(730, 580, 11), ellipse(760, 580, 11), rect(724, 552, 42, 8, 2))           # boombox
-sketch(rect(812, 556, 34, 34, 4), rect(806, 590, 46, 34, 4), rect(812, 624, 12, 0.1), rect(800, 594, 8, 26, 3), rect(850, 594, 8, 26, 3))  # robot
-sketch(ellipse(822, 572, 5), ellipse(836, 572, 5))
-sketch(poly((718, 984), (730, 930), (830, 930), (842, 984)), rect(724, 900, 112, 14, 7), rect(752, 868, 56, 34, 2))  # typewriter
-for kx in range(738, 830, 14):
-    add(f'<circle cx="{kx}" cy="958" r="4" fill="{C["sketch"]}" stroke="{C["sketch_line"]}" stroke-width="1.5"/>')
-sketch(ellipse(880, 960, 30, 22), "M906 952 Q930 944 924 930", rect(866, 928, 28, 10, 4))                          # teapot
+# objects on the shelves, fully rendered
+part(rect(712, 214, 70, 54, 6), C["wood_l"])                                                        # old TV
+part(rect(720, 222, 42, 38, 6), C["glass"])
+shine(726, 230, 738, 222, 3)
+for ky in (232, 250):
+    add(f'<circle cx="771" cy="{ky}" r="5" fill="{C["gold"]}" stroke="{INK}" stroke-width="2"/>')
+line(732, 214, 722, 196, INK, 3)
+line(752, 214, 764, 194, INK, 3)
+part(rect(800, 240, 58, 40, 5), C["black"])                                                         # camera
+part(rect(800, 232, 58, 12, 3), C["metal"], ink=3)
+part(ellipse(829, 260, 15), C["metal_d"])
+add(f'<circle cx="829" cy="260" r="8" fill="{C["glass"]}" stroke="{INK}" stroke-width="2"/>')
+shine(825, 256, 828, 253, 3)
+part(rect(712, 560, 70, 40, 5), C["metal"])                                                         # boombox
+line(726, 560, 730, 546, INK, 4)
+line(768, 560, 764, 546, INK, 4)
+line(730, 546, 764, 546, INK, 4)
+for cx in (730, 764):
+    add(f'<circle cx="{cx}" cy="580" r="13" fill="{C["black"]}" stroke="{INK}" stroke-width="3"/>')
+    add(f'<circle cx="{cx}" cy="580" r="5" fill="{C["metal_d"]}"/>')
+add(f'<rect x="740" y="566" width="14" height="8" rx="2" fill="{C["amber"]}" stroke="{INK}" stroke-width="1.5"/>')
+part(rect(800, 594, 9, 26, 4), C["metal"])                                                          # robot
+part(rect(849, 594, 9, 26, 4), C["metal"])
+part(rect(806, 588, 46, 36, 5), "#7f9fb5")
+part(rect(812, 552, 34, 34, 5), "#7f9fb5")
+add(f'<rect x="818" y="598" width="22" height="12" rx="2" fill="{C["black"]}"/>')
+add(f'<circle cx="823" cy="604" r="2.5" fill="{C["crimson"]}"/><circle cx="830" cy="604" r="2.5" fill="{C["amber"]}"/>')
+for ex in (822, 836):
+    add(f'<circle cx="{ex}" cy="566" r="5" fill="{C["sun"]}" stroke="{INK}" stroke-width="2"/>')
+line(829, 552, 829, 540, INK, 3)
+add(f'<circle cx="829" cy="537" r="4" fill="{C["crimson"]}" stroke="{INK}" stroke-width="2"/>')
+part(rect(752, 866, 56, 36, 2), "#fffdf6", ink=3)                                                  # typewriter
+for ly in (876, 884, 892):
+    line(760, ly, 798, ly, "#9a8f80", 2)
+part(rect(722, 898, 116, 16, 8), C["black"])
+part(poly((718, 984), (730, 926), (830, 926), (842, 984)), C["green"])
+for row, ky in enumerate((942, 956, 970)):
+    for kx in range(740 + row * 3, 826 - row * 3, 12):
+        add(f'<circle cx="{kx}" cy="{ky}" r="4" fill="{C["cream"]}" stroke="{INK}" stroke-width="1.5"/>')
+add(f'<path d="M906 952 Q932 944 924 926" fill="none" stroke="{INK}" stroke-width="9" stroke-linecap="round"/>')   # teapot
+add(f'<path d="M906 952 Q932 944 924 926" fill="none" stroke="{C["crimson"]}" stroke-width="5" stroke-linecap="round"/>')
+part(ellipse(880, 960, 30, 22), C["crimson"])
+part(rect(866, 930, 28, 10, 4), C["crimson"], ink=3)
+add(f'<circle cx="880" cy="926" r="5" fill="{C["gold"]}" stroke="{INK}" stroke-width="2"/>')
+shine(864, 950, 872, 944, 4)
 add("</g>")
 
 # ---------------------------------------------------------------- hanging lamps
