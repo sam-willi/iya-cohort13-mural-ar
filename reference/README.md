@@ -38,6 +38,7 @@ These are what can be made out in the sketch. **Confirm the final list with the 
 
 - **Tracking images must come from the finished wall, not this concept.** The sketched objects will look completely different once painted. Photograph each object after painting (see [`docs/adding-an-object.md`](../docs/adding-an-object.md)).
 - **Good targets:** the detailed, high-contrast painted objects, cropped with a bit of their surroundings.
-- **Poor targets:** the plain sky areas, the white wall gaps, and the repeating shelf boards. There isn't enough detail to recognise them reliably.
+- **Poor targets:** the plain sky areas, the white wall gaps, the repeating shelf boards, and the real windows (glass reflects and the view changes).
+- **Fixed references:** the panel seams and the real windows are on the wall itself. The app uses them for measuring and for player directions.
 - **Viewing distance:** the wall is 12 ft tall, so objects up high will be seen from further away and at an angle. Crop those targets larger.
 - **Look and feel:** the app redraws the mural's world in its own artwork: the palette (wood browns, lamp amber, sky blue, black ink outlines), the badge, the arched sky window, hanging lamps, shelves of objects, and the giant magnifying glass.

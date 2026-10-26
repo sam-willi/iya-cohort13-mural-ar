@@ -302,6 +302,7 @@ body { position: relative; }
 .mini-map { display: block; width: 100%; max-width: 360px; margin: 12px auto 0; overflow: visible; }
 .mini-map .map-wall { fill: var(--wood); stroke: var(--ink); stroke-width: 3; }
 .mini-map .map-panels { fill: none; stroke: var(--amber); stroke-opacity: 0.45; stroke-width: 1.5; }
+.mini-map .map-window { fill: var(--sky); stroke: var(--ink); stroke-width: 2; }
 .mini-map .map-object { fill: var(--amber); stroke: var(--ink); stroke-width: 2; }
 .mini-map .map-ring { fill: none; stroke: var(--lens-rim); stroke-width: 4; animation: map-pulse 1.2s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
 @keyframes map-pulse { to { transform: scale(1.25); } }

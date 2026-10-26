@@ -1,8 +1,9 @@
 # Adding mural objects and AR targets
 
-Read [how-it-works.md](how-it-works.md) first. In short, two things go into [`data/objects.json`](../data/objects.json):
+Read [how-it-works.md](how-it-works.md) first. In short, three things go into [`data/objects.json`](../data/objects.json):
 
 - **Targets:** parts of the wall the camera recognises, each with a position on the wall
+- **Landmarks:** the real windows, used to give players directions
 - **Objects:** the things people hunt for, each with a position on the wall, plus the student and pop-out details
 
 All positions are in **inches from the top-left corner of the painted area**.
@@ -20,9 +21,10 @@ Open [`tools/locate.html`](../tools/locate.html), either on the live site at `/t
 2. **Wall edge:** drag a box around just the painted area. The tool's white grid should land on the panel seams in the
    photo. If it doesn't, redraw the edge or retake the photo straighter.
 3. **Object:** drag a tight box around each object and type its product name exactly as it appears in the riddle sheet.
-4. **AR target:** drag a box around each area the camera should recognise. Panel-sized boxes that overlap by about a
-   third work well. They're numbered in the order you draw them.
-5. Copy the result and merge its `mural`, `targets` and objects' `location`s into `objects.json`.
+4. **Window:** drag a box around each real window and name it the way players would say it, e.g. "the middle window".
+5. **AR target:** drag a box around each area the camera should recognise. Panel-sized boxes that overlap by about a
+   third work well. They're numbered in the order you draw them. Keep windows out (the tool warns you).
+6. Copy the result and merge its `mural`, `targets`, `landmarks` and objects' `location`s into `objects.json`.
 
 ## 3. Compile `targets.mind`
 

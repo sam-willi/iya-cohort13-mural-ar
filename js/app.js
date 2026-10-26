@@ -45,6 +45,7 @@ const ui = {
 
 let mural;             // size of the painted wall, in inches
 let targets = [];      // parts of the mural MindAR can recognise, each with its position on the mural
+let landmarks = [];    // fixed things on the wall players can see, like the windows, used in directions
 let objects = [];      // objects that have a riddle
 let queue = [];        // riddles still to play, in order
 let current = null;    // the object the current riddle is about
@@ -62,7 +63,7 @@ init().catch((err) => {
 });
 
 async function init() {
-  ({ mural, targets, objects } = await loadData());
+  ({ mural, targets, landmarks, objects } = await loadData());
   if (objects.length === 0) {
     ui.startButton.textContent = 'No riddles yet';
     return;
@@ -99,7 +100,7 @@ async function loadData() {
     })
     // objects with no riddle or no position yet are left out of the game
     .filter((obj) => obj.riddle && obj.location);
-  return { mural: data.mural, targets: data.targets, objects };
+  return { mural: data.mural, targets: data.targets, landmarks: data.landmarks ?? [], objects };
 }
 
 // ---------- Riddles from the Google Sheet ----------
@@ -337,7 +338,8 @@ function showDirection(target) {
     const dx = to.x - from.x;
     const dy = to.y - from.y;
     ui.directionArrow.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
-    ui.directionText.textContent = `Not here. Try ${describeOffset(dx, dy)}.`;
+    const near = nearLandmark(current.location);
+    ui.directionText.textContent = `Not here. Try ${describeOffset(dx, dy)}${near ? `, ${near}` : ''}.`;
   } else {
     ui.directionText.textContent = "Good eye, but it's not here. Keep looking!";
   }
@@ -358,16 +360,39 @@ function describeOffset(dx, dy) {
   return `about ${feet} ft ${parts.join(' and ')}`;
 }
 
-// e.g. "Right side of the mural: 9th panel from the left, top row"
-// The panel seams are visible on the wall, so players can count along to it.
+// e.g. "Just left of the middle window: 9th panel from the left, top row"
+// The panel seams and windows are real things on the wall, so players can find their way by them.
 function describeLocation(loc) {
   if (loc.label) return loc.label;
   const c = centre(loc);
-  const side = ['Left side', 'Middle', 'Right side'][Math.min(2, Math.floor((c.x / mural.width) * 3))];
   const rows = Math.round(mural.height / mural.panelSize);
   const rowIndex = Math.min(rows - 1, Math.floor(c.y / mural.panelSize));
   const row = rows === 3 ? ['top', 'middle', 'bottom'][rowIndex] : ordinal(rowIndex + 1);
-  return `${side} of the mural: ${ordinal(Math.floor(c.x / mural.panelSize) + 1)} panel from the left, ${row} row`;
+  const panel = `${ordinal(Math.floor(c.x / mural.panelSize) + 1)} panel from the left, ${row} row`;
+  const near = nearLandmark(loc);
+  if (near) return `${near[0].toUpperCase()}${near.slice(1)}: ${panel}`;
+  const side = ['Left side', 'Middle', 'Right side'][Math.min(2, Math.floor((c.x / mural.width) * 3))];
+  return `${side} of the mural: ${panel}`;
+}
+
+// Where a spot is relative to the nearest landmark, e.g. "just left of the middle window".
+// Returns null when no landmark is close enough to be a useful reference.
+function nearLandmark(loc) {
+  const c = centre(loc);
+  let best = null;
+  for (const lm of landmarks) {
+    const dx = c.x < lm.x ? c.x - lm.x : c.x > lm.x + lm.w ? c.x - (lm.x + lm.w) : 0;
+    const dy = c.y < lm.y ? c.y - lm.y : c.y > lm.y + lm.h ? c.y - (lm.y + lm.h) : 0;
+    const dist = Math.hypot(dx, dy);
+    if (!best || dist < best.dist) best = { lm, dx, dy, dist };
+  }
+  if (!best || best.dist > mural.panelSize * 1.5) return null;
+
+  const { lm, dx, dy, dist } = best;
+  if (dist === 0) return `in ${lm.name}`;
+  const side = Math.abs(dx) >= Math.abs(dy) ? (dx < 0 ? 'left of' : 'right of') : (dy < 0 ? 'above' : 'below');
+  const howFar = dist < mural.panelSize / 2 ? 'just' : `about ${Math.max(1, Math.round(dist / 12))} ft`;
+  return `${howFar} ${side} ${lm.name}`;
 }
 
 function ordinal(n) {
@@ -375,7 +400,7 @@ function ordinal(n) {
   return `${n}${suffix}`;
 }
 
-// A little map of the whole wall, panel by panel, with the object's spot marked.
+// A little map of the whole wall: panels, windows, and the object's spot circled.
 function drawMiniMap(loc) {
   const { width, height, panelSize } = mural;
   const lines = [];
@@ -387,6 +412,7 @@ function drawMiniMap(loc) {
   ui.miniMap.innerHTML = `
     <rect width="${width}" height="${height}" rx="4" class="map-wall"/>
     <path d="${lines.join(' ')}" class="map-panels"/>
+    ${landmarks.map((lm) => `<rect x="${lm.x}" y="${lm.y}" width="${lm.w}" height="${lm.h}" class="map-window"/>`).join('')}
     <rect x="${loc.x}" y="${loc.y}" width="${loc.w}" height="${loc.h}" class="map-object"/>
     <circle cx="${c.x}" cy="${c.y}" r="${ring}" class="map-ring"/>`;
 }

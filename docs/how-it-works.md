@@ -31,11 +31,12 @@ flowchart TD
 Everything has a **position on the mural, in inches from the top-left corner of the painted area** (x to the right, y down).
 The wall is about 576 × 144 in, in 48 in panels.
 
-There are two kinds of things with positions, both in [`data/objects.json`](../data/objects.json):
+There are three kinds of things with positions, all in [`data/objects.json`](../data/objects.json):
 
 | | What it is | Example |
 | --- | --- | --- |
 | **Targets** | Parts of the mural the camera can recognise. Each is one image in `targets/targets.mind`, in order | `{ "index": 0, "x": 288, "y": 0, "w": 48, "h": 48 }` |
+| **Landmarks** | Fixed things everyone can see, i.e. the windows. Used for directions, never for recognition | `{ "name": "the middle window", "x": 224, "y": 0, "w": 64, "h": 144 }` |
 | **Objects** | The things people hunt for, each with a tight box around it | `"location": { "x": 300, "y": 12, "w": 9, "h": 14 }` |
 
 When the camera recognises a target, MindAR tells us where that target is in 3D. Because we know where the target is on the
@@ -48,6 +49,22 @@ wall **and** where the object is on the wall, we can:
 
 Targets and objects are **independent**. One target can contain many objects, and the target layout can change without
 touching any object. The [position marking tool](../tools/locate.html) produces both from a straight-on photo of the wall.
+
+### Windows
+
+The real **windows in the wall** are the easiest landmarks of all. Everyone can see them, and they never move. They're
+stored as `landmarks` in `objects.json` (`{ "name": "the middle window", "x": …, "y": …, "w": …, "h": … }`) and used to:
+
+- **give directions players can follow:** *"Not here. Try about 9 ft to the right, just left of the middle window."*
+- **describe where the answer was:** *"Just left of the middle window: 5th panel from the left, top row"* (when the object
+  is within about 6 ft of a window; otherwise it falls back to panels only),
+- **orient the mini-map,** where windows show as sky-blue blocks.
+
+Name each window the way players would say it, like "the middle window" or "the tall window on the left". The name is
+dropped straight into sentences.
+
+**Keep windows out of AR targets.** Glass reflects people and lights, and the view through it changes all day, so the
+camera can't learn it. The marking tool warns when a target box covers a window.
 
 ### The panel grid on the wall
 
@@ -92,7 +109,7 @@ AprilTags, ArUco and QR-style markers are black-and-white squares that cameras f
 
 | | Markers (AprilTags etc.) | The painting itself (what we do now) |
 | --- | --- | --- |
-| Reliability | Excellent, even in poor light and at angles | Good on detailed art; weak on plain areas (sky, white gaps) |
+| Reliability | Excellent, even in poor light and at angles | Good on detailed art; weak on plain areas (sky, white gaps) and useless on window glass |
 | Precision | Exact position from one marker | Good once a target is recognised |
 | Look | Visible black squares on the art | Invisible, the art is untouched |
 | Coverage | Need roughly one per panel so one is always in view (~36) | Covered by how we cut up the targets |
