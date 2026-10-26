@@ -20,9 +20,9 @@
     <script src="js/app.js" type="module"></script>
   </head>
   <body>
-    <!-- 1. Start screen: the mural slowly pans behind its I Spy badge (camera permission is requested when "Start" is tapped) -->
+    <!-- 1. Start screen: the mural's I Spy badge in front of a workshop scene drawn in the mural's style (camera permission is requested when "Start" is tapped) -->
     <section id="start-screen" class="screen cover">
-      <div class="mural-bg" aria-hidden="true"></div>
+      <div class="scene-bg" aria-hidden="true"></div>
       <div class="badge">
         <svg class="badge-arc" viewBox="0 0 200 200" aria-hidden="true">
           <path id="arc-start" d="M 18 100 A 82 82 0 0 1 182 100" fill="none" />
@@ -70,7 +70,7 @@
 
     <!-- 4. End screen -->
     <section id="done-screen" class="screen cover" hidden>
-      <div class="mural-bg" aria-hidden="true"></div>
+      <div class="scene-bg" aria-hidden="true"></div>
       <div class="badge">
         <svg class="badge-arc" viewBox="0 0 200 200" aria-hidden="true">
           <path id="arc-done" d="M 18 100 A 82 82 0 0 1 182 100" fill="none" />

@@ -32,16 +32,17 @@ data/objects.json        ⭐ one entry per mural object: riddle, student, link, 
 targets/targets.mind     compiled image targets MindAR looks for (one file for all objects)
 targets/source/          the source photo of each object, in target order (00-, 01-, ...)
 models/                  optional 3D models (.glb) to pop out instead of a flat image
-images/mural.webp        the mural art, used as the cover background
+images/workshop.svg      the illustrated workshop behind the start/end screens (drawn in the mural's style)
 reference/               ⭐ the mural concept art and notes, the design reference for everything
 docs/                    how-to guides
 ```
 
 ## Design
 
-Everything follows the mural: see [`reference/README.md`](reference/README.md). The start screen pans across the mural
-behind a copy of its I Spy badge, and while you search, a magnifying glass like the one on the mural floats over the camera.
-When the wall is painted, replace `images/mural.webp` with a photo of the real thing.
+Everything follows the mural: see [`reference/README.md`](reference/README.md). The concept art is only a reference;
+the app has its own artwork drawn in the mural's style. The start screen shows a copy of the mural's I Spy badge in front of
+an illustrated workshop (arched sky window, hanging lamps, shelves of objects, the giant magnifying glass), and while you
+search, a magnifying glass floats over the camera.
 
 ## Run it locally
 

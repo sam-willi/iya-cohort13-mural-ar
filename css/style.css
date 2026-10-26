@@ -56,17 +56,13 @@ body { position: relative; }
   overflow: hidden;
 }
 
-/* The mural itself, drifting slowly from one end to the other like someone scanning the wall. */
-.mural-bg {
+/* An original illustrated workshop in the mural's style (images/workshop.svg): sharp at any screen size. */
+.scene-bg {
   position: absolute;
   inset: 0;
-  background: url("../images/mural.webp") 0% 50% / cover no-repeat;
-  animation: pan-mural 90s ease-in-out infinite alternate;
+  background: url("../images/workshop.svg") 50% 40% / cover no-repeat;
 }
-@keyframes pan-mural {
-  to { background-position: 100% 50%; }
-}
-.cover > :not(.mural-bg) { position: relative; z-index: 1; }
+.cover > :not(.scene-bg) { position: relative; z-index: 1; }
 
 /* The mural's badge: solid white circle with a thin blue ring. */
 .badge {
@@ -314,7 +310,6 @@ body { position: relative; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mural-bg, .magnifier { animation: none; }
-  .mural-bg { background-position: 50% 50%; }
+  .magnifier { animation: none; }
   .btn { transition: none; }
 }

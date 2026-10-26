@@ -1,12 +1,12 @@
 # Mural reference
 
 The concept art for the IYA Cohort 13 I Spy mural. Everything in the AR experience (look, colours, the objects people hunt for) should follow this.
+It's a **reference only**: the app doesn't display the concept art itself.
 
 | File | What it is |
 | --- | --- |
 | [`mural-concept.webp`](mural-concept.webp) | Concept art on the wall template, with the artist's notes |
 | [`mural-concept-grid.webp`](mural-concept-grid.webp) | Same, with the blue layout grid drawn over it |
-| [`../images/mural.webp`](../images/mural.webp) | Just the art, cropped. The app uses it as the cover background |
 
 ![Mural concept](mural-concept.webp)
 
@@ -40,4 +40,4 @@ These are what can be made out in the sketch. **Confirm the final list with the 
 - **Good targets:** the detailed, high-contrast painted objects, cropped with a bit of their surroundings.
 - **Poor targets:** the plain sky areas, the white wall gaps, and the repeating shelf boards. There isn't enough detail to recognise them reliably.
 - **Viewing distance:** the wall is 12 ft tall, so objects up high will be seen from further away and at an angle. Crop those targets larger.
-- **Look and feel:** the app borrows the mural's palette (wood browns, lamp amber, sky blue, black ink outlines), its badge, and its magnifying glass.
+- **Look and feel:** the app redraws the mural's world in its own artwork: the palette (wood browns, lamp amber, sky blue, black ink outlines), the badge, the arched sky window, hanging lamps, shelves of objects, and the giant magnifying glass.
