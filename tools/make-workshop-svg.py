@@ -1,32 +1,36 @@
 """Draws images/workshop.svg, the background behind the start and end screens.
 
-It's original vector art in the style of the mural concept (reference/): chunky woodcut browns with rough ink edges,
-ochre pillars, white unpainted gaps, fully rendered objects in the same inked style, a spiral staircase up to an arched
-window with two silhouettes, the tall sky window with its hanging I-Y-A mobile and two red figures on a balcony,
-an hourglass on a pillar, glowing lanterns, lamps casting light, cubby shelves and the giant magnifying glass.
+Original vector art closely following the mural concept (reference/): a grand staircase climbing to a huge round
+window where two silhouettes look out at the sky, with a hanging I-Y-A mobile and two red figures on a balcony;
+curving ochre handrails; woodcut browns with heavy black shadows, orange streaks and ragged white gaps; shelves in
+perspective with a ladder; lamps on chains throwing yellow light; a round clock; lanterns with glowing halos; an
+hourglass on a pillar; and a desk of papers with the giant magnifying glass. Objects are fully rendered.
 
 Edit this file, not the SVG, then run:  python3 tools/make-workshop-svg.py
-The picture is 900 x 1400. Phones show roughly x 130-770 (the badge covers the middle), wide screens y 300-1100.
+The picture is 900 x 1400. Phones show roughly x 130-770 with the badge over y 300-840; wide screens show y 300-1100.
 """
 import math
+import random
 from pathlib import Path
 
 W, H = 900, 1400
 OUT = Path(__file__).resolve().parent.parent / "images" / "workshop.svg"
+rnd = random.Random(13)
 
-INK = "#1b120b"
+INK = "#140b05"
 C = {
-    "gap": "#f6ecda", "wood_dd": "#2a170b", "wood_d": "#4a2a14", "wood": "#7a4a22", "wood_l": "#a8692c",
-    "ochre": "#d98f2b", "ochre_l": "#f0b24a", "amber": "#f6c45a", "sky": "#a9d6ee", "sky_l": "#e2f2fb",
-    "stone": "#9fb4c2", "crimson": "#c8173a", "pink": "#f2a6c4", "violet": "#8f8fd8", "sun": "#fbe48a",
-    "cream": "#f6ecd8", "rim": "#8a2a1e", "gold": "#f2c230", "metal": "#b9c3cb", "metal_d": "#6e7a84",
-    "black": "#2b2420", "green": "#2f6f4f", "blue": "#2a6f9e", "leather": "#8b4a24", "tan": "#c98a4a", "glass": "#3f6c7e",
+    "gap": "#fbf6ec", "wood_dd": "#2a160a", "wood_d": "#4a2812", "wood": "#6e3d18", "wood_l": "#9a5a22",
+    "ochre": "#d9862a", "ochre_l": "#f0a830", "amber": "#f6c45a", "sky": "#a9d6ee", "sky_l": "#e2f2fb",
+    "stone": "#8fb0c4", "crimson": "#c8173a", "red_glow": "#d9452b", "pink": "#f2a6c4", "violet": "#8f8fd8",
+    "sun": "#fbe48a", "cream": "#f6ecd8", "rim": "#8a1a1a", "gold": "#f2c230", "metal": "#b9c3cb",
+    "metal_d": "#6e7a84", "black": "#2b2420", "green": "#2f6f4f", "blue": "#2a6f9e", "leather": "#8b4a24",
+    "tan": "#c98a4a", "glass": "#3f6c7e",
 }
 out = []
 add = out.append
 
 
-# ---------------------------------------------------------------- shape helpers (return path data)
+# ---------------------------------------------------------------- shapes (path data)
 
 def rect(x, y, w, h, r=0):
     if not r:
@@ -46,32 +50,54 @@ def poly(*pts):
 
 # ---------------------------------------------------------------- drawing helpers
 
-def wood(d, fill=None, grain="grain-h", ink=4):
-    """A woodcut wooden shape: flat fill, a little grain, thick rough ink edge."""
-    fill = fill or C["wood"]
-    add(f'<path d="{d}" fill="{fill}"/>')
-    add(f'<path d="{d}" fill="url(#{grain})"/>')
-    add(f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="{ink}" stroke-linejoin="round"/>')
+def wood(d, fill=None, ink=6, streaks=True):
+    """Woodcut wood: flat brown, orange streak highlights, heavy rough black edge."""
+    add(f'<path d="{d}" fill="{fill or C["wood"]}"/>')
+    if streaks:
+        add(f'<path d="{d}" fill="url(#streaks)"/>')
+    if ink:
+        add(f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="{ink}" stroke-linejoin="round"/>')
 
 
 def part(d, fill, ink=3.5):
-    """One part of a rendered object: solid colour, soft light from the top-left, ink outline."""
+    """One part of a rendered object: colour, soft light from the top-left, ink outline."""
     add(f'<path d="{d}" fill="{fill}"/>')
     add(f'<path d="{d}" fill="url(#shade)"/>')
     add(f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="{ink}" stroke-linejoin="round"/>')
 
 
 def shine(x1, y1, x2, y2, width=4):
-    """A white highlight streak on glass or metal."""
     add(f'<path d="M{x1} {y1}L{x2} {y2}" stroke="#fff" stroke-opacity=".75" stroke-width="{width}" stroke-linecap="round"/>')
 
 
 def line(x1, y1, x2, y2, color=INK, width=3):
-    add(f'<path d="M{x1} {y1}L{x2} {y2}" stroke="{color}" stroke-width="{width}" stroke-linecap="round"/>')
+    add(f'<path d="M{x1:.1f} {y1:.1f}L{x2:.1f} {y2:.1f}" stroke="{color}" stroke-width="{width}" stroke-linecap="round"/>')
 
 
-def glow(cx, cy, r, strength=1):
-    add(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#glow)" opacity="{strength}"/>')
+def gap(d):
+    """A white unpainted gap with a ragged black brush edge."""
+    add(f'<g filter="url(#torn)"><path d="{d}" fill="{C["gap"]}" stroke="{INK}" stroke-width="9" stroke-linejoin="round"/></g>')
+
+
+def halo(cx, cy, r, red=False):
+    """A lamp's glow drawn the concept's way: soft light plus a few painted rings."""
+    add(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#{"redglow" if red else "glow"})"/>')
+    for k, op in ((0.45, .35), (0.7, .22), (0.95, .12)):
+        add(f'<circle cx="{cx}" cy="{cy}" r="{r * k:.0f}" fill="none" stroke="{C["red_glow"] if red else C["ochre_l"]}" '
+            f'stroke-opacity="{op}" stroke-width="5"/>')
+
+
+def lantern(x, y, s=1.0):
+    """A glowing lantern standing at (x, y)."""
+    add(f'<g transform="translate({x} {y}) scale({s})">')
+    part(rect(-22, -12, 44, 12, 3), C["ochre"], ink=3)
+    add(f'<rect x="-17" y="-80" width="34" height="68" rx="4" fill="#ffd96b" stroke="{INK}" stroke-width="4"/>')
+    add('<path d="M0 -28 C-9 -38 -5 -52 0 -62 C5 -52 9 -38 0 -28 Z" fill="#fff8dc"/>')
+    line(-7, -80, -7, -12, INK, 2)
+    line(7, -80, 7, -12, INK, 2)
+    part(poly((-24, -80), (-14, -94), (14, -94), (24, -80)), C["ochre"], ink=3)
+    add(f'<circle cx="0" cy="-104" r="8" fill="none" stroke="{INK}" stroke-width="4"/>')
+    add("</g>")
 
 
 def gear_path(cx, cy, r, teeth=12):
@@ -83,268 +109,269 @@ def gear_path(cx, cy, r, teeth=12):
     return poly(*pts)
 
 
-# ---------------------------------------------------------------- header, filters, patterns, gradients
+# ---------------------------------------------------------------- defs
 
+streaks = " ".join(
+    f"M{rnd.randint(0, 200)} {rnd.randint(0, 200)} l{rnd.randint(18, 60)} {rnd.randint(-4, 4)}" for _ in range(26))
 add(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid slice">')
 add(f"""<defs>
-  <!-- wobbles every edge a little, for a hand-cut woodcut look -->
-  <filter id="rough" x="-2%" y="-2%" width="104%" height="104%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/>
-    <feDisplacementMap in="SourceGraphic" scale="5"/>
+  <filter id="rough" x="-3%" y="-3%" width="106%" height="106%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7"/>
+    <feDisplacementMap in="SourceGraphic" scale="7"/>
   </filter>
-  <pattern id="grain-h" width="120" height="22" patternUnits="userSpaceOnUse">
-    <path d="M0 6 Q30 2 60 6 T120 6 M0 15 Q40 19 80 15 T120 16" fill="none" stroke="{INK}" stroke-opacity=".18" stroke-width="2"/>
-  </pattern>
-  <pattern id="grain-v" width="22" height="120" patternUnits="userSpaceOnUse">
-    <path d="M6 0 Q2 30 6 60 T6 120 M15 0 Q19 40 15 80 T16 120" fill="none" stroke="{INK}" stroke-opacity=".18" stroke-width="2"/>
+  <filter id="torn" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="3" seed="3"/>
+    <feDisplacementMap in="SourceGraphic" scale="16"/>
+  </filter>
+  <pattern id="streaks" width="200" height="200" patternUnits="userSpaceOnUse">
+    <path d="{streaks}" stroke="{C['ochre_l']}" stroke-opacity=".45" stroke-width="4" stroke-linecap="round"/>
   </pattern>
   <linearGradient id="shade" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/>
     <stop offset="1" stop-color="#000" stop-opacity=".35"/>
   </linearGradient>
   <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#8fc8e8"/><stop offset=".55" stop-color="{C['sky_l']}"/><stop offset="1" stop-color="#ffffff"/>
+    <stop offset="0" stop-color="#8fc8e8"/><stop offset=".6" stop-color="{C['sky_l']}"/><stop offset="1" stop-color="#ffffff"/>
   </linearGradient>
   <radialGradient id="glow">
-    <stop offset="0" stop-color="#ffe7a3" stop-opacity=".95"/>
-    <stop offset=".3" stop-color="{C['ochre_l']}" stop-opacity=".45"/>
+    <stop offset="0" stop-color="#ffe7a3" stop-opacity=".95"/><stop offset=".35" stop-color="{C['ochre_l']}" stop-opacity=".45"/>
     <stop offset="1" stop-color="{C['ochre']}" stop-opacity="0"/>
   </radialGradient>
+  <radialGradient id="redglow">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/><stop offset=".35" stop-color="{C['red_glow']}" stop-opacity=".5"/>
+    <stop offset="1" stop-color="{C['red_glow']}" stop-opacity="0"/>
+  </radialGradient>
   <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#ffe7a3" stop-opacity=".55"/><stop offset="1" stop-color="#ffe7a3" stop-opacity="0"/>
+    <stop offset="0" stop-color="#ffe066" stop-opacity=".75"/><stop offset="1" stop-color="#ffe066" stop-opacity="0"/>
   </linearGradient>
   <radialGradient id="vignette" cx=".5" cy=".45" r=".75">
-    <stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".45"/>
+    <stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".5"/>
   </radialGradient>
-  <clipPath id="tall-window"><path d="M318 1150 V120 Q450 30 582 120 V1150 Z"/></clipPath>
-  <clipPath id="arch-window"><path d="M40 640 V290 A125 125 0 0 1 290 290 V640 Z"/></clipPath>
+  <clipPath id="round-window"><circle cx="450" cy="500" r="318"/></clipPath>
 </defs>""")
 
-# ---------------------------------------------------------------- back wall and white unpainted gaps
+# ---------------------------------------------------------------- back wall, shadows, white gaps
 
 add(f'<rect width="{W}" height="{H}" fill="{C["wood_d"]}"/>')
 add('<g filter="url(#rough)">')
-wood(rect(0, 0, W, H), C["wood_d"], "grain-v", ink=0)
-# the white gaps between structures, a big part of the concept's look
-for d in [poly((660, 300), (900, 280), (900, 470), (700, 500)), poly((690, 640), (900, 610), (900, 760), (720, 800)),
-          poly((0, 700), (60, 690), (40, 860), (0, 880)), poly((610, 1010), (690, 990), (680, 1110), (600, 1130))]:
-    add(f'<path d="{d}" fill="{C["gap"]}" stroke="{INK}" stroke-width="5" stroke-linejoin="round"/>')
+wood(rect(0, 0, W, H), C["wood_d"], ink=0)
+for d in [poly((0, 0), (900, 0), (900, 60), (0, 120)), poly((0, 900), (120, 860), (60, 1400), (0, 1400))]:
+    add(f'<path d="{d}" fill="{INK}" opacity=".85"/>')  # heavy black shadows
 add("</g>")
+for d in [poly((660, 300), (900, 270), (900, 420), (700, 450)), poly((0, 420), (120, 400), (110, 600), (0, 640)),
+          poly((700, 650), (900, 620), (900, 700), (720, 730)), poly((690, 1080), (900, 1040), (900, 1110), (700, 1140))]:
+    gap(d)
 
-# light from the hanging lamps
-for lx in (215, 780):
-    add(f'<path d="{poly((lx - 40, 170), (lx + 40, 170), (lx + 190, 1180), (lx - 190, 1180))}" fill="url(#beam)"/>')
-    glow(lx, 190, 230, 0.9)
+# ---------------------------------------------------------------- ceiling beams and a gear
 
 add('<g filter="url(#rough)">')
-
-# ---------------------------------------------------------------- the tall sky window (centre)
-
-wood("M296 1170 V115 Q450 5 604 115 V1170 Z", C["ochre"], "grain-v", ink=6)
-add('<g clip-path="url(#tall-window)">')
-add('<rect x="300" y="0" width="300" height="1160" fill="url(#sky)"/>')
-# pale towers and beams seen through the glass, like the concept's grey architecture
-for d in [rect(330, 300, 46, 860), rect(520, 380, 60, 780), poly((376, 520), (520, 460), (520, 490), (376, 552)),
-          rect(400, 820, 120, 24), poly((470, 140), (500, 100), (530, 140), (530, 360), (470, 360))]:
-    add(f'<path d="{d}" fill="{C["stone"]}" opacity=".55"/>')
-for cx, cy, s in [(360, 210, 1), (540, 330, .8), (420, 600, 1.1)]:
-    add(f'<g transform="translate({cx} {cy}) scale({s})" fill="#fff" opacity=".85"><ellipse rx="56" ry="16"/>'
-        '<ellipse cx="-20" cy="-10" rx="24" ry="18"/><ellipse cx="14" cy="-14" rx="28" ry="22"/></g>')
-# balcony with two red figures leaning on the rail
-wood(poly((300, 760), (600, 730), (600, 770), (300, 800)), C["wood_l"], ink=4)
-line(300, 712, 600, 688, INK, 5)
-for fx in (395, 470):
-    add(f'<path d="M{fx - 18} 772 L{fx - 14} 700 Q{fx} 676 {fx + 14} 700 L{fx + 18} 768 Z" fill="{C["crimson"]}"/>')
-    add(f'<circle cx="{fx}" cy="682" r="14" fill="{C["crimson"]}"/>')
+for d in [poly((0, 40), (900, -20), (900, 30), (0, 95)), poly((0, 170), (380, 120), (380, 150), (0, 205)),
+          poly((520, 115), (900, 150), (900, 185), (520, 145))]:
+    wood(d, C["wood"], ink=6)
+add(f'<path d="{gear_path(880, 300, 110, 14)}" fill="{C["wood"]}" stroke="{INK}" stroke-width="6"/>')
+add(f'<circle cx="880" cy="300" r="38" fill="{C["wood_dd"]}" stroke="{INK}" stroke-width="5"/>')
 add("</g>")
 
-# the hanging mobile: strings, sun, moon, stars, I-Y-A letters, a little hot-air balloon
-for x, y in [(395, 175), (450, 228), (500, 196), (412, 300), (462, 340), (512, 302), (360, 395), (548, 250)]:
-    line(x, 105, x, y - 16, "#6b4a2c", 1.5)
-add(f'<circle cx="450" cy="244" r="30" fill="{C["sun"]}" stroke="{INK}" stroke-width="3"/>')
-add(f'<path d="M386 162 A22 22 0 1 0 412 196 A17 17 0 1 1 386 162 Z" fill="{C["amber"]}" stroke="{INK}" stroke-width="3"/>')
-for sx, sy in [(500, 196), (548, 250)]:
+# ---------------------------------------------------------------- the round window (behind the badge)
+
+add('<g filter="url(#rough)">')
+add(f'<circle cx="450" cy="500" r="346" fill="{C["ochre"]}" stroke="{INK}" stroke-width="9"/>')
+add(f'<circle cx="450" cy="500" r="346" fill="url(#streaks)"/>')
+add("</g>")
+add('<g clip-path="url(#round-window)">')
+add('<rect x="120" y="170" width="660" height="660" fill="url(#sky)"/>')
+for d in [rect(190, 470, 60, 400), rect(640, 420, 70, 450), poly((250, 640), (640, 560), (640, 590), (250, 672)),
+          poly((560, 260), (585, 215), (610, 260), (610, 520), (560, 520))]:
+    add(f'<path d="{d}" fill="{C["stone"]}" opacity=".5"/>')
+add(f'<path d="M140 520 Q450 380 760 520" fill="none" stroke="{C["stone"]}" stroke-width="10" opacity=".6"/>')
+for cx, cy, s in [(250, 300, 1.1), (660, 370, .9), (300, 560, 1)]:
+    add(f'<g transform="translate({cx} {cy}) scale({s})" fill="#fff" opacity=".9"><ellipse rx="56" ry="16"/>'
+        '<ellipse cx="-20" cy="-10" rx="24" ry="18"/><ellipse cx="14" cy="-14" rx="28" ry="22"/></g>')
+# a lighthouse and a little plane far off
+part(poly((214, 840), (222, 700), (246, 700), (254, 840)), "#fbf7ee", ink=3)
+add(f'<path d="M220 740 H248 L250 762 H218 Z M216 800 H252 L254 822 H214 Z" fill="{C["crimson"]}"/>')
+part(rect(218, 678, 32, 24, 3), C["amber"], ink=3)
+part(poly((212, 682), (234, 656), (256, 682)), C["crimson"], ink=3)
+part(poly((600, 300), (650, 295), (668, 302), (650, 309), (600, 308)), C["cream"], ink=3)
+part(poly((622, 300), (630, 282), (640, 284), (636, 300)), C["blue"], ink=2.5)
+# the hanging mobile: sun, moon, stars, I-Y-A letters, a little balloon
+for x, y in [(395, 205), (450, 250), (505, 215), (412, 290), (462, 318), (512, 292), (340, 352), (560, 268)]:
+    line(x, 150, x, y - 16, "#6b4a2c", 1.5)
+add(f'<circle cx="450" cy="266" r="30" fill="{C["sun"]}" stroke="{INK}" stroke-width="3"/>')
+add(f'<path d="M386 192 A22 22 0 1 0 412 226 A17 17 0 1 1 386 192 Z" fill="{C["amber"]}" stroke="{INK}" stroke-width="3"/>')
+for sx, sy in [(505, 215), (560, 268)]:
     pts = [(sx + (12 if i % 2 == 0 else 5) * math.cos(i * math.pi / 5 - math.pi / 2),
             sy + (12 if i % 2 == 0 else 5) * math.sin(i * math.pi / 5 - math.pi / 2)) for i in range(10)]
     add(f'<path d="{poly(*pts)}" fill="{C["amber"]}" stroke="{INK}" stroke-width="2"/>')
-for ch, x, y, col, rot in [("I", 412, 318, C["pink"], -8), ("Y", 462, 358, C["violet"], 6), ("A", 512, 320, C["pink"], -4)]:
+for ch, x, y, col, rot in [("I", 412, 308, C["pink"], -8), ("Y", 462, 338, C["violet"], 6), ("A", 512, 310, C["pink"], -4)]:
     add(f'<text x="{x}" y="{y}" transform="rotate({rot} {x} {y - 14})" text-anchor="middle" font-family="Georgia, serif" '
         f'font-weight="900" font-size="40" fill="{col}" stroke="{INK}" stroke-width="2.5" paint-order="stroke">{ch}</text>')
-part(ellipse(360, 420, 30, 34), C["crimson"])
-add(f'<path d="M352 389 C342 410 344 440 354 452 M368 389 C378 410 376 440 366 452" fill="none" stroke="{C["amber"]}" stroke-width="6"/>')
-part(ellipse(360, 420, 30, 34), "none")
-line(350, 452, 353, 470, INK, 2)
-line(370, 452, 367, 470, INK, 2)
-part(rect(350, 470, 20, 14, 3), C["tan"], ink=3)
+part(ellipse(340, 380, 28, 32), C["crimson"])
+add(f'<path d="M333 351 C324 370 326 398 335 410 M347 351 C356 370 354 398 345 410" fill="none" stroke="{C["amber"]}" stroke-width="6"/>')
+part(ellipse(340, 380, 28, 32), "none")
+part(rect(331, 424, 18, 13, 3), C["tan"], ink=3)
+line(333, 408, 335, 424, INK, 2)
+line(347, 408, 345, 424, INK, 2)
+# balcony with two red figures
+add('<g filter="url(#rough)">')
+wood(poly((560, 640), (790, 610), (790, 640), (560, 672)), C["wood_l"], ink=5)
+line(560, 600, 790, 572, INK, 6)
+for fx in (620, 690):
+    add(f'<path d="M{fx - 16} 660 L{fx - 12} 598 Q{fx} 578 {fx + 12} 598 L{fx + 16} 656 Z" fill="{C["crimson"]}"/>')
+    add(f'<circle cx="{fx}" cy="584" r="13" fill="{C["crimson"]}"/>')
 add("</g>")
+add("</g>")
+add(f'<circle cx="450" cy="500" r="318" fill="none" stroke="{INK}" stroke-width="6"/>')
 
-# ---------------------------------------------------------------- left: arched window, silhouettes, spiral stair
+# ---------------------------------------------------------------- the grand staircase, climbing to the window
 
 add('<g filter="url(#rough)">')
-wood("M20 660 V290 A145 145 0 0 1 310 290 V660 Z", C["wood"], "grain-v", ink=6)
-add('<g clip-path="url(#arch-window)">')
-add('<rect x="40" y="140" width="250" height="520" fill="url(#sky)"/>')
-part(poly((88, 640), (98, 470), (128, 470), (138, 640)), "#fbf7ee")                               # lighthouse
-add(f'<path d="M96 520 H130 L132 548 H94 Z M93 590 H133 L135 618 H91 Z" fill="{C["crimson"]}"/>')
-part(poly((88, 640), (98, 470), (128, 470), (138, 640)), "none")
-part(rect(92, 440, 42, 30, 4), C["amber"])
-shine(100, 446, 108, 462, 3)
-part(poly((84, 444), (113, 410), (142, 444)), C["crimson"])
-part(poly((180, 238), (240, 232), (262, 240), (240, 248), (180, 246)), C["cream"])                 # plane
-part(poly((206, 238), (216, 214), (228, 216), (224, 238)), C["blue"])
-part(poly((182, 240), (176, 226), (186, 226), (194, 240)), C["blue"])
-part(rect(110, 300, 50, 14, 4), C["black"])                                                           # drone
-part(rect(98, 293, 22, 5, 2), C["metal"], ink=2.5)
-part(rect(150, 293, 22, 5, 2), C["metal"], ink=2.5)
-add(f'<circle cx="135" cy="314" r="5" fill="{C["glass"]}" stroke="{INK}" stroke-width="2"/>')
-add("</g>")
-line(165, 160, 165, 640, INK, 5)
-line(40, 420, 290, 420, INK, 5)
-# two silhouettes looking out
-for fx, h in [(150, 150), (205, 160)]:
-    add(f'<path d="M{fx - 20} 650 L{fx - 18} {650 - h + 40} Q{fx} {650 - h + 22} {fx + 18} {650 - h + 40} L{fx + 20} 650 Z" fill="{INK}"/>')
-    add(f'<circle cx="{fx}" cy="{650 - h + 18}" r="15" fill="{INK}"/>')
-wood(rect(0, 648, 320, 26), C["wood_l"], ink=5)  # landing
-# spiral staircase curving down from the landing to the bottom-left
-N = 12
-outer = [(318 - 190 * (i / N) ** 1.4, 676 + 500 * (i / N)) for i in range(N + 1)]
-inner = [(x - (130 + 70 * (i / N)), y + 18 * math.sin(i / N * math.pi)) for i, (x, y) in enumerate(outer)]
-for i in range(N):
-    wood(poly(inner[i], outer[i], outer[i + 1], inner[i + 1]), C["wood_l"] if i % 2 else C["ochre"], ink=4)
-    a, b = inner[i], outer[i]  # dark riser along the top of each step
-    add(f'<path d="{poly(a, b, (b[0], b[1] + 12), (a[0], a[1] + 12))}" fill="{C["wood_dd"]}"/>')
-rail = [(x + 4, y - 64) for x, y in outer]
-for (x, y), (rx, ry) in list(zip(outer, rail))[::2]:
-    line(rx, ry, x, y, INK, 4)
-pts = " ".join(f"{x:.0f},{y:.0f}" for x, y in rail)
-add(f'<polyline points="{pts}" fill="none" stroke="{INK}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>')
-add(f'<polyline points="{pts}" fill="none" stroke="{C["ochre"]}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>')
-# suitcases stacked under the stairs, and a film camera on a tripod (both in the concept's bottom-left)
-for (x, y, w, h), col in [((10, 1120, 120, 50), C["leather"]), ((20, 1078, 100, 42), C["tan"]), ((34, 1046, 72, 32), C["green"])]:
-    part(rect(x, y, w, h, 6), col)
-    add(f'<path d="M{x + w * .25} {y} V{y + h} M{x + w * .75} {y} V{y + h}" stroke="{C["wood_d"]}" stroke-width="5"/>')
-    part(rect(x + w / 2 - 10, y - 7, 20, 9, 3), C["wood_d"], ink=2.5)
-    add(f'<rect x="{x + w / 2 - 5}" y="{y + 6}" width="10" height="7" rx="1" fill="{C["gold"]}" stroke="{INK}" stroke-width="1.5"/>')
-for x2 in (36, 64, 94):                                                                               # tripod
-    line(65, 906, x2, 1000, INK, 7)
-    line(65, 906, x2, 1000, C["wood_l"], 4)
-part(ellipse(40, 850, 19), C["black"])                                                               # film camera
-part(ellipse(88, 850, 19), C["black"])
-for cx in (40, 88):
-    add(f'<circle cx="{cx}" cy="850" r="7" fill="{C["metal"]}" stroke="{INK}" stroke-width="2"/>')
-part(rect(30, 862, 72, 46, 6), C["black"])
-part(rect(100, 874, 28, 22, 4), C["metal_d"])
-add(f'<circle cx="128" cy="885" r="9" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
-shine(124, 881, 127, 878, 3)
+# landing at the foot of the window, with the two silhouettes looking out
+wood(poly((250, 800), (650, 800), (680, 836), (220, 836)), C["wood_l"], ink=6)
+for fx, h in [(410, 190), (480, 200)]:
+    add(f'<path d="M{fx - 26} 806 L{fx - 22} {806 - h + 52} Q{fx} {806 - h + 26} {fx + 22} {806 - h + 52} L{fx + 26} 806 Z" fill="{INK}"/>')
+    add(f'<circle cx="{fx}" cy="{806 - h + 22}" r="19" fill="{INK}"/>')
+# steps in perspective: narrow at the landing, wide at the bottom
+steps = 13
+for i in range(steps):
+    t0, t1 = i / steps, (i + 1) / steps
+    y0, y1 = 836 + 564 * t0 ** 1.25, 836 + 564 * t1 ** 1.25
+    w0, w1 = 230 + 380 * t0, 230 + 380 * t1
+    wood(poly((450 - w0, y0), (450 + w0, y0), (450 + w1, y1), (450 - w1, y1)), C["wood"], ink=5)
+    nose = y0 + (y1 - y0) * 0.22                      # orange lit edge of the tread
+    riser = y0 + (y1 - y0) * 0.55                     # dark face of the step below
+    ex = lambda y: (w0 + (w1 - w0) * (y - y0) / (y1 - y0))
+    add(f'<path d="{poly((450 - w0, y0), (450 + w0, y0), (450 + ex(nose), nose), (450 - ex(nose), nose))}" '
+        f'fill="{C["ochre"]}" stroke="{INK}" stroke-width="3"/>')
+    add(f'<path d="{poly((450 - ex(riser), riser), (450 + ex(riser), riser), (450 + w1, y1), (450 - w1, y1))}" fill="{C["wood_dd"]}"/>')
 add("</g>")
 
-# ---------------------------------------------------------------- right: ochre pillar with the hourglass, cubby shelves
+# ---------------------------------------------------------------- the staircase's curving handrails (furniture drawn later sits in front)
 
 add('<g filter="url(#rough)">')
-wood(rect(612, 0, 70, H), C["ochre"], "grain-v", ink=6)
-wood(rect(600, 560, 94, 28), C["ochre_l"], ink=5)
-wood(rect(600, 820, 94, 28), C["ochre_l"], ink=5)
-glow(647, 700, 120, 0.9)
-add(f'<path d="M620 588 H674 M620 820 H674" stroke="{INK}" stroke-width="4"/>')
-add(f'<path d="M626 594 C626 650 642 680 642 704 C642 728 626 758 626 814 H668 C668 758 652 728 652 704 C652 680 668 650 668 594 Z" '
+# curving handrails sweeping out to both sides
+for side in (-1, 1):
+    pts = [(450 + side * (215 + 250 * t ** 1.3 + 25 * math.sin(t * math.pi)), 790 + 640 * t ** 1.15) for t in [k / 16 for k in range(17)]]
+    for x, y in pts[::2]:
+        line(x, y, x - side * 10, y + 80, INK, 5)
+    d = " ".join(f"{x:.0f},{y:.0f}" for x, y in pts)
+    add(f'<polyline points="{d}" fill="none" stroke="{INK}" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>')
+    add(f'<polyline points="{d}" fill="none" stroke="{C["ochre"]}" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>')
+add("</g>")
+
+# ---------------------------------------------------------------- left: round clock, shelves in perspective with a ladder
+
+add('<g filter="url(#rough)">')
+part(ellipse(70, 300, 46, 56), C["ochre_l"], ink=6)
+line(70, 300, 56, 276, INK, 5)
+line(70, 300, 92, 312, INK, 5)
+wood(poly((0, 600), (210, 640), (210, 1000), (0, 960)), C["wood_dd"], ink=0, streaks=False)
+for y0 in (640, 780, 920):  # shelves angling towards the stairs
+    wood(poly((0, y0), (200, y0 + 30), (200, y0 + 52), (0, y0 + 22)), C["wood_l"], ink=5)
+part(ellipse(60, 618, 30, 26), C["metal"])                                            # astronaut helmet
+add(f'<path d="M40 616 Q60 596 82 616 Q60 634 40 616 Z" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
+shine(50, 612, 58, 606, 3)
+part(rect(130, 620, 50, 26, 4), C["black"])                                           # binoculars
+for bx in (140, 168):
+    add(f'<circle cx="{bx}" cy="633" r="9" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
+part(rect(28, 742, 48, 42, 4), C["black"])                                            # top hat
+part(ellipse(52, 784, 38, 9), C["black"])
+add(f'<rect x="28" y="764" width="48" height="8" fill="{C["crimson"]}"/>')
+part(poly((112, 806), (124, 742), (170, 742), (182, 806)), "#c2a27a")                 # drum
+part(ellipse(147, 742, 24, 8), C["cream"])
+part(ellipse(70, 884, 32, 26), C["crimson"])                                          # teapot
+add(f'<path d="M100 878 Q126 868 118 852" fill="none" stroke="{INK}" stroke-width="9" stroke-linecap="round"/>')
+add(f'<path d="M100 878 Q126 868 118 852" fill="none" stroke="{C["crimson"]}" stroke-width="5" stroke-linecap="round"/>')
+part(rect(56, 852, 28, 9, 4), C["crimson"], ink=3)
+for x0, x1 in ((178, 238), (218, 278)):                                               # ladder leaning on the shelves
+    line(x0, 560, x1, 1060, INK, 11)
+    line(x0, 560, x1, 1060, C["ochre_l"], 6)
+for k in range(1, 10):
+    t = k / 10
+    line(178 + 60 * t, 560 + 500 * t, 218 + 60 * t, 560 + 500 * t, INK, 7)
+    line(178 + 60 * t, 560 + 500 * t, 218 + 60 * t, 560 + 500 * t, C["ochre_l"], 3)
+add("</g>")
+halo(250, 720, 140, red=True)
+lantern(250, 760)
+
+# ---------------------------------------------------------------- right: pillar with the hourglass, cubbies, desk, magnifier
+
+add('<g filter="url(#rough)">')
+wood(rect(690, 440, 60, 960), C["ochre"], ink=6)
+wood(rect(678, 520, 84, 26), C["ochre_l"], ink=5)
+wood(rect(678, 760, 84, 26), C["ochre_l"], ink=5)
+add("</g>")
+halo(720, 650, 120)
+add('<g filter="url(#rough)">')
+add(f'<path d="M698 546 C698 600 714 628 714 650 C714 672 698 702 698 756 H742 C742 702 726 672 726 650 C726 628 742 600 742 546 Z" '
     f'fill="#eef8fc" fill-opacity=".9" stroke="{INK}" stroke-width="4"/>')
-add(f'<path d="M632 640 C636 670 644 690 645 700 H649 C650 690 658 670 662 640 Z M630 812 C636 770 644 752 647 748 C650 752 658 770 664 812 Z" fill="{C["amber"]}"/>')
-# cubbies
-for y0, y1 in [(150, 300), (500, 640), (800, 1000)]:
-    wood(rect(694, y0, 230, y1 - y0), C["wood_dd"], ink=5)
-    wood(rect(694, y1 - 16, 230, 18), C["wood_l"], ink=4)
-wood(rect(694, 0, 230, 20), C["wood"], ink=5)
-# objects on the shelves, fully rendered
-part(rect(712, 214, 70, 54, 6), C["wood_l"])                                                        # old TV
-part(rect(720, 222, 42, 38, 6), C["glass"])
-shine(726, 230, 738, 222, 3)
-for ky in (232, 250):
-    add(f'<circle cx="771" cy="{ky}" r="5" fill="{C["gold"]}" stroke="{INK}" stroke-width="2"/>')
-line(732, 214, 722, 196, INK, 3)
-line(752, 214, 764, 194, INK, 3)
-part(rect(800, 240, 58, 40, 5), C["black"])                                                         # camera
-part(rect(800, 232, 58, 12, 3), C["metal"], ink=3)
-part(ellipse(829, 260, 15), C["metal_d"])
-add(f'<circle cx="829" cy="260" r="8" fill="{C["glass"]}" stroke="{INK}" stroke-width="2"/>')
-shine(825, 256, 828, 253, 3)
-part(rect(712, 560, 70, 40, 5), C["metal"])                                                         # boombox
-line(726, 560, 730, 546, INK, 4)
-line(768, 560, 764, 546, INK, 4)
-line(730, 546, 764, 546, INK, 4)
-for cx in (730, 764):
-    add(f'<circle cx="{cx}" cy="580" r="13" fill="{C["black"]}" stroke="{INK}" stroke-width="3"/>')
-    add(f'<circle cx="{cx}" cy="580" r="5" fill="{C["metal_d"]}"/>')
-add(f'<rect x="740" y="566" width="14" height="8" rx="2" fill="{C["amber"]}" stroke="{INK}" stroke-width="1.5"/>')
-part(rect(800, 594, 9, 26, 4), C["metal"])                                                          # robot
-part(rect(849, 594, 9, 26, 4), C["metal"])
-part(rect(806, 588, 46, 36, 5), "#7f9fb5")
-part(rect(812, 552, 34, 34, 5), "#7f9fb5")
-add(f'<rect x="818" y="598" width="22" height="12" rx="2" fill="{C["black"]}"/>')
-add(f'<circle cx="823" cy="604" r="2.5" fill="{C["crimson"]}"/><circle cx="830" cy="604" r="2.5" fill="{C["amber"]}"/>')
-for ex in (822, 836):
-    add(f'<circle cx="{ex}" cy="566" r="5" fill="{C["sun"]}" stroke="{INK}" stroke-width="2"/>')
-line(829, 552, 829, 540, INK, 3)
-add(f'<circle cx="829" cy="537" r="4" fill="{C["crimson"]}" stroke="{INK}" stroke-width="2"/>')
-part(rect(752, 866, 56, 36, 2), "#fffdf6", ink=3)                                                  # typewriter
-for ly in (876, 884, 892):
-    line(760, ly, 798, ly, "#9a8f80", 2)
-part(rect(722, 898, 116, 16, 8), C["black"])
-part(poly((718, 984), (730, 926), (830, 926), (842, 984)), C["green"])
-for row, ky in enumerate((942, 956, 970)):
-    for kx in range(740 + row * 3, 826 - row * 3, 12):
-        add(f'<circle cx="{kx}" cy="{ky}" r="4" fill="{C["cream"]}" stroke="{INK}" stroke-width="1.5"/>')
-add(f'<path d="M906 952 Q932 944 924 926" fill="none" stroke="{INK}" stroke-width="9" stroke-linecap="round"/>')   # teapot
-add(f'<path d="M906 952 Q932 944 924 926" fill="none" stroke="{C["crimson"]}" stroke-width="5" stroke-linecap="round"/>')
-part(ellipse(880, 960, 30, 22), C["crimson"])
-part(rect(866, 930, 28, 10, 4), C["crimson"], ink=3)
-add(f'<circle cx="880" cy="926" r="5" fill="{C["gold"]}" stroke="{INK}" stroke-width="2"/>')
-shine(864, 950, 872, 944, 4)
+add(f'<path d="M704 590 C708 620 716 640 718 648 H722 C724 640 732 620 736 590 Z M702 752 C708 712 716 694 720 690 C724 694 732 712 738 752 Z" fill="{C["amber"]}"/>')
+for y0, y1 in [(450, 560), (720, 860)]:
+    wood(rect(750, y0, 160, y1 - y0), C["wood_dd"], ink=6, streaks=False)
+    wood(rect(750, y1 - 16, 160, 18), C["wood_l"], ink=5)
+part(rect(766, 494, 66, 50, 6), C["wood_l"])                                          # old TV
+part(rect(774, 502, 40, 34, 6), C["glass"])
+shine(780, 510, 792, 502, 3)
+add(f'<circle cx="822" cy="512" r="5" fill="{C["gold"]}" stroke="{INK}" stroke-width="2"/>')
+part(rect(846, 504, 52, 36, 5), C["black"])                                           # camera
+part(ellipse(872, 522, 12), C["metal_d"])
+add(f'<circle cx="872" cy="522" r="6" fill="{C["glass"]}" stroke="{INK}" stroke-width="2"/>')
+part(rect(766, 806, 64, 38, 5), C["metal"])                                           # boombox
+for cx in (782, 814):
+    add(f'<circle cx="{cx}" cy="825" r="12" fill="{C["black"]}" stroke="{INK}" stroke-width="3"/>')
+part(rect(846, 812, 42, 34, 5), "#7f9fb5")                                            # robot
+part(rect(852, 778, 30, 32, 5), "#7f9fb5")
+for ex in (861, 873):
+    add(f'<circle cx="{ex}" cy="792" r="4" fill="{C["sun"]}" stroke="{INK}" stroke-width="2"/>')
+# desk with papers
+wood(poly((560, 1130), (900, 1080), (900, 1400), (600, 1400)), C["wood"], ink=7)
+for d in [poly((600, 1150), (760, 1124), (790, 1190), (630, 1222)), poly((700, 1200), (880, 1170), (900, 1240), (720, 1276))]:
+    add(f'<path d="{d}" fill="{C["gap"]}" stroke="{INK}" stroke-width="4"/>')
+for k in range(5):
+    line(616 + k * 30, 1162 - k * 4, 640 + k * 30, 1200 - k * 4, "#8a7a66", 2.5)
+part(poly((800, 1110), (840, 1104), (846, 1140), (806, 1146)), C["green"])           # typewriter
+add("</g>")
+# the giant magnifying glass: thin red rim, yellow handle
+add('<g filter="url(#rough)">')
+add(f'<path d="M760 1130 L880 1250" stroke="{INK}" stroke-width="26" stroke-linecap="round"/>')
+add(f'<path d="M760 1130 L880 1250" stroke="{C["gold"]}" stroke-width="16" stroke-linecap="round"/>')
+add(f'<circle cx="700" cy="1072" r="84" fill="{C["sky"]}"/>')
+add('<path d="M650 1050 L686 1014 M644 1078 L706 1018 M700 1120 L744 1076" stroke="#fff" stroke-width="8" stroke-opacity=".8" stroke-linecap="round"/>')
+add(f'<circle cx="700" cy="1072" r="84" fill="none" stroke="{INK}" stroke-width="14"/>')
+add(f'<circle cx="700" cy="1072" r="84" fill="none" stroke="{C["rim"]}" stroke-width="7"/>')
 add("</g>")
 
-# ---------------------------------------------------------------- hanging lamps
+# ---------------------------------------------------------------- bottom-left: suitcases and a film camera on a tripod
 
 add('<g filter="url(#rough)">')
-for lx in (215, 780):
-    line(lx, 0, lx, 120, INK, 4)
-    add(f'<path d="M{lx - 56} 178 Q{lx - 52} 126 {lx} 118 Q{lx + 52} 126 {lx + 56} 178 Z" fill="{C["ochre"]}" stroke="{INK}" stroke-width="5"/>')
-    add(f'<ellipse cx="{lx}" cy="182" rx="20" ry="11" fill="#fff6cf" stroke="{INK}" stroke-width="3"/>')
-    add(f'<rect x="{lx - 60}" y="172" width="120" height="10" rx="5" fill="{C["wood"]}" stroke="{INK}" stroke-width="3"/>')
-add(f'<path d="{gear_path(900, 90, 120, 14)}" fill="{C["wood"]}" stroke="{INK}" stroke-width="5"/>')
-add(f'<circle cx="900" cy="90" r="40" fill="{C["wood_dd"]}" stroke="{INK}" stroke-width="4"/>')
+for (x, y, w, h), col in [((20, 1290, 150, 60), C["leather"]), ((32, 1236, 126, 54), C["tan"]), ((48, 1196, 94, 40), C["green"])]:
+    part(rect(x, y, w, h, 7), col)
+    add(f'<path d="M{x + w * .25} {y} V{y + h} M{x + w * .75} {y} V{y + h}" stroke="{C["wood_d"]}" stroke-width="6"/>')
+    part(rect(x + w / 2 - 12, y - 8, 24, 10, 3), C["wood_d"], ink=2.5)
+for x2 in (230, 262, 296):
+    line(262, 1110, x2, 1240, INK, 8)
+    line(262, 1110, x2, 1240, C["wood_l"], 4)
+part(ellipse(236, 1050, 22), C["black"])
+part(ellipse(290, 1050, 22), C["black"])
+for cx in (236, 290):
+    add(f'<circle cx="{cx}" cy="1050" r="8" fill="{C["metal"]}" stroke="{INK}" stroke-width="2"/>')
+part(rect(224, 1064, 82, 50, 6), C["black"])
+part(rect(304, 1076, 30, 24, 4), C["metal_d"])
+add(f'<circle cx="334" cy="1088" r="10" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
 add("</g>")
 
-# ---------------------------------------------------------------- the desk, lanterns, papers and the giant magnifying glass
+# ---------------------------------------------------------------- lamps on chains, throwing light (drawn last)
 
+for lx in (190, 720):
+    add(f'<path d="{poly((lx - 36, 250), (lx + 36, 250), (lx + 170, 1100), (lx - 170, 1100))}" fill="url(#beam)" opacity=".7"/>')
+    halo(lx, 262, 130)
 add('<g filter="url(#rough)">')
-wood(rect(-10, 1170, W + 20, 40), C["ochre"], ink=6)
-wood(rect(-10, 1210, W + 20, 200), C["wood_dd"], ink=6)
-for dx in (60, 360, 660):
-    wood(rect(dx, 1240, 200, 100, 6), C["wood"], ink=4)
-    add(f'<circle cx="{dx + 100}" cy="1290" r="9" fill="{C["ochre_l"]}" stroke="{INK}" stroke-width="3"/>')
-# papers and blueprints
-for d, rot in [(rect(360, 1140, 170, 34, 2), -3), (rect(500, 1146, 150, 30, 2), 4)]:
-    add(f'<g transform="rotate({rot} 450 1160)"><path d="{d}" fill="#fffaf0" stroke="{INK}" stroke-width="3"/></g>')
-for i in range(5):
-    line(372 + i * 30, 1150, 392 + i * 30, 1164, "#8a7a66", 2)
-add("</g>")
-
-for lx, ly in [(205, 1170), (330, 960)]:
-    glow(lx, ly - 50, 120)
-add('<g filter="url(#rough)">')
-for lx, ly in [(205, 1170), (330, 960)]:
-    add(f'<rect x="{lx - 24}" y="{ly - 14}" width="48" height="14" rx="3" fill="{C["ochre"]}" stroke="{INK}" stroke-width="3"/>')
-    add(f'<rect x="{lx - 18}" y="{ly - 86}" width="36" height="72" rx="4" fill="#ffd96b" stroke="{INK}" stroke-width="4"/>')
-    add(f'<path d="M{lx} {ly - 30} C{lx - 9} {ly - 40} {lx - 5} {ly - 54} {lx} {ly - 64} C{lx + 5} {ly - 54} {lx + 9} {ly - 40} {lx} {ly - 30} Z" fill="#fff8dc"/>')
-    add(f'<path d="M{lx - 26} {ly - 86} L{lx - 16} {ly - 100} H{lx + 16} L{lx + 26} {ly - 86} Z" fill="{C["ochre"]}" stroke="{INK}" stroke-width="3"/>')
-    add(f'<circle cx="{lx}" cy="{ly - 110}" r="9" fill="none" stroke="{INK}" stroke-width="4"/>')
-wood(rect(260, 960, 150, 22), C["wood_l"], ink=4)  # little table for the second lantern
-# the magnifying glass, leaning on the desk
-add(f'<path d="M694 1112 L800 1176" stroke="{INK}" stroke-width="28" stroke-linecap="round"/>')
-add(f'<path d="M694 1112 L800 1176" stroke="{C["gold"]}" stroke-width="18" stroke-linecap="round"/>')
-add(f'<circle cx="636" cy="1062" r="76" fill="{C["sky"]}"/>')
-add('<path d="M590 1040 L622 1008 M584 1066 L640 1012" stroke="#fff" stroke-width="7" stroke-opacity=".8" stroke-linecap="round"/>')
-add(f'<circle cx="636" cy="1062" r="76" fill="none" stroke="{INK}" stroke-width="20"/>')
-add(f'<circle cx="636" cy="1062" r="76" fill="none" stroke="{C["rim"]}" stroke-width="12"/>')
+for lx in (190, 720):
+    for k in range(9):  # chain links
+        add(f'<ellipse cx="{lx}" cy="{12 + k * 22}" rx="6" ry="11" fill="none" stroke="{INK}" stroke-width="4"/>')
+    add(f'<path d="M{lx - 58} 256 Q{lx - 54} 202 {lx} 194 Q{lx + 54} 202 {lx + 58} 256 Z" fill="{C["ochre"]}" stroke="{INK}" stroke-width="6"/>')
+    add(f'<ellipse cx="{lx}" cy="260" rx="22" ry="12" fill="#fff6cf" stroke="{INK}" stroke-width="3"/>')
+    add(f'<rect x="{lx - 62}" y="250" width="124" height="11" rx="5" fill="{C["wood"]}" stroke="{INK}" stroke-width="3"/>')
 add("</g>")
 
 add(f'<rect width="{W}" height="{H}" fill="url(#vignette)"/>')
