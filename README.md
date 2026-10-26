@@ -32,7 +32,8 @@ data/objects.json        ⭐ one entry per mural object: position, student, link
 targets/targets.mind     compiled image targets MindAR looks for (one file for all objects)
 targets/source/          the source photo of each AR target, in target order (00-, 01-, ...)
 models/                  ⭐ the 3D renderings, one per object: models/<id>.glb (see docs/3d-models.md)
-images/workshop.svg      the illustrated workshop behind the start/end screens (drawn in the mural's style)
+images/workshop.svg      the illustrated workshop behind the start/end screens, in the concept's style
+tools/make-workshop-svg.py  draws images/workshop.svg (edit this, then run it)
 reference/               ⭐ the mural concept art and notes, the design reference for everything
 tools/locate.html        mark where each object and AR target is on a photo of the wall
 tools/preview-model.html check a 3D rendering: same sizing, lighting and spin as the game, plus size budgets
