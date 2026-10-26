@@ -253,8 +253,15 @@ async function revealAt(obj, target, anchor) {
   landMagnifier(anchor, p, r);
 
   // the object, rising out of the wall once the lens has landed
-  const popout = obj.popout?.model ? createModelPopout(obj, w) : await createImagePopout(obj, w);
-  if (reveal?.group !== group) return; // a newer reveal started while the image was loading
+  // (until its pop-out art exists, the lens alone marks the spot)
+  let popout = null;
+  try {
+    if (obj.popout?.model) popout = createModelPopout(obj, w);
+    else if (obj.popout?.image) popout = await createImagePopout(obj, w);
+  } catch (err) {
+    console.warn(`No pop-out for ${obj.id}:`, err);
+  }
+  if (!popout || reveal?.group !== group) return; // nothing to show, or a newer reveal started while loading
   const lift = Math.max(w, h) * 0.9;
   popout.setAttribute('position', '0 0 0.002');
   popout.setAttribute('animation__rise', {

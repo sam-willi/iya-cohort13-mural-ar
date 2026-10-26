@@ -27,13 +27,1234 @@
       "name": "Demo card (placeholder)",
       "riddle": "PLACEHOLDER: the riddle team will write this. For now, point your camera at targets/source/00-demo-card.png on another screen.",
       "hint": "Open the demo card image on a laptop and aim your phone at it.",
-      "location": { "x": 420.5, "y": 40.5, "w": 10.75, "h": 14.5 },
+      "location": {
+        "x": 420.5,
+        "y": 40.5,
+        "w": 10.75,
+        "h": 14.5
+      },
       "student": {
         "name": "Student Name",
         "pageUrl": "https://example.com"
       },
       "popout": {
         "image": "targets/source/00-demo-card.png",
+        "model": null
+      }
+    },
+    {
+      "id": "sneakers",
+      "product": "Sneakers",
+      "name": "Sneakers",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "label-maker",
+      "product": "Label Maker",
+      "name": "Label Maker",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "1950s-car",
+      "product": "Car (50s)",
+      "name": "1950s Car",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "smart-watch",
+      "product": "Smart Watch",
+      "name": "Smart Watch",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "tennis-racket",
+      "product": "Tennis Racket",
+      "name": "Tennis Racket",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "midcentury-modern-chair",
+      "product": "Midcentury Modern Chair",
+      "name": "Midcentury Modern Chair",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "sewing-machine",
+      "product": "Sewing Machine",
+      "name": "Sewing Machine",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "toilet-paper",
+      "product": "Toilet Paper",
+      "name": "Toilet Paper",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "top-hat",
+      "product": "Top Hat",
+      "name": "Top Hat",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "backpack",
+      "product": "Backpack",
+      "name": "Backpack",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "fish-aquarium",
+      "product": "Fish Aquarium",
+      "name": "Fish Aquarium",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "hose",
+      "product": "Hose",
+      "name": "Hose",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "fortune-telling-machine",
+      "product": "Fortune Telling Machine",
+      "name": "Fortune Telling Machine",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "sunglasses",
+      "product": "Sunglasses",
+      "name": "Sunglasses",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "umbrella",
+      "product": "Umbrella",
+      "name": "Umbrella",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "binoculars",
+      "product": "Binoculars",
+      "name": "Binoculars",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "drone",
+      "product": "Drone",
+      "name": "Drone",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "washing-machine",
+      "product": "Washing Machine",
+      "name": "Washing Machine",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "pendulum-clock",
+      "product": "Pendulum Clock",
+      "name": "Pendulum Clock",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "typewriter",
+      "product": "Typewriter",
+      "name": "Typewriter",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "bicycle-helmet",
+      "product": "Bicycle Helmet",
+      "name": "Bicycle Helmet",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "boombox",
+      "product": "Boombox",
+      "name": "Boombox",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "handheld-fan",
+      "product": "Handheld Fan",
+      "name": "Handheld Fan",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "electric-scooter",
+      "product": "Electric Scooter",
+      "name": "Electric Scooter",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "jukebox",
+      "product": "Juke Box",
+      "name": "Jukebox",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "rice-cooker",
+      "product": "Rice Cooker",
+      "name": "Rice Cooker",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "hot-air-balloon",
+      "product": "Hot Air Balloon",
+      "name": "Hot Air Balloon",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "toothbrush",
+      "product": "Toothbrush",
+      "name": "Toothbrush",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "art-nouveau-desk-lamp",
+      "product": "Desk Lamp (Art Nouveau)",
+      "name": "Art Nouveau Desk Lamp",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "tea-set",
+      "product": "Tea Set",
+      "name": "Tea Set",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "comb",
+      "product": "Comb",
+      "name": "Comb",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "headphones",
+      "product": "Headphones",
+      "name": "Headphones",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "contemporary-robot",
+      "product": "Contemporary Robot",
+      "name": "Contemporary Robot",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "ice-cream-truck",
+      "product": "Ice Cream Truck",
+      "name": "Ice Cream Truck",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "portable-power-station",
+      "product": "Portable Power Station",
+      "name": "Portable Power Station",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "electric-kettle",
+      "product": "Electric Kettle",
+      "name": "Electric Kettle",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "african-drums",
+      "product": "African Drums",
+      "name": "African Drums",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "astronaut-helmet",
+      "product": "Astronaut Helmet",
+      "name": "Astronaut Helmet",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "toaster",
+      "product": "Toaster",
+      "name": "Toaster",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "drill",
+      "product": "Drill",
+      "name": "Drill",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "japanese-toy-robot",
+      "product": "Japanese Toy Robot",
+      "name": "Japanese Toy Robot",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "coffee-grinder",
+      "product": "Coffee Grinder",
+      "name": "Coffee Grinder",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "pinball-machine",
+      "product": "Pinball Machine",
+      "name": "Pinball Machine",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "pet-carrier",
+      "product": "Pet Carrier",
+      "name": "Pet Carrier",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "spatula-spoon-fork",
+      "product": "Spatula, Spoon, Fork",
+      "name": "Spatula, Spoon, Fork",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "suitcase",
+      "product": "Suitcase",
+      "name": "Suitcase",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "crystal-ball",
+      "product": "Crystal ball",
+      "name": "Crystal Ball",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "flashlight",
+      "product": "Flashlight",
+      "name": "Flashlight",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "air-purifier",
+      "product": "Air Purifier",
+      "name": "Air Purifier",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "telescope",
+      "product": "Telescope",
+      "name": "Telescope",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "car-tire",
+      "product": "Car Tire",
+      "name": "Car Tire",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "rain-jacket",
+      "product": "Rain Jacket",
+      "name": "Rain Jacket",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "radio",
+      "product": "Radio",
+      "name": "Radio",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "vacuum",
+      "product": "Vacuum",
+      "name": "Vacuum",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "baby-stroller",
+      "product": "Babystroller",
+      "name": "Baby Stroller",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "lamp",
+      "product": "Lamp",
+      "name": "Lamp",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "wireless-earbuds",
+      "product": "Wireless Earbuds",
+      "name": "Wireless Earbuds",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "camping-lantern",
+      "product": "Camping lantern",
+      "name": "Camping Lantern",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "vinyl-record-player",
+      "product": "Vinyl Record Player",
+      "name": "Vinyl Record Player",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "movie-camera",
+      "product": "Movie Camera",
+      "name": "Movie Camera",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "beard-trimmer",
+      "product": "Beard Trimmer",
+      "name": "Beard Trimmer",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "bread-maker",
+      "product": "Bread Maker",
+      "name": "Bread Maker",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "paint-roller-kit",
+      "product": "Paint Roller Kit",
+      "name": "Paint Roller Kit",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "espresso-machine",
+      "product": "Espresso Machine",
+      "name": "Espresso Machine",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "gaming-mouse",
+      "product": "Gaming Mouse",
+      "name": "Gaming Mouse",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "tv-screen",
+      "product": "TV Screen",
+      "name": "TV Screen",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "trumpet",
+      "product": "Trumpet",
+      "name": "Trumpet",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "pan",
+      "product": "Pan",
+      "name": "Pan",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "bicycle",
+      "product": "Bicycle",
+      "name": "Bicycle",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "office-chair",
+      "product": "Office Chair",
+      "name": "Office Chair",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "tripod",
+      "product": "Tripod",
+      "name": "Tripod",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "lock",
+      "product": "Lock",
+      "name": "Lock",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "office-desk",
+      "product": "Office Desk",
+      "name": "Office Desk",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "electric-fan",
+      "product": "Electric Fan",
+      "name": "Electric Fan",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "motorcycle",
+      "product": "Motorcycle",
+      "name": "Motorcycle",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
+        "model": null
+      }
+    },
+    {
+      "id": "treadmill",
+      "product": "Treadmill?",
+      "name": "Treadmill",
+      "riddle": "",
+      "hint": "",
+      "location": null,
+      "student": {
+        "name": "",
+        "pageUrl": ""
+      },
+      "popout": {
+        "image": "",
         "model": null
       }
     }

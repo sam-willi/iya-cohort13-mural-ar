@@ -18,7 +18,8 @@ Rules that keep it working:
 - **Don't rename or delete the "Products" or "Riddle" headers.** The app finds the columns by name.
 - **Keep each product name unique and stable.** Renaming "Juke Box" to "Jukebox" breaks the link until `objects.json` is updated too.
   If a product is listed twice, the first row with a riddle wins.
-- **Blank riddles are fine.** An object only shows up in the game once it has a riddle *and* an AR target.
+- **Blank riddles are fine.** An object only shows up in the game once it has a riddle *and* a position on the wall.
+- **New products** need an entry in `objects.json` too. Run `python3 tools/add-sheet-products.py` after they're added.
 
 ### Connecting the sheet (one-time)
 

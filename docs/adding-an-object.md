@@ -39,6 +39,16 @@ What recognises badly: plain areas (sky, white gaps), smooth gradients, repeatin
 
 ## 4. The object entry
 
+Every product in the riddle sheet already has an entry in `objects.json`, waiting for its `location`, student and pop-out
+art. When the riddle team adds new products to the sheet, add entries for them with:
+
+```bash
+python3 tools/add-sheet-products.py
+```
+
+It only adds missing products and never changes existing entries (`--dry-run` shows what it would add). A finished entry
+looks like this:
+
 ```json
 {
   "id": "typewriter",
@@ -65,11 +75,11 @@ What recognises badly: plain areas (sky, white gaps), smooth gradients, repeatin
 | `riddle`, `hint` | Backup copy used if the sheet can't be reached. `hint` is optional |
 | `location` | The object's box on the wall, in inches (from the marking tool). Add `"label": "on the top shelf"` to override the auto-generated "Right side of the mural: 9th panel from the left, top row" |
 | `student.pageUrl` | From the website team. Leave it `""` to hide the button |
-| `popout.image` | What pops out. A **transparent PNG cut-out** of just the object looks best. It's drawn as wide as the object's box |
+| `popout.image` | What pops out. A **transparent PNG cut-out** of just the object looks best. It's drawn as wide as the object's box. Until it exists, the lens still marks the spot |
 | `popout.model` | Optional `.glb` 3D model, used instead of `image` (3D renderings are on hold for now) |
 | `popout.modelScale` | Optional model size; 1 = as wide as the object's box |
 
-An object only appears in the game once it has a riddle **and** a `location`.
+An object only appears in the game once it has a riddle (from the sheet) **and** a `location`.
 
 ## 5. Test
 

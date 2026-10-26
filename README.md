@@ -35,6 +35,7 @@ models/                  optional 3D models (.glb) to pop out instead of a flat 
 images/workshop.svg      the illustrated workshop behind the start/end screens (drawn in the mural's style)
 reference/               ⭐ the mural concept art and notes, the design reference for everything
 tools/locate.html        mark where each object and AR target is on a photo of the wall
+tools/add-sheet-products.py  add objects.json entries for new products in the riddle sheet
 docs/                    how-to guides (start with docs/how-it-works.md)
 ```
 
@@ -82,6 +83,8 @@ Phones need HTTPS for the camera, so `http://<your-laptop-ip>:8000` won't work. 
 - [ ] Compile the real `targets.mind`
 - [x] Read riddles live from the riddle team's Google Sheet
 - [x] Publish the riddle sheet as CSV and connect it in `data/objects.json`
+- [x] An `objects.json` entry for every product in the riddle sheet
+- [ ] Fill in each object's position, student name/link, and pop-out art
 - [ ] Get student page URLs from the website team
 - [ ] Test at the mural in its real lighting, on iPhone and Android
 - [ ] Generate and print the QR code
