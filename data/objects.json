@@ -14,7 +14,48 @@
       "h": 36.24
     }
   ],
-  "landmarks": [],
+  "landmarks": [
+    {
+      "name": "the big window by the staircase",
+      "x": 31.0,
+      "y": 0.0,
+      "w": 94.0,
+      "h": 95.0,
+      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+    },
+    {
+      "name": "the window in the left shelves",
+      "x": 145.0,
+      "y": 65.5,
+      "w": 46.0,
+      "h": 46.0,
+      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+    },
+    {
+      "name": "the top middle window",
+      "x": 224.5,
+      "y": 0.0,
+      "w": 62.5,
+      "h": 47.0,
+      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+    },
+    {
+      "name": "the little window by the I Spy badge",
+      "x": 336.5,
+      "y": 33.0,
+      "w": 30.0,
+      "h": 30.0,
+      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+    },
+    {
+      "name": "the window in the magnifying glass",
+      "x": 449.0,
+      "y": 49.0,
+      "w": 62.0,
+      "h": 62.0,
+      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+    }
+  ],
   "riddleSheet": {
     "csvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxbbTz-UhTcZvgbT-YK7z0sJb9Zzh-QvLspOju1nXaO4gdTlVor9gsp9f7jJFuW7B8xHNSssINp2HA/pub?gid=0&single=true&output=csv",
     "productColumn": "Products",
