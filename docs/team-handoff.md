@@ -1,7 +1,7 @@
 # Working with the other teams
 
 Riddles come **live from the riddle team's Google Sheet**. Everything else the game shows (student names, links,
-pop-out art, which spot on the mural is which object) is in [`data/objects.json`](../data/objects.json).
+3D renderings, which spot on the mural is which object) is in [`data/objects.json`](../data/objects.json).
 
 ## From the riddle team
 
@@ -49,4 +49,5 @@ Questions to settle with them:
 ## From the mural/art team
 
 - A high-res, straight-on photo of the finished mural, plus close-ups of each object.
-- Transparent PNG cut-outs of each object for the pop-out, if possible (or the original digital art).
+- A **3D rendering of each object** (`.glb`), semi-realistic and in the mural's palette, to rise out of the wall and spin
+  when it's found. Specs and a preview tool: [3d-models.md](3d-models.md).

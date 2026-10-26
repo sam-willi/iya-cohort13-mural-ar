@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>3D Model Preview</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <style>
+      :root { --ink: #1b120b; --wood: #6b4122; --amber: #f0a93a; --paper: #fff; --warn: #a8520a; --ok: #2f6f4f; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; font: 15px/1.5 system-ui, sans-serif; color: var(--ink); background: #2e1b0e; }
+      body { display: flex; flex-direction: column; }
+      #panel { flex: none; margin: 12px; padding: 14px; border: 2px solid var(--ink); border-radius: 10px; background: var(--paper); }
+      #view { position: relative; flex: 1; min-height: 320px; }
+      @media (min-width: 760px) {
+        body { flex-direction: row; }
+        #panel { width: 360px; align-self: flex-start; }
+      }
+      h1 { margin: 0 0 4px; font-size: 1.1rem; }
+      p { margin: 0 0 10px; color: var(--wood); }
+      label { display: block; margin: 8px 0 4px; font-weight: 600; }
+      select, input { width: 100%; font: inherit; }
+      dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 12px 0 0; }
+      dt { font-weight: 600; }
+      dd { margin: 0; }
+      .warn { color: var(--warn); font-weight: 600; }
+      .ok { color: var(--ok); }
+      a-scene { position: absolute; inset: 0; }
+      .a-enter-vr { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div id="panel">
+      <h1>3D model preview</h1>
+      <p>See a model exactly as it pops out in the game: same size fitting, lighting and spin.</p>
+      <label for="object">Object from objects.json</label>
+      <select id="object"></select>
+      <label for="file">…or try a .glb file from your computer</label>
+      <input type="file" id="file" accept=".glb,.gltf" />
+      <dl id="stats"></dl>
+    </div>
+
+    <div id="view">
+    <a-scene
+      embedded
+      vr-mode-ui="enabled: false"
+      renderer="colorManagement: true; physicallyCorrectLights: true; antialias: true"
+      gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
+      background="color: #2e1b0e"
+    >
+      <a-camera position="0 0 1.6" look-controls="enabled: false" wasd-controls="enabled: false"></a-camera>
+      <a-light type="hemisphere" color="#fff6e5" ground-color="#6b4122" intensity="2.2"></a-light>
+      <a-light type="directional" position="0.6 1 1.4" intensity="2.4"></a-light>
+      <!-- a patch of "wall" and the lens, for context -->
+      <a-plane width="3" height="2" position="0 0 -0.4" material="shader: flat; color: #4a2c17"></a-plane>
+      <a-ring radius-inner="0.42" radius-outer="0.49" position="0 0 -0.39" material="shader: flat; color: #8a2a1e"></a-ring>
+      <a-entity id="stage"></a-entity>
+    </a-scene>
+    </div>
+
+    <script type="module">
+      import { createSpinningModel, modelUrl, prefetchModel } from '../js/popout.js';
+
+      const $ = (id) => document.getElementById(id);
+      const BUDGET = { bytes: 2 * 1024 * 1024, triangles: 50000, texture: 2048 };
+      let objects = [];
+
+      const data = await (await fetch('../data/objects.json', { cache: 'no-store' })).json();
+      objects = data.objects;
+      for (const o of objects) {
+        const opt = document.createElement('option');
+        opt.value = o.id;
+        opt.textContent = `${o.name} (${modelUrl(o)})`;
+        $('object').append(opt);
+      }
+      const startId = new URLSearchParams(location.search).get('id');
+      if (startId) $('object').value = startId;
+
+      $('object').addEventListener('change', () => showObject());
+      $('file').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) show(URL.createObjectURL(file), {}, file.size, file.name);
+      });
+      showObject();
+
+      async function showObject() {
+        const obj = objects.find((o) => o.id === $('object').value);
+        const url = modelUrl(obj, '../');
+        if (!(await prefetchModel(url))) {
+          $('stage').replaceChildren();
+          $('stats').innerHTML = `<dt>Model</dt><dd class="warn">No file yet at ${modelUrl(obj)}</dd>`;
+          return;
+        }
+        const size = (await fetch(url).then((r) => r.blob())).size;
+        show(url, obj.popout ?? {}, size, modelUrl(obj));
+      }
+
+      function show(url, popout, bytes, label) {
+        const el = createSpinningModel(url, { size: 0.75 * (popout.scale ?? 1), rotation: popout.rotation });
+        el.setAttribute('position', '0 0 0.15');
+        $('stage').replaceChildren(el);
+        $('stats').innerHTML = `<dt>Model</dt><dd>${label}</dd><dt>File size</dt><dd>${checked(bytes, BUDGET.bytes, formatBytes(bytes), formatBytes(BUDGET.bytes))}</dd>`;
+        el.querySelector('[gltf-model]').addEventListener('model-loaded', (e) => {
+          const { triangles, texture } = measure(e.detail.model);
+          $('stats').innerHTML += `<dt>Triangles</dt><dd>${checked(triangles, BUDGET.triangles, triangles.toLocaleString())}</dd>` +
+            `<dt>Largest texture</dt><dd>${checked(texture, BUDGET.texture, texture ? `${texture} px` : 'none', `${BUDGET.texture} px`)}</dd>`;
+        });
+      }
+
+      function measure(root) {
+        let triangles = 0;
+        let texture = 0;
+        root.traverse((n) => {
+          if (!n.isMesh) return;
+          const g = n.geometry;
+          triangles += (g.index ? g.index.count : g.attributes.position.count) / 3;
+          for (const m of [].concat(n.material)) {
+            for (const key of ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'emissiveMap', 'aoMap']) {
+              const img = m[key]?.image;
+              if (img) texture = Math.max(texture, img.width || 0, img.height || 0);
+            }
+          }
+        });
+        return { triangles: Math.round(triangles), texture };
+      }
+
+      const checked = (value, limit, text, limitText = limit.toLocaleString()) =>
+        value > limit ? `<span class="warn">${text} (over the ${limitText} budget)</span>` : `<span class="ok">${text}</span>`;
+      const formatBytes = (b) => (b >= 1024 * 1024 ? `${+(b / 1024 / 1024).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
+    </script>
+  </body>
+</html>

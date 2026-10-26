@@ -4,7 +4,7 @@ Read [how-it-works.md](how-it-works.md) first. In short, three things go into [`
 
 - **Targets:** parts of the wall the camera recognises, each with a position on the wall
 - **Landmarks:** the real windows, used to give players directions
-- **Objects:** the things people hunt for, each with a position on the wall, plus the student and pop-out details
+- **Objects:** the things people hunt for, each with a position on the wall, the student, and a 3D rendering
 
 All positions are in **inches from the top-left corner of the painted area**.
 
@@ -41,7 +41,7 @@ What recognises badly: plain areas (sky, white gaps), smooth gradients, repeatin
 
 ## 4. The object entry
 
-Every product in the riddle sheet already has an entry in `objects.json`, waiting for its `location`, student and pop-out
+Every product in the riddle sheet already has an entry in `objects.json`, waiting for its `location`, student and 3D
 art. When the riddle team adds new products to the sheet, add entries for them with:
 
 ```bash
@@ -62,10 +62,6 @@ looks like this:
   "student": {
     "name": "Jordan R.",
     "pageUrl": "https://the-other-teams-site.example/students/jordan"
-  },
-  "popout": {
-    "image": "images/popouts/typewriter.png",
-    "model": null
   }
 }
 ```
@@ -77,9 +73,7 @@ looks like this:
 | `riddle`, `hint` | Backup copy used if the sheet can't be reached. `hint` is optional |
 | `location` | The object's box on the wall, in inches (from the marking tool). Add `"label": "on the top shelf"` to override the auto-generated "Right side of the mural: 9th panel from the left, top row" |
 | `student.pageUrl` | From the website team. Leave it `""` to hide the button |
-| `popout.image` | What pops out. A **transparent PNG cut-out** of just the object looks best. It's drawn as wide as the object's box. Until it exists, the lens still marks the spot |
-| `popout.model` | Optional `.glb` 3D model, used instead of `image` (3D renderings are on hold for now) |
-| `popout.modelScale` | Optional model size; 1 = as wide as the object's box |
+| 3D rendering | Not a field: save it as **`models/<id>.glb`** and the app finds it. Until it exists, the lens still marks the spot. Optional `popout` settings (`model`, `scale`, `rotation`) are in [3d-models.md](3d-models.md) |
 
 An object only appears in the game once it has a riddle (from the sheet) **and** a `location`.
 

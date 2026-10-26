@@ -2,12 +2,15 @@
 //
 // Flow: show a riddle -> player points the camera at the mural -> MindAR recognises which part of the
 // mural they're looking at (a "target") -> if the answer is in that part, a magnifying glass lands on the
-// object's exact spot, the object pops out of the wall there, and we link to the student's page.
+// object's exact spot, a 3D rendering of the object rises out of the wall there and spins, and we link to
+// the student's page.
 // Every object and target has a position on the mural in inches, so we always know where things are.
 // See docs/how-it-works.md.
 //
 // All content (student names, links, pop-out art) lives in data/objects.json, so most changes
 // never need to touch this file. Riddles come live from the riddle team's Google Sheet (see loadSheetRiddles).
+
+import { createSpinningModel, modelUrl, prefetchModel } from './popout.js';
 
 const OBJECTS_URL = 'data/objects.json';
 const TOAST_COOLDOWN_MS = 3000;
@@ -253,26 +256,18 @@ async function revealAt(obj, target, anchor) {
   anchor.appendChild(group);
   landMagnifier(anchor, p, r);
 
-  // the object, rising out of the wall once the lens has landed
-  // (until its pop-out art exists, the lens alone marks the spot)
-  let popout = null;
-  try {
-    if (obj.popout?.model) popout = createModelPopout(obj, w);
-    else if (obj.popout?.image) popout = await createImagePopout(obj, w);
-  } catch (err) {
-    console.warn(`No pop-out for ${obj.id}:`, err);
-  }
-  if (!popout || reveal?.group !== group) return; // nothing to show, or a newer reveal started while loading
-  const lift = Math.max(w, h) * 0.9;
-  popout.setAttribute('position', '0 0 0.002');
+  // the object's 3D rendering rises out of the lens once it has landed, then spins
+  // (until the object's model exists, the lens alone marks the spot)
+  const url = modelUrl(obj);
+  if (!(await prefetchModel(url)) || reveal?.group !== group) return;
+  const size = Math.max(w, h) * (obj.popout?.scale ?? 1.3);
+  const popout = createSpinningModel(url, { size, rotation: obj.popout?.rotation });
+  popout.setAttribute('scale', '0.01 0.01 0.01');
   popout.setAttribute('animation__rise', {
-    property: 'position', from: '0 0 0.002', to: `0 0 ${lift}`, dur: 900, delay: 450, easing: 'easeOutElastic',
+    property: 'position', from: '0 0 0', to: `0 0 ${size * 0.8}`, dur: 900, delay: 450, easing: 'easeOutElastic',
   });
   popout.setAttribute('animation__grow', {
-    property: 'scale', from: '0.8 0.8 0.8', to: '1.35 1.35 1.35', dur: 900, delay: 450, easing: 'easeOutElastic',
-  });
-  popout.setAttribute('animation__sway', {
-    property: 'rotation', from: '0 -12 0', to: '0 12 0', dur: 1600, delay: 1350, dir: 'alternate', loop: true, easing: 'easeInOutSine',
+    property: 'scale', from: '0.01 0.01 0.01', to: '1 1 1', dur: 900, delay: 450, easing: 'easeOutElastic',
   });
   group.appendChild(popout);
 }
@@ -280,26 +275,6 @@ async function revealAt(obj, target, anchor) {
 function removeReveal() {
   reveal?.group.remove();
   reveal = null;
-}
-
-// A flat cut-out of the object, as wide as the object is on the mural.
-async function createImagePopout(obj, width) {
-  const img = await loadImage(obj.popout.image);
-  const plane = document.createElement('a-plane');
-  plane.setAttribute('width', width);
-  plane.setAttribute('height', width * (img.naturalHeight / img.naturalWidth));
-  plane.setAttribute('material', { src: obj.popout.image, transparent: true, alphaTest: 0.01, side: 'double', shader: 'flat' });
-  return plane;
-}
-
-// A 3D model (.glb). Its "up" should match the mural's up; z points out of the wall.
-// modelScale 1 = as wide as the object on the mural.
-function createModelPopout(obj, width) {
-  const model = document.createElement('a-gltf-model');
-  const s = width * (obj.popout.modelScale ?? 1);
-  model.setAttribute('src', obj.popout.model);
-  model.setAttribute('scale', `${s} ${s} ${s}`);
-  return model;
 }
 
 // The on-screen magnifying glass flies to the object's spot and hands over to the lens in AR.
@@ -456,6 +431,7 @@ function nextRiddle() {
     return;
   }
 
+  prefetchModel(modelUrl(current)); // download the 3D model while the player reads the riddle
   ui.riddleText.textContent = current.riddle;
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
@@ -510,15 +486,6 @@ function showToast(message) {
   ui.toast.hidden = false;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => (ui.toast.hidden = true), TOAST_COOLDOWN_MS);
-}
-
-function loadImage(src) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error(`Could not load image ${src}`));
-    img.src = src;
-  });
 }
 
 function shuffle(list) {

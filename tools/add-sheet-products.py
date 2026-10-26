@@ -2,7 +2,7 @@
 
 Existing entries are never changed, so it's safe to run again whenever the riddle team adds products.
 New entries have no position yet (`location` is null), so they stay out of the game until someone
-marks them with tools/locate.html.
+marks them with tools/locate.html. Their 3D rendering goes in models/<id>.glb.
 
 Usage (from the repo folder):
     python3 tools/add-sheet-products.py            # add missing products
@@ -79,7 +79,6 @@ def main():
             "hint": "",
             "location": None,
             "student": {"name": "", "pageUrl": ""},
-            "popout": {"image": "", "model": None},
         })
         known_products.add(normalize(product))
         known_ids.add(obj_id)

@@ -8,7 +8,8 @@
    - **Wrong part of the wall:** "Good eye, but it's not here." After three wrong spots, or if they tap **Hint**, an arrow
      and a direction appear: *"Try about 9 ft to the right and higher up."*
    - **Right part of the wall:** the magnifying glass **flies onto the object** and becomes a lens in AR, framing the
-     exact spot on the wall. The object then **pops out of the wall** from inside the lens.
+     exact spot on the wall. A **3D rendering of the object** then rises out of the lens and **spins** in front of the wall
+     ([3d-models.md](3d-models.md)).
 4. **"You spied it!"** About a second later, a card shows the object's name, the student who made it, a **mini-map of the
    whole wall** with the spot circled, and where it is in words: *"Right side of the mural: 9th panel from the left, top row"*.
 5. **Meet the artist** opens the student's page. **Next riddle** continues the game.
@@ -20,7 +21,7 @@ flowchart TD
   C -- Answer isn't in this part --> D[Not here / arrow toward the answer]
   D --> C
   C -- Answer is in this part --> E[Magnifier lands on the object's exact spot]
-  E --> F[Object pops out of the wall]
+  E --> F[3D rendering rises out of the wall and spins]
   F --> G[You spied it! card: student, mini-map, location]
   G --> H[Meet the artist / Next riddle]
   H --> B
@@ -43,7 +44,7 @@ When the camera recognises a target, MindAR tells us where that target is in 3D.
 wall **and** where the object is on the wall, we can:
 
 - tell whether the answer is in view (most of its box is inside the target),
-- put the lens and pop-out **exactly on the object**, not just "somewhere on the target",
+- put the lens and the spinning 3D rendering **exactly on the object**, not just "somewhere on the target",
 - point the player toward the answer when it's somewhere else, and say roughly how far,
 - draw the mini-map and the "9th panel from the left, top row" description.
 
@@ -131,8 +132,9 @@ At the top of [`js/app.js`](../js/app.js):
 | --- | --- | --- |
 | `WRONG_SCANS_BEFORE_ARROW` | 3 | Wrong spots before the arrow appears (a hint shows it straight away) |
 | `MIN_OVERLAP` | 0.6 | How much of an object must be inside a target to count as "in view" |
-| `CARD_DELAY_MS` | 1200 | Time to enjoy the pop-out before the "You spied it!" card appears |
+| `CARD_DELAY_MS` | 1200 | Time to enjoy the 3D rendering before the "You spied it!" card appears |
 | `SHEET_TIMEOUT_MS` | 5000 | How long to wait for the riddle sheet before using the backup riddles |
+| `SPIN_MS` (in [`js/popout.js`](../js/popout.js)) | 6000 | How long one full turn of a 3D rendering takes |
 
 ## Testing plan
 

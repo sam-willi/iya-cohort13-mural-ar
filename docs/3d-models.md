@@ -1,0 +1,73 @@
+# 3D renderings
+
+When a player finds an object, a **3D rendering of it rises out of the wall and spins**, like a turntable, inside the
+magnifying-glass lens. This page is for whoever makes those renderings.
+
+## What happens in the game
+
+1. The lens lands on the object's spot on the wall.
+2. The model grows out of the wall and floats in front of it.
+3. It spins slowly around its vertical axis, one full turn every 6 seconds, until the player moves on.
+
+The app sizes and centres every model automatically, so **you don't need to match the mural's scale**. The model's longest
+side is fitted to about 1.3× the object's box on the wall.
+
+## Style
+
+Follow the artist's notes on the concept ([reference/README.md](../reference/README.md)):
+
+- **Semi-realistic,** matching how the objects are painted on the wall.
+- **The mural's palette:** warm wood browns, lamp amber, cream, sky blue, red and orange.
+- It should read as **the same object** people just found on the wall, seen from all sides.
+
+## File requirements
+
+| | Requirement | Why |
+| --- | --- | --- |
+| Format | **`.glb`** (binary glTF) | One file, loads in every phone browser |
+| File name | **`models/<id>.glb`**, using the object's `id` from `data/objects.json` (e.g. `models/typewriter.glb`) | The app finds it automatically |
+| Orientation | **Y up, front facing +Z** (Blender's glTF export does this by default) | Upright, facing the player before it spins |
+| Size on disk | **Under 2 MB**, ideally under 1 MB | Players download it on phone data at the wall |
+| Triangles | **Under 50,000** | Smooth spinning on older phones |
+| Textures | **1024 px or smaller**; 2048 px max | Memory and download size |
+| Materials | Standard PBR (base colour, roughness, metalness, normal) | Lit by the scene's warm lamp light |
+| Compression | Draco mesh compression is supported; WebP textures are supported | Smaller files |
+| Animation | Not needed (the app spins it) | |
+
+Scale and position inside the file don't matter, because the app fits and centres each model.
+
+## Checking a model before adding it
+
+Open **[tools/preview-model.html](../tools/preview-model.html)** (also on the live site at `/tools/preview-model.html`):
+
+- **Try a `.glb` from your computer** to see it with the game's lighting, sizing and spin, before it's even in the repo.
+- Or pick an object to see the model that's already in `models/`.
+- It shows **file size, triangle count and largest texture**, and flags anything over budget.
+
+## Fixing a model that looks wrong
+
+These optional settings go in the object's entry in `data/objects.json`:
+
+```json
+"popout": {
+  "model": "models/some-other-name.glb",
+  "scale": 1.6,
+  "rotation": "0 90 0"
+}
+```
+
+| Field | Default | Use it when |
+| --- | --- | --- |
+| `model` | `models/<id>.glb` | The file has a different name |
+| `scale` | `1.3` | The model looks too small or big next to the painted object |
+| `rotation` | `"0 0 0"` | It was exported facing the wrong way (degrees around x, y, z) |
+
+## Shrinking a model that's over budget
+
+- **In Blender:** use the Decimate modifier for triangles, resize textures to 1024 px, and tick *Compression* (Draco) in the glTF export.
+- **On the command line:** [glTF Transform](https://gltf-transform.dev/) does everything at once:
+  `gltf-transform optimize in.glb out.glb --compress draco --texture-compress webp --texture-size 1024`
+
+## Until a model exists
+
+An object without a model still works. The lens lands on its spot and the "You spied it!" card appears, but nothing pops out.

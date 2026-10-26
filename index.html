@@ -45,7 +45,8 @@
     </div>
 
     <!-- Magnifying glass (from the mural) shown over the camera while the player searches.
-         When the object is found it flies to the object's spot and becomes the lens in AR. -->
+         When the object is found it flies to the object's spot and becomes the lens in AR,
+         and the object's 3D rendering rises out of it and spins. -->
     <div id="magnifier" class="magnifier" aria-hidden="true" hidden>
       <span class="magnifier-lens"></span>
       <span class="magnifier-handle"></span>
@@ -103,6 +104,7 @@
     <a-scene
       id="ar-scene"
       mindar-image="imageTargetSrc: targets/targets.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
+      gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
       color-space="sRGB"
       renderer="colorManagement: true; physicallyCorrectLights: true"
       vr-mode-ui="enabled: false"
@@ -111,8 +113,9 @@
     >
       <a-assets id="assets"></a-assets>
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-      <a-light type="ambient" intensity="1.2"></a-light>
-      <a-light type="directional" position="0 1 1" intensity="1"></a-light>
+      <!-- warm light for the 3D renderings, like the mural's lamps -->
+      <a-light type="hemisphere" color="#fff6e5" ground-color="#6b4122" intensity="2.2"></a-light>
+      <a-light type="directional" position="0.6 1 1.4" intensity="2.4"></a-light>
     </a-scene>
   </body>
 </html>
