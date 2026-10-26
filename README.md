@@ -81,7 +81,7 @@ Phones need HTTPS for the camera, so `http://<your-laptop-ip>:8000` won't work. 
 - [ ] Photograph the finished mural and mark positions with tools/locate.html
 - [ ] Compile the real `targets.mind`
 - [x] Read riddles live from the riddle team's Google Sheet
-- [ ] Publish the riddle sheet as CSV and paste the link into `data/objects.json`
+- [x] Publish the riddle sheet as CSV and connect it in `data/objects.json`
 - [ ] Get student page URLs from the website team
 - [ ] Test at the mural in its real lighting, on iPhone and Android
 - [ ] Generate and print the QR code
