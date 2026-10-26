@@ -1,24 +1,24 @@
-/* Look and feel borrowed from the classic I Spy picture-riddle books:
-   a busy pile of toys, a cream circle badge with an orange ring, a tall red "I SPY",
-   and riddles set in an old-fashioned serif. */
+/* Look and feel taken from the mural (see reference/README.md):
+   warm wood browns, lamp amber, sky blue, thick black ink outlines,
+   and the mural's I Spy badge: white circle, thin blue ring, crimson "I SPY", orange "IYA COHORT 13". */
 
 :root {
-  --red: #d42a2a;
-  --logo-red: #d01c23;
-  --red-text: #b81c22;
-  --ring: #ee6a1f;
-  --red-dark: #9e1a1d;
-  --gold: #f6b730;
-  --green: #17713b;
-  --blue: #2357a6;
-  --paper: #fffdf6;
-  --ink: #1d1a17;
-  --ink-soft: #5a4f43;
-  --wood: #5a3a22;
+  --ink: #1b120b;
+  --wood-dark: #2e1b0e;
+  --wood: #6b4122;
+  --amber: #f0a93a;
+  --cream: #fbf3e3;
+  --sky: #a9d6ee;
+  --crimson: #c8173a;
+  --orange: #da720c;
+  --rust: #a8520a;
+  --ring-blue: #2a8bc0;
+  --signed-blue: #23709f;
+  --lens-rim: #8a2a1e;
+  --handle-gold: #f2c230;
 
-  /* The book covers use a tall, condensed, high-contrast serif; Noto Serif Display Condensed is the closest free match. */
-  --font-logo: "Noto Serif Display", "Didot", "Bodoni 72", Georgia, serif;
-  --font-label: var(--font-logo);
+  --font-logo: "Noto Serif Display", "Didot", "Bodoni 72", Georgia, serif; /* tall condensed serif, like the badge's "I SPY" */
+  --font-label: "Oswald", "Arial Narrow", sans-serif;                      /* condensed sans, like "IYA COHORT 13" */
   --font-serif: "Libre Baskerville", Georgia, "Times New Roman", serif;
 }
 
@@ -50,18 +50,27 @@ body { position: relative; }
   align-items: center;
   justify-content: center;
   gap: clamp(18px, 3.5vh, 32px);
-  padding: 24px 16px 64px;
+  padding: 24px 16px;
   text-align: center;
-  background: var(--wood);
+  background: var(--wood-dark);
   overflow: hidden;
 }
 
-.clutter { position: absolute; inset: 0; width: 100%; height: 100%; }
-.cover > :not(.clutter) { position: relative; z-index: 1; }
+/* The mural itself, drifting slowly from one end to the other like someone scanning the wall. */
+.mural-bg {
+  position: absolute;
+  inset: 0;
+  background: url("../images/mural.webp") 0% 50% / cover no-repeat;
+  animation: pan-mural 90s ease-in-out infinite alternate;
+}
+@keyframes pan-mural {
+  to { background-position: 100% 50%; }
+}
+.cover > :not(.mural-bg) { position: relative; z-index: 1; }
 
-/* The cover circle: see-through white with a single orange ring, so the toys show through. */
+/* The mural's badge: solid white circle with a thin blue ring. */
 .badge {
-  --badge: min(86vw, 50vh, 400px);
+  --badge: min(84vw, 48vh, 380px);
   --u: calc(var(--badge) / 100); /* 1% of the badge width, so everything inside scales together */
   position: relative;
   width: var(--badge);
@@ -72,9 +81,9 @@ body { position: relative; }
   align-items: center;
   justify-content: center;
   padding: calc(7 * var(--u));
-  background: rgb(255 255 255 / 0.9);
-  border: calc(3.4 * var(--u)) solid var(--ring);
-  box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
+  background: #fff;
+  border: calc(1.8 * var(--u)) solid var(--ring-blue);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
 }
 
 .badge-arc {
@@ -86,122 +95,105 @@ body { position: relative; }
 }
 .badge-arc text {
   font-family: var(--font-serif);
-  font-size: 8.5px;
-  font-style: italic;
+  font-size: 9px;
+  font-weight: 700;
+  font-variant: small-caps;
   letter-spacing: 0.04em;
   fill: var(--ink);
 }
 
 .logo {
-  margin: calc(9 * var(--u)) 0 calc(2 * var(--u));
+  margin: calc(8 * var(--u)) 0 calc(2 * var(--u));
   font-family: var(--font-logo);
   font-weight: 900;
   font-stretch: 62.5%;
-  font-size: calc(33 * var(--u));
+  font-size: calc(36 * var(--u));
   line-height: 0.88;
-  /* The book logo is narrower and taller than any free font, so squeeze it a little. */
+  /* The badge's "I SPY" is narrower and taller than any free font, so squeeze it a little. */
   transform: scale(0.84, 1.14);
   letter-spacing: 0;
-  color: var(--logo-red);
+  color: var(--crimson);
   white-space: nowrap;
 }
-.logo-long { font-size: calc(24 * var(--u)); }
+.logo-long { font-size: calc(26 * var(--u)); }
 
-/* The second, coloured title word, like "THINGS THAT GO" or "CHRISTMAS". */
 .badge-title {
   margin: 0;
-  font-family: var(--font-logo);
-  font-weight: 900;
-  font-stretch: 62.5%;
-  font-size: calc(14 * var(--u));
-  line-height: 0.95;
+  font-family: var(--font-label);
+  font-weight: 500;
+  font-size: calc(13 * var(--u));
+  line-height: 1;
   text-transform: uppercase;
-  color: var(--blue);
+  color: var(--orange);
   white-space: nowrap;
 }
 
-.badge-sub {
-  margin: calc(2.2 * var(--u)) 0 0;
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: calc(3.7 * var(--u));
-  letter-spacing: 0.03em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.badge-credits {
-  margin: calc(2 * var(--u)) 0 0;
-  font-size: calc(3.5 * var(--u));
-  line-height: 1.45;
-  color: var(--ink);
-}
-.badge-credits em { font-style: normal; font-weight: 700; color: var(--red-text); }
-
-/* Green round sticker on the badge's edge, like "NEW CHALLENGES INCLUDED!" */
-.sticker {
-  position: absolute;
-  z-index: 2;
-  top: calc(-1 * var(--u));
-  left: calc(-2 * var(--u));
-  width: calc(24 * var(--u));
-  aspect-ratio: 1;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--green);
-  border: calc(0.9 * var(--u)) solid #fff;
-  outline: calc(0.6 * var(--u)) solid var(--green);
-  color: #fff;
-  font-family: var(--font-logo);
-  font-weight: 900;
-  font-stretch: 62.5%;
-  font-size: calc(5.4 * var(--u));
-  line-height: 0.95;
-  text-transform: uppercase;
-  transform: rotate(-14deg);
-  box-shadow: 0 4px 10px rgb(0 0 0 / 0.35);
+.badge-signed {
+  margin: calc(5 * var(--u)) 0 0;
+  font-size: calc(3.8 * var(--u));
+  line-height: 1.4;
+  color: var(--signed-blue);
 }
 
 .cover-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
 .fine-print {
   margin: 0;
-  max-width: 34ch;
+  max-width: 36ch;
   padding: 8px 14px;
-  border-radius: 4px;
-  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--cream);
   color: var(--ink);
   font-size: 0.85rem;
   line-height: 1.5;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.35);
+  box-shadow: 3px 3px 0 var(--ink);
 }
 
-/* The little red publisher label at the bottom of every cover. */
-.publisher-tab {
-  position: absolute !important;
-  bottom: calc(14px + env(safe-area-inset-bottom));
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 4px 14px;
-  background: var(--red);
-  color: #fff;
-  font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+/* ---------- Magnifying glass over the camera (the mural's big magnifier) ---------- */
+
+.magnifier {
+  --size: min(52vw, 230px);
+  position: fixed;
+  z-index: 5;
+  top: 34%;
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+  pointer-events: none;
+  animation: hover-magnifier 3s ease-in-out infinite alternate;
 }
-.tab-icon {
-  width: 14px;
-  height: 12px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M0 1l5.5 1.2V10L0 8.8zM12 1L6.5 2.2V10L12 8.8z' fill='white'/%3E%3C/svg%3E") center / contain no-repeat;
+.magnifier-lens {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 9px solid var(--lens-rim);
+  box-shadow: 0 0 0 3px var(--ink), inset 0 0 0 3px var(--ink);
+  /* a faint blue tint with two white glints, like the lens on the mural */
+  background:
+    linear-gradient(150deg, transparent 30%, rgb(255 255 255 / 0.55) 31%, rgb(255 255 255 / 0.55) 35%, transparent 36%,
+      transparent 42%, rgb(255 255 255 / 0.4) 43%, rgb(255 255 255 / 0.4) 45%, transparent 46%),
+    rgb(169 214 238 / 0.18);
+}
+.magnifier-handle {
+  position: absolute;
+  top: 88%;
+  left: 82%;
+  width: 18px;
+  height: calc(var(--size) * 0.55);
+  border: 3px solid var(--ink);
+  border-radius: 9px;
+  background: var(--handle-gold);
+  transform: rotate(-45deg);
+  transform-origin: top center;
+}
+@keyframes hover-magnifier {
+  from { transform: translate(-6px, -4px); }
+  to { transform: translate(6px, 4px); }
 }
 
-/* ---------- Cards over the camera (riddle + found), like the white riddle boxes in the books ---------- */
+/* ---------- Cards over the camera (riddle + found) ---------- */
 
 .card {
   position: fixed;
@@ -210,43 +202,44 @@ body { position: relative; }
   right: 16px;
   max-width: 480px;
   margin: 0 auto;
-  padding: 34px 22px 20px;
-  border-radius: 4px;
-  background: #fff;
-  box-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+  padding: 36px 22px 20px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: var(--cream);
+  box-shadow: 5px 5px 0 var(--ink);
   text-align: center;
 }
-.card-bottom { bottom: calc(16px + env(safe-area-inset-bottom)); }
+.card-bottom { bottom: calc(18px + env(safe-area-inset-bottom)); }
 
+/* A small copy of the mural's badge on top of each card. */
 .mini-badge {
   position: absolute;
-  top: -36px;
+  top: -38px;
   left: 50%;
   transform: translateX(-50%) rotate(-6deg);
-  width: 66px;
-  height: 66px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: #fff;
-  border: 4px solid var(--ring);
+  border: 3px solid var(--ring-blue);
   box-shadow: 0 4px 10px rgb(0 0 0 / 0.3);
   font-family: var(--font-logo);
   font-weight: 900;
   font-stretch: 62.5%;
-  font-size: 1.4rem;
-  color: var(--logo-red);
+  font-size: 1.45rem;
+  color: var(--crimson);
 }
 
 .eyebrow {
   margin: 0 0 8px;
   font-family: var(--font-label);
-  font-weight: 900;
-  font-stretch: 62.5%;
-  font-size: 1.05rem;
+  font-weight: 600;
+  font-size: 0.95rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--red-text);
+  color: var(--rust);
 }
 
 .riddle {
@@ -255,7 +248,7 @@ body { position: relative; }
   line-height: 1.6;
   white-space: pre-line; /* riddles can be written as rhyming lines */
 }
-.hint { margin: 10px 0 0; font-style: italic; color: var(--ink-soft); }
+.hint { margin: 10px 0 0; font-style: italic; color: var(--wood); }
 
 .found-name {
   margin: 0;
@@ -264,16 +257,15 @@ body { position: relative; }
   font-stretch: 62.5%;
   font-size: 2.2rem;
   line-height: 1.05;
-  letter-spacing: 0;
   text-transform: uppercase;
-  color: var(--blue);
+  color: var(--crimson);
 }
 .found-student { margin: 6px 0 0; color: var(--ink); }
-.found-student b { color: var(--red-text); }
+.found-student b { color: var(--signed-blue); }
 
 .row { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
 
-/* ---------- Buttons ---------- */
+/* ---------- Buttons: amber like the mural's lamps, outlined in ink ---------- */
 
 .btn {
   display: inline-flex;
@@ -281,30 +273,25 @@ body { position: relative; }
   justify-content: center;
   min-height: 44px;
   padding: 0 20px;
-  border: 2px solid var(--ink);
+  border: 3px solid var(--ink);
   border-radius: 999px;
-  background: var(--paper);
+  background: #fff;
   color: var(--ink);
   font-family: var(--font-label);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: 1rem;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 120ms ease;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
-.btn:active { transform: scale(0.96); }
-.btn-primary {
-  background: var(--red);
-  border-color: var(--red-dark);
-  color: #fff;
-  box-shadow: 0 3px 0 var(--red-dark);
-}
-.btn-big { min-width: 200px; min-height: 54px; font-size: 1.3rem; border-width: 3px; }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn-primary { background: var(--amber); }
+.btn-big { min-width: 200px; min-height: 56px; font-size: 1.4rem; }
 .btn:disabled { opacity: 0.6; cursor: default; }
-.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.btn:focus-visible { outline: 3px solid var(--ring-blue); outline-offset: 3px; }
 
 /* ---------- Toast ---------- */
 
@@ -317,14 +304,17 @@ body { position: relative; }
   width: max-content;
   max-width: calc(100% - 32px);
   padding: 10px 18px;
-  border-radius: 4px;
-  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  background: var(--cream);
   color: var(--ink);
   font-style: italic;
   text-align: center;
-  box-shadow: 0 6px 18px rgb(0 0 0 / 0.4);
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .mural-bg, .magnifier { animation: none; }
+  .mural-bg { background-position: 50% 50%; }
   .btn { transition: none; }
 }

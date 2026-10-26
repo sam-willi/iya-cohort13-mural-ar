@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>I Spy · IYA Cohort 13 Mural</title>
-    <meta name="theme-color" content="#1a120c" />
+    <meta name="theme-color" content="#2e1b0e" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5..100,600..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5..100,600..900&family=Oswald:wght@500;600;700&display=swap"
     />
     <link rel="stylesheet" href="css/style.css" />
 
@@ -20,26 +20,29 @@
     <script src="js/app.js" type="module"></script>
   </head>
   <body>
-    <!-- 1. Start screen, styled like an I Spy book cover (camera permission is requested when "Start" is tapped) -->
+    <!-- 1. Start screen: the mural slowly pans behind its I Spy badge (camera permission is requested when "Start" is tapped) -->
     <section id="start-screen" class="screen cover">
-      <svg class="clutter" aria-hidden="true"></svg>
+      <div class="mural-bg" aria-hidden="true"></div>
       <div class="badge">
-        <span class="sticker" aria-hidden="true">Now<br />in AR!</span>
         <svg class="badge-arc" viewBox="0 0 200 200" aria-hidden="true">
           <path id="arc-start" d="M 18 100 A 82 82 0 0 1 182 100" fill="none" />
-          <text><textPath href="#arc-start" startOffset="50%" text-anchor="middle">An Interactive IYA Mural</textPath></text>
+          <text><textPath href="#arc-start" startOffset="50%" text-anchor="middle">USC Bestselling Series</textPath></text>
         </svg>
         <h1 class="logo">I SPY</h1>
-        <p class="badge-title">Cohort 13</p>
-        <p class="badge-sub">A Mural of Picture Riddles</p>
-        <p class="badge-credits">Art by <em>IYA Cohort 13</em><br />Riddles by <em>IYA Cohort 13</em></p>
+        <p class="badge-title">IYA Cohort 13</p>
+        <p class="badge-signed">Signed by <b>Cohort 13</b></p>
       </div>
       <div class="cover-actions">
         <button id="start-button" class="btn btn-primary btn-big" disabled>Loading…</button>
-        <p class="fine-print">Find each object on the mural and watch it come to life.<br />You'll be asked to allow camera access.</p>
+        <p class="fine-print">Solve each riddle, find the object on the mural, and watch it come to life.<br />You'll be asked to allow camera access.</p>
       </div>
-      <p class="publisher-tab"><span class="tab-icon" aria-hidden="true"></span>IYA Cohort 13</p>
     </section>
+
+    <!-- Magnifying glass (from the mural) shown over the camera while the player searches -->
+    <div id="magnifier" class="magnifier" aria-hidden="true" hidden>
+      <span class="magnifier-lens"></span>
+      <span class="magnifier-handle"></span>
+    </div>
 
     <!-- 2. Riddle card, shown over the camera while the player searches -->
     <section id="riddle-card" class="card card-bottom" hidden>
@@ -67,20 +70,19 @@
 
     <!-- 4. End screen -->
     <section id="done-screen" class="screen cover" hidden>
-      <svg class="clutter" aria-hidden="true"></svg>
+      <div class="mural-bg" aria-hidden="true"></div>
       <div class="badge">
         <svg class="badge-arc" viewBox="0 0 200 200" aria-hidden="true">
           <path id="arc-done" d="M 18 100 A 82 82 0 0 1 182 100" fill="none" />
-          <text><textPath href="#arc-done" startOffset="50%" text-anchor="middle">An Interactive IYA Mural</textPath></text>
+          <text><textPath href="#arc-done" startOffset="50%" text-anchor="middle">USC Bestselling Series</textPath></text>
         </svg>
         <h1 class="logo logo-long">I SPIED</h1>
         <p class="badge-title">Them All!</p>
-        <p class="badge-sub">Thanks for exploring the mural</p>
+        <p class="badge-signed">Thanks for exploring <b>Cohort 13</b>'s mural</p>
       </div>
       <div class="cover-actions">
         <button id="restart-button" class="btn btn-primary btn-big">Play again</button>
       </div>
-      <p class="publisher-tab"><span class="tab-icon" aria-hidden="true"></span>IYA Cohort 13</p>
     </section>
 
     <div id="toast" role="status" aria-live="polite" hidden></div>

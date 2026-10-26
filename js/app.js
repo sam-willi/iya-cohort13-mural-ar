@@ -6,8 +6,6 @@
 // All content (riddles, student names, links, pop-out art) lives in data/objects.json,
 // so most changes never need to touch this file.
 
-import { drawClutter } from './clutter.js';
-
 const OBJECTS_URL = 'data/objects.json';
 const TOAST_COOLDOWN_MS = 3000;
 
@@ -29,6 +27,7 @@ const ui = {
   doneScreen: document.getElementById('done-screen'),
   restartButton: document.getElementById('restart-button'),
   toast: document.getElementById('toast'),
+  magnifier: document.getElementById('magnifier'),
 };
 
 let objects = [];      // everything in objects.json
@@ -36,8 +35,6 @@ let queue = [];        // riddles still to play, in order
 let current = null;    // the object the current riddle is about
 let foundCount = 0;
 const popouts = new Map(); // object id -> pop-out entity
-
-document.querySelectorAll('svg.clutter').forEach((svg) => drawClutter(svg));
 
 init().catch((err) => {
   console.error(err);
@@ -186,6 +183,7 @@ function nextRiddle() {
   current = queue.shift() ?? null;
   if (!current) {
     ui.riddleCard.hidden = true;
+    ui.magnifier.hidden = true;
     ui.doneScreen.hidden = false;
     return;
   }
@@ -196,6 +194,7 @@ function nextRiddle() {
   ui.hintButton.hidden = !current.hint;
   ui.progress.textContent = `(${foundCount + 1} of ${objects.length})`;
   ui.riddleCard.hidden = false;
+  ui.magnifier.hidden = false; // "search here" cue while the riddle is open
 }
 
 function showHint() {
@@ -211,6 +210,7 @@ function skipRiddle() {
 
 function showFound(obj) {
   ui.riddleCard.hidden = true;
+  ui.magnifier.hidden = true;
   ui.foundName.textContent = obj.name;
   ui.foundStudent.replaceChildren();
   if (obj.student?.name) {
