@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model Gallery</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+  <style>
+    :root { --bg: #f6eedd; --card: #fffaf0; --ink: #3b2314; --muted: #7a5a40; --accent: #c2412f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Georgia, 'Times New Roman', serif; background: var(--bg); color: var(--ink); }
+    header { padding: 24px 16px 8px; max-width: 1200px; margin: 0 auto; }
+    h1 { margin: 0 0 4px; font-size: 28px; }
+    p { margin: 0; color: var(--muted); }
+    input { margin-top: 12px; width: 100%; max-width: 360px; padding: 8px 10px; font: inherit; border: 1px solid #d8c7a8; border-radius: 6px; background: var(--card); }
+    main { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; padding: 16px; max-width: 1200px; margin: 0 auto; }
+    .card { background: var(--card); border: 1px solid #e3d5bb; border-radius: 10px; overflow: hidden; }
+    model-viewer { width: 100%; height: 220px; background: #fbf5e8; }
+    .meta { padding: 8px 10px 10px; font-size: 14px; }
+    .num { color: var(--accent); font-weight: bold; margin-right: 4px; }
+    .sub { color: var(--muted); font-size: 13px; }
+    .note { color: var(--accent); font-size: 12px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>I Spy 3D renderings</h1>
+    <p>Every object on the Cohort 13 checklist. Drag to rotate. Source: <code>tools/models/</code>.</p>
+    <input id="q" type="search" placeholder="Filter by object, id or student">
+  </header>
+  <main id="grid"></main>
+  <script>
+    const grid = document.getElementById('grid');
+    fetch('models/catalog.json').then((r) => r.json()).then(({ models }) => {
+      for (const m of models) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.search = `${m.checklist ?? ''} ${m.id} ${m.name} ${m.student}`.toLowerCase();
+        const viewer = document.createElement('model-viewer');
+        Object.entries({ src: `../${m.model}`, 'camera-controls': '', 'auto-rotate': '', loading: 'lazy',
+          'camera-orbit': '30deg 70deg auto', 'shadow-intensity': '0.6', alt: m.name }).forEach(([k, v]) => viewer.setAttribute(k, v));
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const num = document.createElement('span'); num.className = 'num'; num.textContent = m.checklist ? `#${m.checklist}` : 'extra';
+        const sub = document.createElement('div'); sub.className = 'sub';
+        sub.textContent = `${m.id}.glb · ${m.student || 'no drawing yet'}`;
+        meta.append(num, m.name, sub);
+        if (m.note) { const n = document.createElement('div'); n.className = 'note'; n.textContent = m.note; meta.append(n); }
+        card.append(viewer, meta);
+        grid.append(card);
+      }
+    });
+    document.getElementById('q').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      for (const c of grid.children) c.hidden = Boolean(q) && !c.dataset.search.includes(q);
+    });
+  </script>
+</body>
+</html>

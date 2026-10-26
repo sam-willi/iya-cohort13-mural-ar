@@ -100,6 +100,7 @@ Done so far:
 - [x] Riddles read live from the riddle team's Google Sheet; an `objects.json` entry for every product
 - [x] Design matching the mural (badge, palette, workshop art); concept art kept in `reference/`
 - [x] Tools: position marking, 3D model preview, model compressor, size check on every deploy
+- [x] A first 3D rendering for every object on the checklist (built from the isometric drawings; see [tools/model-gallery.html](tools/model-gallery.html))
 
 ## Contributing
 
