@@ -37,7 +37,10 @@ html, body {
    <html>, not <body>: a body background would paint over that video and the player would only see black. */
 html { background: #000; }
 body { position: relative; background: transparent; }
-#ar-scene { position: fixed; inset: 0; width: 100%; height: 100%; }
+/* MindAR gives its camera <video> z-index -2, which some phone browsers (iOS) then hide behind the page.
+   Lift it to 0 and keep the AR scene, with a transparent canvas, just above it. */
+body > video { z-index: 0 !important; }
+#ar-scene { position: fixed; inset: 0; z-index: 1; width: 100%; height: 100%; }
 .a-enter-vr, .a-enter-ar { display: none !important; } /* A-Frame's VR/fullscreen button isn't needed */
 
 /* ---------- Cover screens (start + done) ---------- */
@@ -397,7 +400,76 @@ body { position: relative; background: transparent; }
   gap: 8px;
 }
 .picture-zoom .btn { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.4rem; }
-.found-model { width: 100%; height: 170px; margin-top: 8px; }
+.found-model { width: 100%; height: 220px; margin-top: 8px; border-radius: 10px; background: radial-gradient(circle at 50% 45%, #fff8ea, #f1e1c3); }
+.model-tip { margin: 4px 0 0; font-size: 0.75rem; font-style: italic; color: var(--wood); }
+
+/* ---------- Found so far: top-right button + collection ---------- */
+
+.found-button {
+  position: fixed;
+  z-index: 15;
+  top: calc(12px + env(safe-area-inset-top));
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 14px 4px 6px;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: pointer;
+}
+.found-button-lens {
+  width: 30px;
+  height: 30px;
+  border: 4px solid var(--lens-rim);
+  border-radius: 50%;
+  background: var(--sky);
+  box-shadow: 0 0 0 2px var(--ink);
+}
+.found-button.bump { animation: bump 500ms ease; }
+@keyframes bump { 40% { transform: scale(1.25); } }
+body .direction, body #toast { top: calc(68px + env(safe-area-inset-top)); } /* below the found button */
+.collection {
+  position: fixed;
+  z-index: 25;
+  inset: 0;
+  overflow-y: auto;
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+  background: rgb(46 27 14 / 0.96);
+}
+.collection-inner { max-width: 480px; margin: 0 auto; padding: 18px; border: 3px solid var(--ink); border-radius: 14px; background: var(--cream); box-shadow: 4px 4px 0 var(--ink); }
+.collection-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.collection-title { margin: 0; font-family: var(--font-logo); font-size: 1.8rem; color: var(--crimson); }
+.collection-empty { margin: 16px 0 4px; font-style: italic; color: var(--wood); }
+.collection-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.collection-list button {
+  width: 100%;
+  min-height: 64px;
+  padding: 10px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+}
+.collection-list small { display: block; margin-top: 2px; font-weight: 400; font-size: 0.75rem; color: var(--wood); }
+.collection-detail { margin-top: 14px; text-align: center; }
+.collection-detail .found-name { margin-top: 10px; }
+.detail-model { height: 260px; }
+.collection-detail .eyebrow { margin-top: 16px; }
 .found-model model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
 
 /* ---------- Toast ---------- */

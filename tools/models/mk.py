@@ -72,13 +72,19 @@ class Model:
         for p in self.parts:
             m = p['mesh'].copy(); m.apply_transform(T)
             m.visual = trimesh.visual.TextureVisuals(material=trimesh.visual.material.PBRMaterial(
-                baseColorFactor=p['color'], metallicFactor=p['metal'], roughnessFactor=p['rough'],
+                baseColorFactor=srgb_to_linear(p['color']), metallicFactor=p['metal'], roughnessFactor=p['rough'],
                 alphaMode='BLEND' if p['color'][3] < 255 else 'OPAQUE', doubleSided=True, name=p['name']))
             sc.add_geometry(m, node_name=p['name'], geom_name=p['name'])
         sc.metadata['name'] = self.name
         data = trimesh.exchange.gltf.export_glb(sc, include_normals=True)
         open(path, 'wb').write(data)
         return T
+
+def srgb_to_linear(c):
+    # glTF base colours are linear; the palette above is sRGB (what you'd pick in a colour picker)
+    rgb = np.array(c[:3], float) / 255
+    lin = np.where(rgb <= 0.04045, rgb / 12.92, ((rgb + 0.055) / 1.055) ** 2.4)
+    return [int(round(v * 255)) for v in lin] + [c[3]]
 
 def _axis_from_z(axis):
     if axis == 'z': return np.eye(4)
