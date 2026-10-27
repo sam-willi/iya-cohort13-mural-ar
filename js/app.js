@@ -1,9 +1,9 @@
 // I Spy AR game for the IYA Cohort 13 mural.
 //
-// Flow: show a riddle -> player points the camera at the mural -> MindAR recognises which part of the
-// mural they're looking at (a "target") -> if the answer is in that part, a magnifying glass lands on the
-// object's exact spot, a 3D rendering of the object rises out of the wall there and spins, and we link to
-// the student's page.
+// Flow: show a riddle -> player looks at the mural through the camera -> MindAR keeps track of which part of
+// the mural is in view (a "target") -> the player taps the screen when they spy the answer -> if it's in frame,
+// a magnifying glass lands on the object's exact spot, a 3D rendering of the object rises out of the wall there
+// and spins, and we link to the student's page; if not, we say so and point the way.
 // Every object and target has a position on the mural in inches, so we always know where things are.
 // See docs/how-it-works.md.
 //
@@ -59,6 +59,7 @@ const ui = {
   zoomIn: document.getElementById('zoom-in'),
   zoomOut: document.getElementById('zoom-out'),
   foundModel: document.getElementById('found-model'),
+  tapTip: document.getElementById('tap-tip'),
 };
 
 let mural;             // size of the painted wall, in inches
@@ -73,6 +74,7 @@ let visibleTarget = null;
 let wrongScans = 0;    // wrong parts of the mural scanned for the current riddle
 let hintUsed = false;
 let cardTimer;
+const anchors = new Map(); // target index -> its MindAR anchor
 let mode = 'camera';   // 'camera' (AR at the wall) or 'picture' (tap the object on a picture of the mural)
 let zoom = 1;
 let directionTimer;
@@ -92,6 +94,7 @@ async function init() {
   await sceneLoaded();
   targets.forEach(addAnchor);
 
+  document.addEventListener('click', onSpyTap);
   sceneEl.addEventListener('arError', () => showToast('Camera could not start. Check camera permissions and try again.'));
 
   ui.startButton.addEventListener('click', startGame);
@@ -225,30 +228,61 @@ function contains(target, loc) {
 function addAnchor(target) {
   const anchor = document.createElement('a-entity');
   anchor.setAttribute('mindar-image-target', `targetIndex: ${target.index}`);
+  anchors.set(target.index, anchor);
   anchor.addEventListener('targetFound', () => onTargetFound(target, anchor));
   anchor.addEventListener('targetLost', () => onTargetLost(target));
   sceneEl.appendChild(anchor);
 }
 
-function onTargetFound(target, anchor) {
+// The camera can see part of the mural. Nothing happens until the player taps (see onSpyTap);
+// the magnifier just glows to show the mural is in view.
+function onTargetFound(target) {
   visibleTarget = target;
-  if (!current) return;
+  ui.magnifier.classList.add('ready');
+}
 
-  if (contains(target, current.location)) {
+// The player tapped the screen to say "I spy it!": check whether the answer is in frame right now.
+function onSpyTap(event) {
+  if (mode !== 'camera' || !current || !ui.foundCard.hidden || cardTimer) return;
+  if (event.target.closest('.card, .direction, .screen, button, a')) return;
+
+  if (!visibleTarget) {
+    showMessage("We can't see the mural yet. Point your camera at it and hold steady.");
+    return;
+  }
+  const anchor = anchors.get(visibleTarget.index);
+  if (contains(visibleTarget, current.location) && inFrame(anchor, visibleTarget, current.location)) {
     hideDirection();
-    revealAt(current, target, anchor);
-    if (ui.foundCard.hidden && !cardTimer) {
-      const found = current;
-      cardTimer = setTimeout(() => showFound(found), CARD_DELAY_MS);
-    }
-  } else if (ui.foundCard.hidden) {
+    revealAt(current, visibleTarget, anchor);
+    const found = current;
+    cardTimer = setTimeout(() => showFound(found), CARD_DELAY_MS);
+  } else {
     wrongScans++;
-    showDirection(target);
+    showDirection(visibleTarget, 'Nope, not in view.');
   }
 }
 
+// True when the middle of the object is on screen.
+function inFrame(anchor, target, loc) {
+  const c = centre(loc);
+  const p = toAnchor(target, c.x, c.y);
+  const px = toScreen(anchor, p.x, p.y);
+  return Boolean(px) && px.x >= 0 && px.y >= 0 && px.x <= window.innerWidth && px.y <= window.innerHeight;
+}
+
+function showMessage(text) {
+  ui.directionArrow.hidden = true;
+  ui.directionText.textContent = text;
+  ui.direction.hidden = false;
+  clearTimeout(directionTimer);
+  directionTimer = setTimeout(hideDirection, 3500);
+}
+
 function onTargetLost(target) {
-  if (visibleTarget === target) visibleTarget = null;
+  if (visibleTarget === target) {
+    visibleTarget = null;
+    ui.magnifier.classList.remove('ready');
+  }
   if (reveal?.target === target) removeReveal();
   hideDirection();
 }
@@ -330,7 +364,7 @@ function toScreen(anchor, x, y) {
 }
 
 // Looking at the wrong part of the mural: say so, and after a few tries (or after a hint) point the way.
-function showDirection(target) {
+function showDirection(target, prefix = '') {
   const pointTheWay = hintUsed || wrongScans >= WRONG_SCANS_BEFORE_ARROW;
   ui.directionArrow.hidden = !pointTheWay;
   if (pointTheWay) {
@@ -340,11 +374,13 @@ function showDirection(target) {
     const dy = to.y - from.y;
     ui.directionArrow.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
     const near = nearLandmark(current.location);
-    ui.directionText.textContent = `Not here. Try ${describeOffset(dx, dy)}${near ? `, ${near}` : ''}.`;
+    ui.directionText.textContent = `${prefix || 'Not here.'} Try ${describeOffset(dx, dy)}${near ? `, ${near}` : ''}.`;
   } else {
-    ui.directionText.textContent = "Good eye, but it's not here. Keep looking!";
+    ui.directionText.textContent = `${prefix || "Good eye, but it's not here."} Keep looking!`;
   }
   ui.direction.hidden = false;
+  clearTimeout(directionTimer);
+  directionTimer = setTimeout(hideDirection, 4000);
 }
 
 function hideDirection() {
@@ -452,6 +488,7 @@ function nextRiddle() {
   ui.foundModel.hidden = true;
   ui.pictureLens.hidden = true;
   ui.magnifier.classList.remove('landing');
+  ui.magnifier.classList.toggle('ready', Boolean(visibleTarget));
 
   current = queue.shift() ?? null;
   if (!current) {
@@ -463,6 +500,7 @@ function nextRiddle() {
 
   prefetchModel(modelUrl(current)); // download the 3D model while the player reads the riddle
   ui.riddleText.textContent = current.riddle;
+  ui.tapTip.textContent = mode === 'picture' ? 'Tap the object on the picture.' : 'Look at the mural, then tap the screen when you spy it.';
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
   ui.hintButton.hidden = false; // even without a written hint, the hint turns on the "which way" arrow
@@ -475,7 +513,7 @@ function showHint() {
   hintUsed = true;
   ui.hintText.textContent = current.hint || (mode === 'picture'
     ? "Tap anywhere on the picture and we'll show you which way to look."
-    : "Point your camera at the mural and we'll show you which way to look.");
+    : "Point your camera at the mural and tap the screen. We'll show you which way to look.");
   ui.hintText.hidden = false;
   ui.hintButton.hidden = true;
   if (visibleTarget && !contains(visibleTarget, current.location)) showDirection(visibleTarget);
@@ -561,9 +599,7 @@ function onPictureTap(event) {
   ui.pictureMiss.style.animation = 'none';
   void ui.pictureMiss.offsetWidth; // restart the fade
   ui.pictureMiss.style.animation = '';
-  showDirection({ x: p.x - 1, y: p.y - 1, w: 2, h: 2 });
-  clearTimeout(directionTimer);
-  directionTimer = setTimeout(hideDirection, 3500);
+  showDirection({ x: p.x - 1, y: p.y - 1, w: 2, h: 2 }, 'Nope, not there.');
 }
 
 function showPictureLens(loc) {

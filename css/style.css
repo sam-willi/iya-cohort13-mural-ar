@@ -29,13 +29,14 @@ html, body {
   margin: 0;
   height: 100%;
   overflow: hidden;
-  background: #000;
   font-family: var(--font-serif);
   color: var(--ink);
 }
 
-/* MindAR puts the camera <video> inside body; the scene sits on top of it. */
-body { position: relative; }
+/* MindAR puts the camera <video> inside body at z-index -2, with the scene on top of it. The black backdrop must sit on
+   <html>, not <body>: a body background would paint over that video and the player would only see black. */
+html { background: #000; }
+body { position: relative; background: transparent; }
 #ar-scene { position: fixed; inset: 0; width: 100%; height: 100%; }
 .a-enter-vr, .a-enter-ar { display: none !important; } /* A-Frame's VR/fullscreen button isn't needed */
 
@@ -283,6 +284,9 @@ body { position: relative; }
   white-space: pre-line; /* keeps the riddle's rhyming lines */
   text-wrap: balance;
 }
+.tap-tip { margin: 8px 0 0; font-family: var(--font-label); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rust); }
+/* The mural is in view: the magnifier glows, ready for the player to tap */
+.magnifier.ready .magnifier-lens { box-shadow: 0 0 0 3px var(--ink), inset 0 0 0 3px var(--ink), 0 0 28px 10px rgb(240 169 58 / 0.75); }
 .hint { margin: 10px 0 0; font-style: italic; color: var(--wood); }
 
 .found-name {
