@@ -138,8 +138,8 @@ At the top of [`js/app.js`](../js/app.js):
 
 ## Testing plan
 
-1. **At your desk:** open the demo card ([`targets/source/00-demo-card.png`](../targets/source/00-demo-card.png)) on a laptop
-   and point your phone at the live site.
+1. **At your desk:** open the concept art ([`reference/mural-concept-wall.webp`](../reference/mural-concept-wall.webp)) on a laptop
+   and point your phone at it, or play the no-camera mode ([testing-without-the-wall.md](testing-without-the-wall.md)).
 2. **Before painting:** the quarter-scale print test above.
 3. **On the finished wall:** iPhone and Android; morning, afternoon and evening light; standing close and far; the top
    row from the floor; two people playing at once.

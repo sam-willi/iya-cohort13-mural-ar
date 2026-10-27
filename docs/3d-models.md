@@ -68,6 +68,21 @@ Don't worry about compression when exporting: send the full-quality `.glb`. The 
 one command (`npm run models`), which often makes it several times smaller. See [compression.md](compression.md).
 If a model is still over budget after that, it needs fewer triangles: use the Decimate modifier in Blender.
 
+## The generated set
+
+Every object on the Cohort 13 checklist already has a first-pass rendering in `models/`, modelled in code from the
+students' isometric drawings (the "Isometric Product Illustrations" Drive folder). Browse them all in
+**[tools/model-gallery.html](../tools/model-gallery.html)**.
+
+- The source is in [`tools/models/`](../tools/models/): one Python function per object in `objs_*.py`.
+  [`manifest_src.py`](../tools/models/manifest_src.py) says which drawing and student each one comes from.
+- To change one, edit its function, then run `python3 tools/models/build.py <id>` and `npm run models`.
+- Objects with no drawing in the folder (violin, basketball + baseball, motorcycle, bowler hat, toilet paper,
+  electric fan, ice chest, treadmill, snow shovel, skateboard, exercise weights, toolbox) got a generic model until
+  their drawings turn up. [`catalog.json`](../tools/models/catalog.json) flags these and a few other open questions.
+- A hand-made model from Blender or Fusion can replace any of them: just export it to `models/incoming/<id>.glb`
+  and run `npm run models` as usual.
+
 ## Until a model exists
 
 An object without a model still works. The lens lands on its spot and the "You spied it!" card appears, but nothing pops out.
