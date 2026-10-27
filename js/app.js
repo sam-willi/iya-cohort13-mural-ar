@@ -17,7 +17,8 @@ const TOAST_COOLDOWN_MS = 3000;
 const SHEET_TIMEOUT_MS = 5000; // give up on the riddle sheet after this and use objects.json
 const WRONG_SCANS_BEFORE_ARROW = 3; // after this many wrong spots, point the player toward the answer
 const MIN_OVERLAP = 0.6; // how much of an object must be inside a target for that target to "contain" it
-const CARD_DELAY_MS = 1200; // let the object pop out before the "You spied it!" card covers the screen
+const CARD_DELAY_MS = 2600; // let the object pop out of the wall before the "You spied it!" card covers the screen
+const FOUND_KEY = 'ispy-found'; // remembers what this phone has found, so the collection survives a refresh
 const TAP_SLACK_IN = 3; // in no-camera mode, a tap this close (in inches) to the object still counts
 const MODEL_VIEWER_SRC = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; // shows the 3D rendering in no-camera mode
 const THREE = AFRAME.THREE;
@@ -60,6 +61,22 @@ const ui = {
   zoomOut: document.getElementById('zoom-out'),
   foundModel: document.getElementById('found-model'),
   tapTip: document.getElementById('tap-tip'),
+  foundModelTip: document.getElementById('found-model-tip'),
+  foundButton: document.getElementById('found-button'),
+  foundCount: document.getElementById('found-count'),
+  collection: document.getElementById('collection'),
+  collectionClose: document.getElementById('collection-close'),
+  collectionEmpty: document.getElementById('collection-empty'),
+  collectionList: document.getElementById('collection-list'),
+  detail: document.getElementById('collection-detail'),
+  detailBack: document.getElementById('detail-back'),
+  detailName: document.getElementById('detail-name'),
+  detailStudent: document.getElementById('detail-student'),
+  detailModel: document.getElementById('detail-model'),
+  detailRiddle: document.getElementById('detail-riddle'),
+  detailMap: document.getElementById('detail-map'),
+  detailWhere: document.getElementById('detail-where'),
+  detailLink: document.getElementById('detail-link'),
 };
 
 let mural;             // size of the painted wall, in inches
@@ -75,6 +92,7 @@ let wrongScans = 0;    // wrong parts of the mural scanned for the current riddl
 let hintUsed = false;
 let cardTimer;
 const anchors = new Map(); // target index -> its MindAR anchor
+const found = loadFound(); // ids of the objects this player has spied
 let mode = 'camera';   // 'camera' (AR at the wall) or 'picture' (tap the object on a picture of the mural)
 let zoom = 1;
 let directionTimer;
@@ -95,6 +113,9 @@ async function init() {
   targets.forEach(addAnchor);
 
   document.addEventListener('click', onSpyTap);
+  ui.foundButton.addEventListener('click', openCollection);
+  ui.collectionClose.addEventListener('click', () => (ui.collection.hidden = true));
+  ui.detailBack.addEventListener('click', showCollectionList);
   sceneEl.addEventListener('arError', () => showToast('Camera could not start. Check camera permissions and try again.'));
 
   ui.startButton.addEventListener('click', startGame);
@@ -103,6 +124,9 @@ async function init() {
   ui.nextButton.addEventListener('click', nextRiddle);
   ui.restartButton.addEventListener('click', () => {
     ui.doneScreen.hidden = true;
+    found.clear(); // playing again starts a fresh collection
+    saveFound();
+    updateFoundButton();
     resetQueue();
     nextRiddle();
   });
@@ -244,7 +268,7 @@ function onTargetFound(target) {
 // The player tapped the screen to say "I spy it!": check whether the answer is in frame right now.
 function onSpyTap(event) {
   if (mode !== 'camera' || !current || !ui.foundCard.hidden || cardTimer) return;
-  if (event.target.closest('.card, .direction, .screen, button, a')) return;
+  if (event.target.closest('.card, .direction, .screen, .collection, button, a')) return;
 
   if (!visibleTarget) {
     showMessage("We can't see the mural yet. Point your camera at it and hold steady.");
@@ -438,15 +462,15 @@ function ordinal(n) {
 }
 
 // A little map of the whole wall: panels, windows, and the object's spot circled.
-function drawMiniMap(loc) {
+function drawMiniMap(loc, svg = ui.miniMap) {
   const { width, height, panelSize } = mural;
   const lines = [];
   for (let x = panelSize; x < width; x += panelSize) lines.push(`M${x} 0V${height}`);
   for (let y = panelSize; y < height; y += panelSize) lines.push(`M0 ${y}H${width}`);
   const c = centre(loc);
   const ring = Math.max(loc.w, loc.h, panelSize * 0.35);
-  ui.miniMap.setAttribute('viewBox', `-4 -4 ${width + 8} ${height + 8}`);
-  ui.miniMap.innerHTML = `
+  svg.setAttribute('viewBox', `-4 -4 ${width + 8} ${height + 8}`);
+  svg.innerHTML = `
     <rect width="${width}" height="${height}" rx="4" class="map-wall"/>
     <path d="${lines.join(' ')}" class="map-panels"/>
     ${landmarks.map((lm) => `<rect x="${lm.x}" y="${lm.y}" width="${lm.w}" height="${lm.h}" class="map-window"/>`).join('')}
@@ -462,12 +486,16 @@ function startGame() {
   ui.startScreen.hidden = true;
   resetQueue();
   nextRiddle();
+  showFoundButton();
+  loadModelViewer();
   sceneEl.systems['mindar-image-system'].start(); // asks for camera permission
 }
 
 function resetQueue() {
   foundCount = 0;
-  queue = shuffle([...objects]);
+  // riddles already solved on this phone wait until the rest are done
+  const unsolved = objects.filter((o) => !found.has(o.id));
+  queue = shuffle(unsolved.length ? unsolved : [...objects]);
 
   // A QR code can link straight to one riddle, e.g. index.html?object=demo-card
   const startId = new URLSearchParams(location.search).get('object');
@@ -486,6 +514,7 @@ function nextRiddle() {
   ui.foundCard.hidden = true;
   ui.foundModel.replaceChildren();
   ui.foundModel.hidden = true;
+  ui.foundModelTip.hidden = true;
   ui.pictureLens.hidden = true;
   ui.magnifier.classList.remove('landing');
   ui.magnifier.classList.toggle('ready', Boolean(visibleTarget));
@@ -504,7 +533,7 @@ function nextRiddle() {
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
   ui.hintButton.hidden = false; // even without a written hint, the hint turns on the "which way" arrow
-  ui.progress.textContent = `(${foundCount + 1} of ${objects.length})`;
+  ui.progress.textContent = `(${Math.min(objects.length, found.size + 1)} of ${objects.length})`;
   ui.riddleCard.hidden = false;
   ui.magnifier.hidden = mode !== 'camera'; // "search here" cue while the riddle is open
 }
@@ -541,8 +570,9 @@ function showFound(obj) {
   if (url) ui.studentLink.href = url;
   ui.foundWhere.textContent = describeLocation(obj.location);
   drawMiniMap(obj.location);
-  if (mode === 'picture') showCardModel(obj);
+  showCardModel(obj);
   ui.foundCard.hidden = false;
+  markFound(obj);
 }
 
 // ---------- No-camera mode: tap the object on a picture of the mural ----------
@@ -558,6 +588,7 @@ function startPictureGame() {
   loadModelViewer();
   resetQueue();
   nextRiddle();
+  showFoundButton();
   setZoom(1);
 }
 
@@ -636,20 +667,108 @@ function loadModelViewer() {
   }
 }
 
-// In no-camera mode the 3D rendering spins inside the found card instead of in AR.
+// The found card keeps the 3D rendering up for as long as the player wants, and they can spin it with a finger.
 async function showCardModel(obj) {
   ui.foundModel.replaceChildren();
   ui.foundModel.hidden = true;
-  const url = modelUrl(obj);
-  if (!(await prefetchModel(url))) return;
-  const viewer = document.createElement('model-viewer');
-  for (const [k, v] of Object.entries({
-    src: url, alt: `3D rendering of the ${obj.name}`, 'auto-rotate': '', 'rotation-per-second': '60deg',
-    'camera-controls': '', 'disable-zoom': '', 'interaction-prompt': 'none', 'shadow-intensity': '0.6',
-    'camera-orbit': '20deg 72deg auto', exposure: '1.1',
-  })) viewer.setAttribute(k, v);
+  ui.foundModelTip.hidden = true;
+  const viewer = await createViewer(obj, { zoom: false });
+  if (!viewer || ui.foundName.textContent !== obj.name) return;
   ui.foundModel.append(viewer);
   ui.foundModel.hidden = false;
+  ui.foundModelTip.hidden = false;
+}
+
+// An interactive 3D viewer for an object's rendering: drag to spin (and optionally pinch to zoom).
+async function createViewer(obj, { zoom }) {
+  loadModelViewer();
+  const url = modelUrl(obj);
+  if (!(await prefetchModel(url))) return null;
+  const viewer = document.createElement('model-viewer');
+  for (const [k, v] of Object.entries({
+    src: url, alt: `3D rendering of the ${obj.name}`, 'auto-rotate': '', 'auto-rotate-delay': '1500',
+    'rotation-per-second': '40deg', 'camera-controls': '', 'touch-action': 'pan-y', 'interaction-prompt': 'none',
+    'shadow-intensity': '0.7', 'camera-orbit': '20deg 72deg auto', exposure: '1.1',
+  })) viewer.setAttribute(k, v);
+  if (!zoom) viewer.setAttribute('disable-zoom', '');
+  return viewer;
+}
+
+// ---------- Found so far ----------
+
+function loadFound() {
+  try { return new Set(JSON.parse(localStorage.getItem(FOUND_KEY) || '[]')); } catch { return new Set(); }
+}
+
+function saveFound() {
+  try { localStorage.setItem(FOUND_KEY, JSON.stringify([...found])); } catch { /* private browsing: keep it for this visit only */ }
+}
+
+function markFound(obj) {
+  if (found.has(obj.id)) return;
+  found.add(obj.id);
+  saveFound();
+  updateFoundButton();
+  ui.foundButton.classList.remove('bump');
+  void ui.foundButton.offsetWidth;
+  ui.foundButton.classList.add('bump');
+}
+
+function showFoundButton() {
+  updateFoundButton();
+  ui.foundButton.hidden = false;
+}
+
+function updateFoundButton() {
+  ui.foundCount.textContent = found.size;
+}
+
+function openCollection() {
+  showCollectionList();
+  ui.collection.hidden = false;
+  ui.collection.scrollTop = 0;
+}
+
+function showCollectionList() {
+  ui.detail.hidden = true;
+  ui.detailModel.replaceChildren();
+  const list = objects.filter((o) => found.has(o.id));
+  ui.collectionEmpty.hidden = list.length > 0;
+  ui.collectionList.hidden = false;
+  ui.collectionList.replaceChildren(...list.map((obj) => {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    const where = document.createElement('small');
+    where.textContent = describeLocation(obj.location).split(':').pop().trim();
+    btn.append(obj.name, where);
+    btn.addEventListener('click', () => showDetail(obj));
+    li.append(btn);
+    return li;
+  }));
+}
+
+async function showDetail(obj) {
+  ui.collectionList.hidden = true;
+  ui.collectionEmpty.hidden = true;
+  ui.detail.hidden = false;
+  ui.collection.scrollTop = 0;
+  ui.detailName.textContent = obj.name;
+  ui.detailStudent.replaceChildren();
+  if (obj.student?.name) {
+    const name = document.createElement('b');
+    name.textContent = obj.student.name;
+    ui.detailStudent.append('Art by ', name);
+  }
+  ui.detailRiddle.textContent = obj.riddle;
+  ui.detailWhere.textContent = describeLocation(obj.location);
+  drawMiniMap(obj.location, ui.detailMap);
+  const url = obj.student?.pageUrl;
+  ui.detailLink.hidden = !url;
+  if (url) ui.detailLink.href = url;
+  ui.detailModel.replaceChildren();
+  const viewer = await createViewer(obj, { zoom: true });
+  if (viewer && ui.detailName.textContent === obj.name) ui.detailModel.append(viewer);
 }
 
 // ---------- Helpers ----------

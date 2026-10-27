@@ -16,7 +16,9 @@ const incoming = join(root, 'models', 'incoming');
 const cli = join(root, 'node_modules', '@gltf-transform', 'cli', 'bin', 'cli.js');
 
 // Draco: the app is set up to decode it (dracoDecoderPath in index.html). WebP: smallest download, works on every phone.
-const SETTINGS = ['--compress', 'draco', '--texture-compress', 'webp', '--texture-size', '1024'];
+// --palette false: keep plain colours as material colours. Merging them into a tiny palette texture lets WebP's lossy
+// compression shift the colours (flat-coloured models came out grey).
+const SETTINGS = ['--compress', 'draco', '--texture-compress', 'webp', '--texture-size', '1024', '--palette', 'false'];
 
 if (!existsSync(cli)) {
   console.error('glTF Transform is not installed yet. Run:  npm install');

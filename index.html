@@ -43,6 +43,36 @@
       </div>
     </section>
 
+    <!-- Top-right button: everything you've spied so far. Tap it to see each one's riddle, location and 3D rendering. -->
+    <button id="found-button" class="found-button" type="button" hidden>
+      <span class="found-button-lens" aria-hidden="true"></span>
+      <span><span id="found-count">0</span> found</span>
+    </button>
+
+    <section id="collection" class="collection" hidden aria-label="Objects you've spied">
+      <div class="collection-inner">
+        <header class="collection-head">
+          <h2 class="collection-title">Spied so far</h2>
+          <button id="collection-close" class="btn" type="button">Close</button>
+        </header>
+        <p id="collection-empty" class="collection-empty">Nothing yet. Solve a riddle and it will show up here.</p>
+        <ul id="collection-list" class="collection-list"></ul>
+        <article id="collection-detail" class="collection-detail" hidden>
+          <button id="detail-back" class="btn" type="button">&larr; All found</button>
+          <h3 id="detail-name" class="found-name"></h3>
+          <p id="detail-student" class="found-student"></p>
+          <div id="detail-model" class="found-model detail-model"></div>
+          <p class="model-tip">Drag to spin &middot; pinch to zoom</p>
+          <p class="eyebrow">The riddle</p>
+          <p id="detail-riddle" class="riddle"></p>
+          <p class="eyebrow">Where it is</p>
+          <svg id="detail-map" class="mini-map" role="img" aria-label="Where it is on the mural"></svg>
+          <p id="detail-where" class="found-where"></p>
+          <div class="row"><a id="detail-link" class="btn btn-primary" target="_blank" rel="noopener">Meet the artist</a></div>
+        </article>
+      </div>
+    </section>
+
     <!-- No-camera mode: the same game played by tapping objects on a picture of the mural (scroll and zoom to search) -->
     <section id="picture-view" class="picture-view" hidden>
       <div id="picture-scroll" class="picture-scroll">
@@ -92,6 +122,7 @@
       <h2 id="found-name" class="found-name"></h2>
       <p id="found-student" class="found-student"></p>
       <div id="found-model" class="found-model" hidden></div>
+      <p id="found-model-tip" class="model-tip" hidden>Drag to spin it</p>
       <svg id="mini-map" class="mini-map" role="img" aria-label="Where it is on the mural"></svg>
       <p id="found-where" class="found-where"></p>
       <div class="row">
@@ -130,7 +161,7 @@
         mindar-image="imageTargetSrc: targets/targets.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
         gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
         color-space="sRGB"
-        renderer="colorManagement: true; physicallyCorrectLights: true"
+        renderer="alpha: true; colorManagement: true; physicallyCorrectLights: true"
         vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false"
         embedded
