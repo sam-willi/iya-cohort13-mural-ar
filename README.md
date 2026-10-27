@@ -72,6 +72,7 @@ Phones need HTTPS for the camera, so `http://<your-laptop-ip>:8000` won't work. 
 ## Common tasks
 
 - **Understand the whole experience:** [docs/how-it-works.md](docs/how-it-works.md)
+- **Test everything before the wall is painted:** [docs/testing-without-the-wall.md](docs/testing-without-the-wall.md)
 - **Make or check a 3D rendering:** [docs/3d-models.md](docs/3d-models.md)
 - **Compress models and keep downloads small:** [docs/compression.md](docs/compression.md)
 
@@ -100,6 +101,8 @@ Done so far:
 - [x] Riddles read live from the riddle team's Google Sheet; an `objects.json` entry for every product
 - [x] Design matching the mural (badge, palette, workshop art); concept art kept in `reference/`
 - [x] Tools: position marking, 3D model preview, model compressor, size check on every deploy
+- [x] Playable now on the concept art: object positions, AR targets and backup riddles ([testing without the wall](docs/testing-without-the-wall.md))
+- [x] No-camera mode: tap the object on a picture of the mural
 - [x] A first 3D rendering for every object on the checklist (built from the isometric drawings; see [tools/model-gallery.html](tools/model-gallery.html))
 
 ## Contributing

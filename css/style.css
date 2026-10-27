@@ -338,6 +338,64 @@ body { position: relative; }
 .btn:disabled { opacity: 0.6; cursor: default; }
 .btn:focus-visible { outline: 3px solid var(--ring-blue); outline-offset: 3px; }
 
+/* ---------- No-camera mode: tap the object on a picture of the mural ---------- */
+
+.btn-quiet { max-width: 300px; min-height: 40px; padding: 6px 18px; background: var(--cream); font-size: 0.85rem; line-height: 1.25; text-align: center; box-shadow: 2px 2px 0 var(--ink); }
+.picture-view {
+  --zoom: 1;
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background: var(--wood-dark);
+}
+.picture-scroll {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 62%; /* the riddle card sits below */
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.picture-wall {
+  position: relative;
+  height: calc(100% * var(--zoom));
+  aspect-ratio: 4 / 1; /* the wall is 576 x 144 in */
+  margin-top: calc(env(safe-area-inset-top));
+  cursor: crosshair;
+}
+.picture-wall img { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.picture-lens, .picture-miss {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+.picture-lens {
+  border: 5px solid var(--lens-rim);
+  box-shadow: 0 0 0 2px var(--ink), inset 0 0 0 2px var(--ink), 0 0 24px 8px rgb(240 169 58 / 0.7);
+  background: rgb(169 214 238 / 0.2);
+  animation: lens-land 550ms cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+.picture-miss {
+  width: 34px;
+  height: 34px;
+  border: 3px dashed var(--cream);
+  animation: miss-fade 900ms ease-out forwards;
+}
+@keyframes lens-land { from { transform: translate(-50%, -50%) scale(2.4); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+@keyframes miss-fade { from { opacity: 1; } to { opacity: 0; transform: translate(-50%, -50%) scale(1.6); } }
+.picture-zoom {
+  position: absolute;
+  z-index: 3;
+  right: 12px;
+  top: calc(62% - 56px);
+  display: flex;
+  gap: 8px;
+}
+.picture-zoom .btn { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.4rem; }
+.found-model { width: 100%; height: 170px; margin-top: 8px; }
+.found-model model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
+
 /* ---------- Toast ---------- */
 
 #toast {
@@ -359,7 +417,7 @@ body { position: relative; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .magnifier, .mini-map .map-ring { animation: none; }
+  .magnifier, .mini-map .map-ring, .picture-lens, .picture-miss { animation: none; }
   .magnifier.landing, .direction-arrow { transition: none; }
   .btn { transition: none; }
 }

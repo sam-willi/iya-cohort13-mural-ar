@@ -39,6 +39,22 @@
       <div class="cover-actions">
         <button id="start-button" class="btn btn-primary btn-big" disabled>Loading…</button>
         <p class="fine-print">Solve each riddle, find the object on the mural, and watch it come to life.<br />You'll be asked to allow camera access.</p>
+        <button id="picture-button" class="btn btn-quiet" hidden>No camera? Play on a picture of the mural</button>
+      </div>
+    </section>
+
+    <!-- No-camera mode: the same game played by tapping objects on a picture of the mural (scroll and zoom to search) -->
+    <section id="picture-view" class="picture-view" hidden>
+      <div id="picture-scroll" class="picture-scroll">
+        <div id="picture-wall" class="picture-wall">
+          <img id="picture-img" alt="The Cohort 13 I Spy mural" draggable="false" />
+          <span id="picture-lens" class="picture-lens" aria-hidden="true" hidden></span>
+          <span id="picture-miss" class="picture-miss" aria-hidden="true" hidden></span>
+        </div>
+      </div>
+      <div class="picture-zoom">
+        <button id="zoom-in" class="btn" aria-label="Zoom in">+</button>
+        <button id="zoom-out" class="btn" aria-label="Zoom out">&minus;</button>
       </div>
     </section>
 
@@ -74,6 +90,7 @@
       <p class="eyebrow">You spied it!</p>
       <h2 id="found-name" class="found-name"></h2>
       <p id="found-student" class="found-student"></p>
+      <div id="found-model" class="found-model" hidden></div>
       <svg id="mini-map" class="mini-map" role="img" aria-label="Where it is on the mural"></svg>
       <p id="found-where" class="found-where"></p>
       <div class="row">

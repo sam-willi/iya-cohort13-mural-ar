@@ -18,6 +18,8 @@ const SHEET_TIMEOUT_MS = 5000; // give up on the riddle sheet after this and use
 const WRONG_SCANS_BEFORE_ARROW = 3; // after this many wrong spots, point the player toward the answer
 const MIN_OVERLAP = 0.6; // how much of an object must be inside a target for that target to "contain" it
 const CARD_DELAY_MS = 1200; // let the object pop out before the "You spied it!" card covers the screen
+const TAP_SLACK_IN = 3; // in no-camera mode, a tap this close (in inches) to the object still counts
+const MODEL_VIEWER_SRC = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; // shows the 3D rendering in no-camera mode
 const THREE = AFRAME.THREE;
 
 // A-Frame and MindAR load with `defer` so the start screen shows straight away; now that they've loaded,
@@ -47,6 +49,16 @@ const ui = {
   directionText: document.getElementById('direction-text'),
   foundWhere: document.getElementById('found-where'),
   miniMap: document.getElementById('mini-map'),
+  pictureButton: document.getElementById('picture-button'),
+  pictureView: document.getElementById('picture-view'),
+  pictureScroll: document.getElementById('picture-scroll'),
+  pictureWall: document.getElementById('picture-wall'),
+  pictureImg: document.getElementById('picture-img'),
+  pictureLens: document.getElementById('picture-lens'),
+  pictureMiss: document.getElementById('picture-miss'),
+  zoomIn: document.getElementById('zoom-in'),
+  zoomOut: document.getElementById('zoom-out'),
+  foundModel: document.getElementById('found-model'),
 };
 
 let mural;             // size of the painted wall, in inches
@@ -61,6 +73,9 @@ let visibleTarget = null;
 let wrongScans = 0;    // wrong parts of the mural scanned for the current riddle
 let hintUsed = false;
 let cardTimer;
+let mode = 'camera';   // 'camera' (AR at the wall) or 'picture' (tap the object on a picture of the mural)
+let zoom = 1;
+let directionTimer;
 
 init().catch((err) => {
   console.error(err);
@@ -88,6 +103,14 @@ async function init() {
     resetQueue();
     nextRiddle();
   });
+
+  if (mural.picture) {
+    ui.pictureButton.hidden = false;
+    ui.pictureButton.addEventListener('click', startPictureGame);
+    ui.pictureWall.addEventListener('click', onPictureTap);
+    ui.zoomIn.addEventListener('click', () => setZoom(zoom * 1.6));
+    ui.zoomOut.addEventListener('click', () => setZoom(zoom / 1.6));
+  }
 
   ui.startButton.textContent = 'Start';
   ui.startButton.disabled = false;
@@ -398,6 +421,7 @@ function drawMiniMap(loc) {
 // ---------- Game flow ----------
 
 function startGame() {
+  mode = 'camera';
   ui.startButton.disabled = true;
   ui.startScreen.hidden = true;
   resetQueue();
@@ -424,6 +448,9 @@ function nextRiddle() {
   wrongScans = 0;
   hintUsed = false;
   ui.foundCard.hidden = true;
+  ui.foundModel.replaceChildren();
+  ui.foundModel.hidden = true;
+  ui.pictureLens.hidden = true;
   ui.magnifier.classList.remove('landing');
 
   current = queue.shift() ?? null;
@@ -441,12 +468,14 @@ function nextRiddle() {
   ui.hintButton.hidden = false; // even without a written hint, the hint turns on the "which way" arrow
   ui.progress.textContent = `(${foundCount + 1} of ${objects.length})`;
   ui.riddleCard.hidden = false;
-  ui.magnifier.hidden = false; // "search here" cue while the riddle is open
+  ui.magnifier.hidden = mode !== 'camera'; // "search here" cue while the riddle is open
 }
 
 function showHint() {
   hintUsed = true;
-  ui.hintText.textContent = current.hint || "Point your camera at the mural and we'll show you which way to look.";
+  ui.hintText.textContent = current.hint || (mode === 'picture'
+    ? "Tap anywhere on the picture and we'll show you which way to look."
+    : "Point your camera at the mural and we'll show you which way to look.");
   ui.hintText.hidden = false;
   ui.hintButton.hidden = true;
   if (visibleTarget && !contains(visibleTarget, current.location)) showDirection(visibleTarget);
@@ -474,7 +503,117 @@ function showFound(obj) {
   if (url) ui.studentLink.href = url;
   ui.foundWhere.textContent = describeLocation(obj.location);
   drawMiniMap(obj.location);
+  if (mode === 'picture') showCardModel(obj);
   ui.foundCard.hidden = false;
+}
+
+// ---------- No-camera mode: tap the object on a picture of the mural ----------
+//
+// For anyone who can't or won't use the camera, and for testing away from the wall. The picture is
+// mural.picture in objects.json, cropped to exactly the painted area, so a tap converts straight to inches.
+
+function startPictureGame() {
+  mode = 'picture';
+  ui.startScreen.hidden = true;
+  ui.pictureView.hidden = false;
+  if (!ui.pictureImg.src) ui.pictureImg.src = mural.picture;
+  loadModelViewer();
+  resetQueue();
+  nextRiddle();
+  setZoom(1);
+}
+
+function setZoom(z) {
+  const scroll = ui.pictureScroll;
+  const keepX = (scroll.scrollLeft + scroll.clientWidth / 2) / scroll.scrollWidth;
+  const keepY = (scroll.scrollTop + scroll.clientHeight / 2) / scroll.scrollHeight;
+  zoom = Math.min(4, Math.max(1, z));
+  ui.pictureView.style.setProperty('--zoom', zoom);
+  scroll.scrollLeft = keepX * scroll.scrollWidth - scroll.clientWidth / 2;
+  scroll.scrollTop = keepY * scroll.scrollHeight - scroll.clientHeight / 2;
+}
+
+// Where a tap lands on the wall, in inches.
+function tapToWall(event) {
+  const rect = ui.pictureWall.getBoundingClientRect();
+  return {
+    x: ((event.clientX - rect.left) / rect.width) * mural.width,
+    y: ((event.clientY - rect.top) / rect.height) * mural.height,
+  };
+}
+
+function onPictureTap(event) {
+  if (!current || !ui.foundCard.hidden || cardTimer) return;
+  const p = tapToWall(event);
+  const loc = current.location;
+  const hit = p.x >= loc.x - TAP_SLACK_IN && p.x <= loc.x + loc.w + TAP_SLACK_IN
+    && p.y >= loc.y - TAP_SLACK_IN && p.y <= loc.y + loc.h + TAP_SLACK_IN;
+  if (hit) {
+    hideDirection();
+    showPictureLens(loc);
+    const found = current;
+    cardTimer = setTimeout(() => showFound(found), 700);
+    return;
+  }
+  wrongScans++;
+  placeOnPicture(ui.pictureMiss, { x: p.x, y: p.y, w: 0, h: 0 }, 34 / ui.pictureWall.clientWidth * mural.width);
+  ui.pictureMiss.hidden = false;
+  ui.pictureMiss.style.animation = 'none';
+  void ui.pictureMiss.offsetWidth; // restart the fade
+  ui.pictureMiss.style.animation = '';
+  showDirection({ x: p.x - 1, y: p.y - 1, w: 2, h: 2 });
+  clearTimeout(directionTimer);
+  directionTimer = setTimeout(hideDirection, 3500);
+}
+
+function showPictureLens(loc) {
+  const d = Math.max(loc.w, loc.h) * 1.3;
+  placeOnPicture(ui.pictureLens, loc, d);
+  ui.pictureLens.hidden = false;
+  // bring the spot into view if it's off screen
+  const c = centre(loc);
+  const scroll = ui.pictureScroll;
+  const px = (c.x / mural.width) * scroll.scrollWidth;
+  if (px < scroll.scrollLeft || px > scroll.scrollLeft + scroll.clientWidth) {
+    scroll.scrollTo({ left: px - scroll.clientWidth / 2, behavior: 'smooth' });
+  }
+}
+
+// Positions a circle marker (diameter d, in inches) on the centre of a box on the wall.
+function placeOnPicture(el, loc, d) {
+  const c = centre(loc);
+  el.style.left = `${(c.x / mural.width) * 100}%`;
+  el.style.top = `${(c.y / mural.height) * 100}%`;
+  el.style.width = `${(d / mural.width) * 100}%`;
+  el.style.height = 'auto';
+  el.style.aspectRatio = '1';
+}
+
+let modelViewerLoading;
+function loadModelViewer() {
+  if (!modelViewerLoading) {
+    modelViewerLoading = true;
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = MODEL_VIEWER_SRC;
+    document.head.append(script);
+  }
+}
+
+// In no-camera mode the 3D rendering spins inside the found card instead of in AR.
+async function showCardModel(obj) {
+  ui.foundModel.replaceChildren();
+  ui.foundModel.hidden = true;
+  const url = modelUrl(obj);
+  if (!(await prefetchModel(url))) return;
+  const viewer = document.createElement('model-viewer');
+  for (const [k, v] of Object.entries({
+    src: url, alt: `3D rendering of the ${obj.name}`, 'auto-rotate': '', 'rotation-per-second': '60deg',
+    'camera-controls': '', 'disable-zoom': '', 'interaction-prompt': 'none', 'shadow-intensity': '0.6',
+    'camera-orbit': '20deg 72deg auto', exposure: '1.1',
+  })) viewer.setAttribute(k, v);
+  ui.foundModel.append(viewer);
+  ui.foundModel.hidden = false;
 }
 
 // ---------- Helpers ----------

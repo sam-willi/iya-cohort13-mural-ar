@@ -2,7 +2,9 @@
   "mural": {
     "width": 576,
     "height": 144,
-    "panelSize": 48
+    "panelSize": 48,
+    "picture": "reference/mural-concept-wall.webp",
+    "pictureNote": "No-camera mode shows this picture, cropped to exactly the painted area. Swap in a straight-on photo of the finished wall (same crop) after painting."
   },
   "targets": [
     {
@@ -12,6 +14,222 @@
       "y": 40,
       "w": 20,
       "h": 36.24
+    },
+    {
+      "index": 1,
+      "note": "Desk-test target cut from the concept art (targets/source/01-wall-x0-y0.webp). Replace with photos of the painted wall.",
+      "x": 0,
+      "y": 0,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 2,
+      "note": "Desk-test target cut from the concept art (targets/source/02-wall-x168-y0.webp). Replace with photos of the painted wall.",
+      "x": 168,
+      "y": 0,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 3,
+      "note": "Desk-test target cut from the concept art (targets/source/03-wall-x240-y0.webp). Replace with photos of the painted wall.",
+      "x": 240,
+      "y": 0,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 4,
+      "note": "Desk-test target cut from the concept art (targets/source/04-wall-x408-y0.webp). Replace with photos of the painted wall.",
+      "x": 408,
+      "y": 0,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 5,
+      "note": "Desk-test target cut from the concept art (targets/source/05-wall-x504-y0.webp). Replace with photos of the painted wall.",
+      "x": 504,
+      "y": 0,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 6,
+      "note": "Desk-test target cut from the concept art (targets/source/06-wall-x0-y24.webp). Replace with photos of the painted wall.",
+      "x": 0,
+      "y": 24,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 7,
+      "note": "Desk-test target cut from the concept art (targets/source/07-wall-x48-y24.webp). Replace with photos of the painted wall.",
+      "x": 48,
+      "y": 24,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 8,
+      "note": "Desk-test target cut from the concept art (targets/source/08-wall-x144-y24.webp). Replace with photos of the painted wall.",
+      "x": 144,
+      "y": 24,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 9,
+      "note": "Desk-test target cut from the concept art (targets/source/09-wall-x192-y24.webp). Replace with photos of the painted wall.",
+      "x": 192,
+      "y": 24,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 10,
+      "note": "Desk-test target cut from the concept art (targets/source/10-wall-x288-y24.webp). Replace with photos of the painted wall.",
+      "x": 288,
+      "y": 24,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 11,
+      "note": "Desk-test target cut from the concept art (targets/source/11-wall-x480-y24.webp). Replace with photos of the painted wall.",
+      "x": 480,
+      "y": 24,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 12,
+      "note": "Desk-test target cut from the concept art (targets/source/12-wall-x504-y24.webp). Replace with photos of the painted wall.",
+      "x": 504,
+      "y": 24,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 13,
+      "note": "Desk-test target cut from the concept art (targets/source/13-wall-x0-y48.webp). Replace with photos of the painted wall.",
+      "x": 0,
+      "y": 48,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 14,
+      "note": "Desk-test target cut from the concept art (targets/source/14-wall-x96-y48.webp). Replace with photos of the painted wall.",
+      "x": 96,
+      "y": 48,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 15,
+      "note": "Desk-test target cut from the concept art (targets/source/15-wall-x264-y48.webp). Replace with photos of the painted wall.",
+      "x": 264,
+      "y": 48,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 16,
+      "note": "Desk-test target cut from the concept art (targets/source/16-wall-x384-y48.webp). Replace with photos of the painted wall.",
+      "x": 384,
+      "y": 48,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 17,
+      "note": "Desk-test target cut from the concept art (targets/source/17-wall-x0-y72.webp). Replace with photos of the painted wall.",
+      "x": 0,
+      "y": 72,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 18,
+      "note": "Desk-test target cut from the concept art (targets/source/18-wall-x96-y72.webp). Replace with photos of the painted wall.",
+      "x": 96,
+      "y": 72,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 19,
+      "note": "Desk-test target cut from the concept art (targets/source/19-wall-x144-y72.webp). Replace with photos of the painted wall.",
+      "x": 144,
+      "y": 72,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 20,
+      "note": "Desk-test target cut from the concept art (targets/source/20-wall-x192-y72.webp). Replace with photos of the painted wall.",
+      "x": 192,
+      "y": 72,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 21,
+      "note": "Desk-test target cut from the concept art (targets/source/21-wall-x288-y72.webp). Replace with photos of the painted wall.",
+      "x": 288,
+      "y": 72,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 22,
+      "note": "Desk-test target cut from the concept art (targets/source/22-wall-x360-y72.webp). Replace with photos of the painted wall.",
+      "x": 360,
+      "y": 72,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 23,
+      "note": "Desk-test target cut from the concept art (targets/source/23-wall-x504-y72.webp). Replace with photos of the painted wall.",
+      "x": 504,
+      "y": 72,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 24,
+      "note": "Desk-test target cut from the concept art (targets/source/24-wall-x48-y96.webp). Replace with photos of the painted wall.",
+      "x": 48,
+      "y": 96,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 25,
+      "note": "Desk-test target cut from the concept art (targets/source/25-wall-x264-y96.webp). Replace with photos of the painted wall.",
+      "x": 264,
+      "y": 96,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 26,
+      "note": "Desk-test target cut from the concept art (targets/source/26-wall-x312-y96.webp). Replace with photos of the painted wall.",
+      "x": 312,
+      "y": 96,
+      "w": 72,
+      "h": 48
+    },
+    {
+      "index": 27,
+      "note": "Desk-test target cut from the concept art (targets/source/27-wall-x480-y96.webp). Replace with photos of the painted wall.",
+      "x": 480,
+      "y": 96,
+      "w": 72,
+      "h": 48
     }
   ],
   "landmarks": [
@@ -84,9 +302,14 @@
       "id": "sneakers",
       "product": "Sneakers",
       "name": "Sneakers",
-      "riddle": "",
+      "riddle": "I spy a pair that never walks alone, laced up tight and built for speed.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 305,
+        "y": 117,
+        "w": 13,
+        "h": 13
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -96,9 +319,14 @@
       "id": "label-maker",
       "product": "Label Maker",
       "name": "Label Maker",
-      "riddle": "",
+      "riddle": "I spy a little printer that names everything it meets, one sticky strip at a time.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 554,
+        "y": 57,
+        "w": 21,
+        "h": 9
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -108,9 +336,14 @@
       "id": "1950s-car",
       "product": "Car (50s)",
       "name": "1950s Car",
-      "riddle": "",
+      "riddle": "I spy a ride with chrome and fins, straight out of the days of drive-in films.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 156,
+        "y": 38,
+        "w": 11,
+        "h": 12
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -120,7 +353,7 @@
       "id": "smart-watch",
       "product": "Smart Watch",
       "name": "Smart Watch",
-      "riddle": "",
+      "riddle": "I spy a tiny screen you wear, counting your steps and telling the hour.",
       "hint": "",
       "location": null,
       "student": {
@@ -132,9 +365,14 @@
       "id": "tennis-racket",
       "product": "Tennis Racket",
       "name": "Tennis Racket",
-      "riddle": "",
+      "riddle": "I spy a frame strung tight with a grid, ready to send a fuzzy ball flying.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 201,
+        "y": 41,
+        "w": 7,
+        "h": 13
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -144,9 +382,14 @@
       "id": "midcentury-modern-chair",
       "product": "Midcentury Modern Chair",
       "name": "Midcentury Modern Chair",
-      "riddle": "",
+      "riddle": "I spy a leather seat with its own footrest, the comfiest spot to read in the room.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 17,
+        "y": 64,
+        "w": 26,
+        "h": 28
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -158,7 +401,12 @@
       "name": "Sewing Machine",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 51,
+        "y": 88,
+        "w": 17,
+        "h": 18
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -168,9 +416,14 @@
       "id": "toilet-paper",
       "product": "Toilet Paper",
       "name": "Toilet Paper",
-      "riddle": "",
+      "riddle": "I spy a soft roll that everyone needs and nobody wants to run out of.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 520,
+        "y": 115,
+        "w": 28,
+        "h": 24
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -182,7 +435,12 @@
       "name": "Top Hat",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 207,
+        "y": 76,
+        "w": 9,
+        "h": 14
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -192,9 +450,14 @@
       "id": "backpack",
       "product": "Backpack",
       "name": "Backpack",
-      "riddle": "",
+      "riddle": "I spy a bag with two straps that rides on your back to every class.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 193,
+        "y": 38,
+        "w": 10,
+        "h": 15
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -204,9 +467,14 @@
       "id": "fish-aquarium",
       "product": "Fish Aquarium",
       "name": "Fish Aquarium",
-      "riddle": "",
+      "riddle": "I spy a glass box with a whole underwater world swimming inside.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 26,
+        "y": 50,
+        "w": 18,
+        "h": 26
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -216,9 +484,14 @@
       "id": "hose",
       "product": "Hose",
       "name": "Hose",
-      "riddle": "",
+      "riddle": "I spy a long green snake that sleeps in a coil and sprays when it wakes.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 170,
+        "y": 71,
+        "w": 15,
+        "h": 14
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -240,9 +513,14 @@
       "id": "sunglasses",
       "product": "Sunglasses",
       "name": "Sunglasses",
-      "riddle": "",
+      "riddle": "I spy two dark windows you wear on your face when the sun gets too bright.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 330,
+        "y": 130,
+        "w": 16,
+        "h": 8
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -252,9 +530,14 @@
       "id": "umbrella",
       "product": "Umbrella",
       "name": "Umbrella",
-      "riddle": "",
+      "riddle": "I spy a roof you can carry, opening wide whenever the clouds start to cry.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 206,
+        "y": 19,
+        "w": 16,
+        "h": 16
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -266,7 +549,12 @@
       "name": "Binoculars",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 205,
+        "y": 61,
+        "w": 14,
+        "h": 10
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -276,9 +564,14 @@
       "id": "drone",
       "product": "Drone",
       "name": "Drone",
-      "riddle": "",
+      "riddle": "I spy a flyer with four spinning blades and no pilot on board.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 49,
+        "y": 1,
+        "w": 19,
+        "h": 13
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -288,9 +581,14 @@
       "id": "washing-machine",
       "product": "Washing Machine",
       "name": "Washing Machine",
-      "riddle": "",
+      "riddle": "I spy a round glass door where clothes go for a spin.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 141,
+        "y": 84,
+        "w": 17,
+        "h": 24
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -302,7 +600,12 @@
       "name": "Pendulum Clock",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 288,
+        "y": 80,
+        "w": 14,
+        "h": 34
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -314,7 +617,12 @@
       "name": "Typewriter",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 506,
+        "y": 55,
+        "w": 19,
+        "h": 17
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -324,9 +632,14 @@
       "id": "bicycle-helmet",
       "product": "Bicycle Helmet",
       "name": "Bicycle Helmet",
-      "riddle": "",
+      "riddle": "I spy a hard shell with vents on top that keeps a rider's head safe.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 207,
+        "y": 41,
+        "w": 11,
+        "h": 11
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -336,9 +649,14 @@
       "id": "boombox",
       "product": "Boombox",
       "name": "Boombox",
-      "riddle": "",
+      "riddle": "I spy a box with two big speakers and a handle, made for music on the move.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 306,
+        "y": 89,
+        "w": 22,
+        "h": 19
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -348,9 +666,14 @@
       "id": "handheld-fan",
       "product": "Handheld Fan",
       "name": "Handheld Fan",
-      "riddle": "",
+      "riddle": "I spy pleats that open into a half moon and make a breeze with a flick of the wrist.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 416,
+        "y": 3,
+        "w": 27,
+        "h": 16
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -360,9 +683,14 @@
       "id": "electric-scooter",
       "product": "Electric Scooter",
       "name": "Electric Scooter",
-      "riddle": "",
+      "riddle": "I spy two small wheels, a tall handle and a deck to stand on, zipping across campus.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 155,
+        "y": 53,
+        "w": 7,
+        "h": 14
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -374,7 +702,12 @@
       "name": "Jukebox",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 290,
+        "y": 2,
+        "w": 14,
+        "h": 25
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -384,9 +717,14 @@
       "id": "rice-cooker",
       "product": "Rice Cooker",
       "name": "Rice Cooker",
-      "riddle": "",
+      "riddle": "I spy a pot with a lid that pops open when the grains are fluffy and done.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 544,
+        "y": 4,
+        "w": 13,
+        "h": 20
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -398,7 +736,12 @@
       "name": "Hot Air Balloon",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 238,
+        "y": 34,
+        "w": 13,
+        "h": 20
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -408,7 +751,7 @@
       "id": "toothbrush",
       "product": "Toothbrush",
       "name": "Toothbrush",
-      "riddle": "",
+      "riddle": "I spy a buzzing stick that keeps your smile clean twice a day.",
       "hint": "",
       "location": null,
       "student": {
@@ -420,9 +763,14 @@
       "id": "art-nouveau-desk-lamp",
       "product": "Desk Lamp (Art Nouveau)",
       "name": "Art Nouveau Desk Lamp",
-      "riddle": "",
+      "riddle": "I spy a lamp with a stained glass shade, glowing in every color.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 40,
+        "y": 87,
+        "w": 16,
+        "h": 23
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -434,7 +782,12 @@
       "name": "Tea Set",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 494,
+        "y": 23,
+        "w": 14,
+        "h": 11
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -444,7 +797,7 @@
       "id": "comb",
       "product": "Comb",
       "name": "Comb",
-      "riddle": "",
+      "riddle": "I spy a row of thin teeth that never bite, only tame your hair.",
       "hint": "",
       "location": null,
       "student": {
@@ -456,9 +809,14 @@
       "id": "headphones",
       "product": "Headphones",
       "name": "Headphones",
-      "riddle": "",
+      "riddle": "I spy two cushioned cups joined by a band that hush the world and play your songs.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 195,
+        "y": 7,
+        "w": 20,
+        "h": 12
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -468,9 +826,14 @@
       "id": "contemporary-robot",
       "product": "Contemporary Robot",
       "name": "Contemporary Robot",
-      "riddle": "",
+      "riddle": "I spy a modern machine shaped like a person, standing tall and waving hello.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 432,
+        "y": 56,
+        "w": 23,
+        "h": 46
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -482,7 +845,12 @@
       "name": "Ice Cream Truck",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 163,
+        "y": 56,
+        "w": 17,
+        "h": 13
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -492,9 +860,14 @@
       "id": "portable-power-station",
       "product": "Portable Power Station",
       "name": "Portable Power Station",
-      "riddle": "",
+      "riddle": "I spy a box full of outlets that brings electricity wherever you go.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 507,
+        "y": 87,
+        "w": 14,
+        "h": 14
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -504,9 +877,14 @@
       "id": "electric-kettle",
       "product": "Electric Kettle",
       "name": "Electric Kettle",
-      "riddle": "",
+      "riddle": "I spy a jug that clicks off when the water is boiling.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 492,
+        "y": 38,
+        "w": 9,
+        "h": 14
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -516,9 +894,14 @@
       "id": "african-drums",
       "product": "African Drums",
       "name": "African Drums",
-      "riddle": "",
+      "riddle": "I spy a goblet-shaped drum that sings when you slap its skin.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 182,
+        "y": 84,
+        "w": 12,
+        "h": 27
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -528,9 +911,14 @@
       "id": "astronaut-helmet",
       "product": "Astronaut Helmet",
       "name": "Astronaut Helmet",
-      "riddle": "",
+      "riddle": "I spy a round helmet with a golden visor, ready for a walk in space.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 268,
+        "y": 100,
+        "w": 17,
+        "h": 18
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -540,9 +928,14 @@
       "id": "toaster",
       "product": "Toaster",
       "name": "Toaster",
-      "riddle": "",
+      "riddle": "I spy a box with two slots that pops up breakfast when it's golden.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 528,
+        "y": 4,
+        "w": 18,
+        "h": 18
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -552,9 +945,14 @@
       "id": "drill",
       "product": "Drill",
       "name": "Drill",
-      "riddle": "",
+      "riddle": "I spy a tool with a trigger and a spinning bit that makes holes in a hurry.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 540,
+        "y": 92,
+        "w": 18,
+        "h": 28
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -564,9 +962,14 @@
       "id": "japanese-toy-robot",
       "product": "Japanese Toy Robot",
       "name": "Japanese Toy Robot",
-      "riddle": "",
+      "riddle": "I spy a blocky toy robot from the 80s, red and blue and ready for battle.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 336,
+        "y": 72,
+        "w": 16,
+        "h": 34
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -576,9 +979,14 @@
       "id": "coffee-grinder",
       "product": "Coffee Grinder",
       "name": "Coffee Grinder",
-      "riddle": "",
+      "riddle": "I spy a machine that crunches beans before the morning brew.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 502,
+        "y": 39,
+        "w": 10,
+        "h": 19
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -588,9 +996,14 @@
       "id": "pinball-machine",
       "product": "Pinball Machine",
       "name": "Pinball Machine",
-      "riddle": "",
+      "riddle": "I spy a tilted table of lights and bumpers where a silver ball bounces.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 36,
+        "y": 39,
+        "w": 17,
+        "h": 25
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -600,9 +1013,14 @@
       "id": "pet-carrier",
       "product": "Pet Carrier",
       "name": "Pet Carrier",
-      "riddle": "",
+      "riddle": "I spy a little house with a barred door for a furry friend on the go.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 156,
+        "y": 90,
+        "w": 14,
+        "h": 22
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -612,9 +1030,14 @@
       "id": "spatula-spoon-fork",
       "product": "Spatula, Spoon, Fork",
       "name": "Spatula, Spoon, Fork",
-      "riddle": "",
+      "riddle": "I spy kitchen tools that went sailing: a spatula sail, a spoon oar and a fork rudder.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 512,
+        "y": 1,
+        "w": 19,
+        "h": 23
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -624,9 +1047,14 @@
       "id": "suitcase",
       "product": "Suitcase",
       "name": "Suitcase",
-      "riddle": "",
+      "riddle": "I spy a stack of travel trunks with buckles and handles, packed for an adventure.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 74,
+        "y": 115,
+        "w": 22,
+        "h": 24
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -636,9 +1064,14 @@
       "id": "crystal-ball",
       "product": "Crystal ball",
       "name": "Crystal Ball",
-      "riddle": "",
+      "riddle": "I spy a glass globe on a stand that claims to know your future.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 193,
+        "y": 19,
+        "w": 12,
+        "h": 15
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -648,9 +1081,14 @@
       "id": "flashlight",
       "product": "Flashlight",
       "name": "Flashlight",
-      "riddle": "",
+      "riddle": "I spy a tube that throws a beam of light into the dark.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 455,
+        "y": 27,
+        "w": 13,
+        "h": 19
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -660,7 +1098,7 @@
       "id": "air-purifier",
       "product": "Air Purifier",
       "name": "Air Purifier",
-      "riddle": "",
+      "riddle": "I spy a quiet tower that breathes in dusty air and breathes out clean.",
       "hint": "",
       "location": null,
       "student": {
@@ -672,9 +1110,14 @@
       "id": "telescope",
       "product": "Telescope",
       "name": "Telescope",
-      "riddle": "",
+      "riddle": "I spy a long tube on three legs that brings the stars up close.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 26,
+        "y": 18,
+        "w": 40,
+        "h": 30
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -684,9 +1127,14 @@
       "id": "car-tire",
       "product": "Car Tire",
       "name": "Car Tire",
-      "riddle": "",
+      "riddle": "I spy a round rubber wheel with deep treads that grips the road.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 141,
+        "y": 70,
+        "w": 11,
+        "h": 11
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -696,9 +1144,14 @@
       "id": "rain-jacket",
       "product": "Rain Jacket",
       "name": "Rain Jacket",
-      "riddle": "",
+      "riddle": "I spy a hooded coat that laughs at the rain.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 347,
+        "y": 113,
+        "w": 19,
+        "h": 22
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -708,9 +1161,14 @@
       "id": "radio",
       "product": "Radio",
       "name": "Radio",
-      "riddle": "",
+      "riddle": "I spy an Art Deco radio shaped like a building, with knobs on top and music inside.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 206,
+        "y": 94,
+        "w": 12,
+        "h": 19
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -720,9 +1178,14 @@
       "id": "vacuum",
       "product": "Vacuum",
       "name": "Vacuum",
-      "riddle": "",
+      "riddle": "I spy a hungry machine with a long hose that gobbles up dust.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 530,
+        "y": 29,
+        "w": 10,
+        "h": 11
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -732,9 +1195,14 @@
       "id": "baby-stroller",
       "product": "Babystroller",
       "name": "Baby Stroller",
-      "riddle": "",
+      "riddle": "I spy a buggy with a push handle, carrying the smallest passenger in town.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 145,
+        "y": 51,
+        "w": 12,
+        "h": 14
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -744,9 +1212,14 @@
       "id": "lamp",
       "product": "Lamp",
       "name": "Lamp",
-      "riddle": "",
+      "riddle": "I spy a tall stack topped with a glowing bulb, lighting up big ideas.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 288,
+        "y": 119,
+        "w": 12,
+        "h": 25
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -756,7 +1229,7 @@
       "id": "wireless-earbuds",
       "product": "Wireless Earbuds",
       "name": "Wireless Earbuds",
-      "riddle": "",
+      "riddle": "I spy two tiny speakers with no wires that tuck into your ears.",
       "hint": "",
       "location": null,
       "student": {
@@ -768,9 +1241,14 @@
       "id": "camping-lantern",
       "product": "Camping lantern",
       "name": "Camping Lantern",
-      "riddle": "",
+      "riddle": "I spy a glowing lantern that lights up the campsite after dark.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 230,
+        "y": 86,
+        "w": 14,
+        "h": 24
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -780,9 +1258,14 @@
       "id": "vinyl-record-player",
       "product": "Vinyl Record Player",
       "name": "Vinyl Record Player",
-      "riddle": "",
+      "riddle": "I spy a spinning platter and a needle arm that plays a song from grooves.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 63,
+        "y": 97,
+        "w": 20,
+        "h": 20
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -792,9 +1275,14 @@
       "id": "movie-camera",
       "product": "Movie Camera",
       "name": "Movie Camera",
-      "riddle": "",
+      "riddle": "I spy an old camera on a tripod with two big film reels on top.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 103,
+        "y": 101,
+        "w": 20,
+        "h": 43
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -804,9 +1292,14 @@
       "id": "beard-trimmer",
       "product": "Beard Trimmer",
       "name": "Beard Trimmer",
-      "riddle": "",
+      "riddle": "I spy a buzzing tool with tiny teeth that keeps a beard in shape.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 317,
+        "y": 69,
+        "w": 19,
+        "h": 12
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -816,9 +1309,14 @@
       "id": "bread-maker",
       "product": "Bread Maker",
       "name": "Bread Maker",
-      "riddle": "",
+      "riddle": "I spy a box that kneads and bakes a whole loaf on its own.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 296,
+        "y": 113,
+        "w": 10,
+        "h": 12
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -828,9 +1326,14 @@
       "id": "paint-roller-kit",
       "product": "Paint Roller Kit",
       "name": "Paint Roller Kit",
-      "riddle": "",
+      "riddle": "I spy a fuzzy roller and a tray, ready to give a wall a new color.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 410,
+        "y": 96,
+        "w": 18,
+        "h": 27
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -840,9 +1343,14 @@
       "id": "espresso-machine",
       "product": "Espresso Machine",
       "name": "Espresso Machine",
-      "riddle": "",
+      "riddle": "I spy a shiny machine that pulls a tiny, mighty cup of coffee.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 516,
+        "y": 24,
+        "w": 14,
+        "h": 16
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -852,9 +1360,14 @@
       "id": "gaming-mouse",
       "product": "Gaming Mouse",
       "name": "Gaming Mouse",
-      "riddle": "",
+      "riddle": "I spy a glowing clicker that fits in your palm and wins the game.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 520,
+        "y": 106,
+        "w": 19,
+        "h": 11
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -864,9 +1377,14 @@
       "id": "tv-screen",
       "product": "TV Screen",
       "name": "TV Screen",
-      "riddle": "",
+      "riddle": "I spy an old TV on legs with a roller coaster riding on its roof.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 319,
+        "y": 22,
+        "w": 25,
+        "h": 32
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -876,9 +1394,14 @@
       "id": "trumpet",
       "product": "Trumpet",
       "name": "Trumpet",
-      "riddle": "",
+      "riddle": "I spy a brass horn with three valves that plays a loud fanfare.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 193,
+        "y": 75,
+        "w": 15,
+        "h": 14
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -888,9 +1411,14 @@
       "id": "pan",
       "product": "Pan",
       "name": "Pan",
-      "riddle": "",
+      "riddle": "I spy a heavy black pan with a long handle that sizzles on the stove.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 504,
+        "y": 28,
+        "w": 12,
+        "h": 10
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -900,9 +1428,14 @@
       "id": "bicycle",
       "product": "Bicycle",
       "name": "Bicycle",
-      "riddle": "",
+      "riddle": "I spy two wheels, pedals and a seat, the classic way to ride.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 145,
+        "y": 37,
+        "w": 13,
+        "h": 15
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -912,9 +1445,14 @@
       "id": "office-chair",
       "product": "Office Chair",
       "name": "Office Chair",
-      "riddle": "",
+      "riddle": "I spy a grand chair with carved arms, fit for the boss of the office.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 0,
+        "y": 70,
+        "w": 22,
+        "h": 38
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -924,9 +1462,14 @@
       "id": "tripod",
       "product": "Tripod",
       "name": "Tripod",
-      "riddle": "",
+      "riddle": "I spy three thin legs holding a phone steady for the perfect shot.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 541,
+        "y": 29,
+        "w": 8,
+        "h": 27
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -936,9 +1479,14 @@
       "id": "lock",
       "product": "Lock",
       "name": "Lock",
-      "riddle": "",
+      "riddle": "I spy a U-shaped lock that keeps a bike from wandering off.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 223,
+        "y": 3,
+        "w": 9,
+        "h": 15
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -948,9 +1496,14 @@
       "id": "office-desk",
       "product": "Office Desk",
       "name": "Office Desk",
-      "riddle": "",
+      "riddle": "I spy a wide desk where work gets done, with shelves built into its legs.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 96,
+        "y": 36,
+        "w": 22,
+        "h": 19
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -960,7 +1513,7 @@
       "id": "electric-fan",
       "product": "Electric Fan",
       "name": "Electric Fan",
-      "riddle": "",
+      "riddle": "I spy a caged set of spinning blades that cools down the room.",
       "hint": "",
       "location": null,
       "student": {
@@ -972,9 +1525,14 @@
       "id": "motorcycle",
       "product": "Motorcycle",
       "name": "Motorcycle",
-      "riddle": "",
+      "riddle": "I spy two wheels and a roaring engine, faster than any bicycle.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 164,
+        "y": 38,
+        "w": 10,
+        "h": 13
+      },
       "student": {
         "name": "",
         "pageUrl": ""
@@ -984,9 +1542,14 @@
       "id": "treadmill",
       "product": "Treadmill?",
       "name": "Treadmill",
-      "riddle": "",
+      "riddle": "I spy a moving road that lets you run for miles without leaving the room.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 176,
+        "y": 35,
+        "w": 10,
+        "h": 16
+      },
       "student": {
         "name": "",
         "pageUrl": ""
