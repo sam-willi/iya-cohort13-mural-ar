@@ -274,6 +274,10 @@
       "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
     }
   ],
+  "profiles": {
+    "url": "",
+    "note": "The profiles website's student list: https://<the site's domain>/api/mural-objects. Leave blank to use each object's own `student` below."
+  },
   "riddleSheet": {
     "csvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxbbTz-UhTcZvgbT-YK7z0sJb9Zzh-QvLspOju1nXaO4gdTlVor9gsp9f7jJFuW7B8xHNSssINp2HA/pub?gid=0&single=true&output=csv",
     "productColumn": "Products",

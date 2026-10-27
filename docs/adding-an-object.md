@@ -72,7 +72,7 @@ looks like this:
 | `product` | The exact name in the riddle sheet's **Products** column. The riddle and hint come from that row |
 | `riddle`, `hint` | Backup copy used if the sheet can't be reached. `hint` is optional |
 | `location` | The object's box on the wall, in inches (from the marking tool). Add `"label": "on the top shelf"` to override the auto-generated "Right side of the mural: 9th panel from the left, top row" |
-| `student.pageUrl` | From the website team. Leave it `""` to hide the button |
+| `student.pageUrl` | Usually left `""`: the link comes live from the profiles website (see [team-handoff.md](team-handoff.md)). Fill it in only as a fallback. With no link from either, the button is hidden |
 | 3D rendering | Not a field: save it as **`models/<id>.glb`** and the app finds it. Until it exists, the lens still marks the spot. Optional `popout` settings (`model`, `scale`, `rotation`) are in [3d-models.md](3d-models.md) |
 
 An object only appears in the game once it has a riddle (from the sheet) **and** a `location`.
