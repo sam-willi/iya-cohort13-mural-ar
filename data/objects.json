@@ -10,6 +10,7 @@
     {
       "index": 0,
       "note": "Demo: pretend the MindAR sample card is painted on the wall here. Replace with real mural targets.",
+      "demo": true,
       "x": 420,
       "y": 40,
       "w": 20,

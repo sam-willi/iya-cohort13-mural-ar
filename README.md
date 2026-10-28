@@ -20,7 +20,7 @@ The augmented reality part of the IYA Cohort 13 "I Spy" mural.
 | [MindAR](https://hiukim.github.io/mind-ar-js-doc/) 1.2.5 | Image tracking: recognises parts of the mural through the camera |
 | [A-Frame](https://aframe.io/) 1.5.0 | Draws the spinning 3D renderings on top of the camera feed |
 | Plain HTML/CSS/JS | No build step, no npm. Edit a file, refresh the page |
-| GitHub Pages | Free HTTPS hosting (phones only allow camera access over HTTPS) |
+| Vercel and GitHub Pages | Free HTTPS hosting (phones only allow camera access over HTTPS) |
 
 ## Project layout
 
@@ -35,6 +35,7 @@ models/                  ⭐ the 3D renderings, one per object: models/<id>.glb 
 images/workshop.svg      the illustrated workshop behind the start/end screens, in the concept's style, objects fully rendered
 tools/make-workshop-svg.py  draws images/workshop.svg (edit this, then run it)
 reference/               ⭐ the mural concept art and notes, the design reference for everything
+tools/make-targets.html  turn one photo of the painted wall into the AR targets, targets.mind and the no-camera picture
 tools/locate.html        mark where each object and AR target is on a photo of the wall
 tools/preview-model.html check a 3D rendering: same sizing, lighting and spin as the game, plus size budgets
 tools/compress-models.mjs  shrink 3D renderings for phones (npm run models)
@@ -66,13 +67,15 @@ Then open <http://localhost:8000>. Laptop webcams work on `localhost`. To test t
 
 Phones need HTTPS for the camera, so `http://<your-laptop-ip>:8000` won't work. Either:
 
-- **Push to `main`.** The GitHub Action deploys to GitHub Pages in about a minute. The URL is in the repo's *Settings → Pages*.
+- **Push to `main`.** Vercel deploys it to <https://iya-cohort13-mural-ar.vercel.app> within a minute, and the GitHub Action
+  deploys the same files to GitHub Pages (URL in the repo's *Settings → Pages*). The size check only runs in the GitHub Action.
 - **Or tunnel your local server**, e.g. `npx localtunnel --port 8000` or `ngrok http 8000`.
 
 ## Common tasks
 
 - **Understand the whole experience:** [docs/how-it-works.md](docs/how-it-works.md)
 - **Test everything before the wall is painted:** [docs/testing-without-the-wall.md](docs/testing-without-the-wall.md)
+- **Make the camera recognise the painted wall:** [docs/adding-an-object.md](docs/adding-an-object.md) (photo → `tools/make-targets.html`)
 - **Make or check a 3D rendering:** [docs/3d-models.md](docs/3d-models.md)
 - **Compress models and keep downloads small:** [docs/compression.md](docs/compression.md)
 
@@ -87,7 +90,7 @@ npm run sizes        # check everything players download is small enough
 ```
 - **Add or replace a mural object:** [docs/adding-an-object.md](docs/adding-an-object.md)
 - **Get riddles and links from the other teams:** [docs/team-handoff.md](docs/team-handoff.md)
-- **Make the QR code:** point it at the GitHub Pages URL. Add `?object=<id>` to start on one specific riddle.
+- **Make the QR code:** point it at <https://iya-cohort13-mural-ar.vercel.app>. Add `?object=<id>` to start on one specific riddle.
 
 ## Status / to do
 

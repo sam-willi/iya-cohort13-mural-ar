@@ -41,9 +41,10 @@ This was checked with a simulated camera feed: the boombox was recognised and fo
 
 1. **Photograph the wall** straight on, in even light, and mark every object and target with the
    [position marking tool](../tools/locate.html) (issue #8).
-2. **Replace the targets**: crop the target images from the photo, compile them with the
-   [MindAR compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile), and replace `targets/targets.mind`,
-   `targets/source/` and `targets` in `objects.json` (issue #10). The concept-art targets won't recognise the painted wall.
-3. **Replace the picture**: crop the photo to exactly the painted area, save it as a `.webp`, and point `mural.picture` in
-   `objects.json` at it.
-4. **Re-check the positions** from the photo (the painters will have moved things a little).
+2. **Replace the targets and the picture** with [`tools/make-targets.html`](../tools/make-targets.html): mark the wall's
+   four corners on the photo and it straightens it, cuts every target out, compiles `targets/targets.mind`, saves the
+   no-camera picture and updates `objects.json` (issue #10). The concept-art targets won't recognise the painted wall.
+   Steps in [adding-an-object.md](adding-an-object.md#2-build-the-targets-from-the-photo).
+3. **Re-check the positions** on the straightened picture with the [marking tool](../tools/locate.html) (the painters
+   will have moved things a little). Move targets off the windows: many of the concept-art targets cover glass, which the
+   camera can't learn. If any target moved, build again.

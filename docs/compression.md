@@ -63,7 +63,9 @@ This installs [glTF Transform](https://gltf-transform.dev/) for this project onl
 This holds what the camera has learned about every target, all in one file, so it grows with each target you add.
 
 - **Only add targets where there are riddle objects.** Every target costs download size and makes recognition a little slower.
-- **Crop target images to about 1000 px wide** before compiling. Bigger images add size without helping recognition.
+- **Keep target images under about 1000 px wide.** Bigger images add size without helping recognition.
+  `tools/make-targets.html` compiles a 6 ft target at 300 px wide (about 4 px per inch). At 9 px per inch the file was
+  twice the size.
 - **Keep windows and plain areas out of targets.** They add size and no useful detail.
 - After compiling, run the size check. If it's too big, merge neighbouring targets or drop ones without objects.
 

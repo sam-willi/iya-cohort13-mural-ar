@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Make AR Targets</title>
+    <style>
+      :root {
+        --ink: #1b120b;
+        --wood: #6b4122;
+        --amber: #f0a93a;
+        --cream: #fbf3e3;
+        --blue: #2a8bc0;
+        --rust: #a8520a;
+        --crimson: #c8173a;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--cream); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
+      header { padding: 16px 20px; border-bottom: 3px solid var(--ink); background: #fff; }
+      h1 { margin: 0 0 4px; font-size: 1.3rem; }
+      header p { margin: 0; color: var(--wood); max-width: 70em; }
+      main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; padding: 20px; }
+      @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+      .panel { padding: 14px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; }
+      .panel + .panel { margin-top: 14px; }
+      .panel h2 { margin: 0 0 8px; font-size: 1rem; }
+      .panel p, .panel ul { margin: 0 0 8px; }
+      .panel ul { padding-left: 18px; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .check { display: flex; gap: 8px; align-items: baseline; }
+      input, button { font: inherit; }
+      button { padding: 6px 12px; border: 2px solid var(--ink); border-radius: 999px; background: #fff; cursor: pointer; }
+      button.primary { background: var(--amber); }
+      button:disabled { opacity: 0.45; cursor: default; }
+      .stage { position: relative; border: 2px solid var(--ink); border-radius: 10px; background: #2e1b0e; overflow: hidden; }
+      .stage + h2 { margin-top: 18px; }
+      .stage p { margin: 0; padding: 60px 20px; color: var(--cream); text-align: center; }
+      section > h2 { margin: 0 0 6px; font-size: 1rem; }
+      canvas { display: block; width: 100%; }
+      #photo-canvas { touch-action: none; cursor: crosshair; }
+      #loupe { width: 180px; height: 180px; border: 2px solid var(--ink); border-radius: 50%; background: #2e1b0e; }
+      .hint { margin: 10px 0 0; color: var(--wood); }
+      .warn { color: var(--rust); }
+      .bad { color: var(--crimson); font-weight: 600; }
+      .good { color: #2f7a3b; font-weight: 600; }
+      progress { width: 100%; height: 14px; accent-color: var(--amber); }
+      #checks li { margin-bottom: 4px; }
+      #log { margin: 8px 0 0; padding-left: 18px; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Make AR targets from a photo of the wall</h1>
+      <p>Turns one straight-on photo of the painted wall into everything the camera needs to recognise it: the straightened
+        picture, one image per AR target, the compiled <code>targets/targets.mind</code>, and the matching
+        <code>data/objects.json</code>. Target boxes come from <code>targets</code> in <code>objects.json</code>.</p>
+    </header>
+    <main>
+      <section>
+        <h2>The photo</h2>
+        <div class="stage" id="photo-stage"><p>Choose a photo of the wall to start →</p></div>
+        <p class="hint" id="step-hint"></p>
+        <h2>Straightened wall, with the panel grid and AR targets</h2>
+        <div class="stage" id="flat-stage"><p>Appears once the corners are marked.</p></div>
+        <p class="hint">The white grid should sit exactly on the panel seams. Red boxes are the AR targets, blue ones the windows.</p>
+      </section>
+
+      <aside>
+        <div class="panel">
+          <h2>1. Photo</h2>
+          <ul>
+            <li>Stand far back and zoom in (2× lens) so the wall's edges stay straight. Use the camera's highest-resolution setting.</li>
+            <li>Get the whole painted area in, as square-on as you can, in even light with no glare.</li>
+          </ul>
+          <div class="row"><input type="file" id="photo" accept="image/*" /></div>
+          <div class="row" style="margin-top: 8px">
+            <button id="use-reference" type="button">Practice on the concept art</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>2. Corners</h2>
+          <p>Drag the four blue dots onto the corners of the painted area. The circle below zooms in on the dot you're moving.</p>
+          <div class="row" style="justify-content: center"><canvas id="loupe" width="360" height="360"></canvas></div>
+          <div class="row" style="margin-top: 8px"><button id="reset" type="button" disabled>Reset corners</button></div>
+        </div>
+
+        <div class="panel">
+          <h2>3. Checks</h2>
+          <ul id="checks"><li>Loading <code>data/objects.json</code>…</li></ul>
+          <label class="check"><input type="checkbox" id="keep-demo" checked /> Keep the demo card as target 0 (for testing on a laptop)</label>
+        </div>
+
+        <div class="panel">
+          <h2>4. Build and save</h2>
+          <div class="row"><button id="build" class="primary" type="button" disabled>Build targets</button></div>
+          <progress id="progress" max="100" value="0" hidden></progress>
+          <p class="hint" id="build-status"></p>
+          <div class="row" style="margin-top: 8px">
+            <button id="save-folder" type="button" disabled>Save into the project folder</button>
+            <button id="save-zip" type="button" disabled>Download .zip</button>
+          </div>
+          <p class="hint">Saving into the folder works in Chrome or Edge: pick the project folder (the one with
+            <code>index.html</code> in it) and allow editing. In other browsers, download the .zip and unzip it over the project folder.</p>
+          <ul id="log"></ul>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module">
+      // Wall positions are in inches from the painted wall's top-left corner (x right, y down), the same system
+      // data/objects.json and js/app.js use. A homography maps those inches onto the photo, so a photo taken a little
+      // off-square still straightens out. Compiling uses the same MindAR version as the app (index.html).
+      const MINDAR = 'https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js';
+      const PPI = 9;              // pixels per inch for the saved target images and the straightened picture (a 6 × 4 ft target is 648 × 432)
+      const COMPILE_PPI = 300 / 72; // what MindAR learns from: a 6 × 4 ft target at 300 × 200, like the concept-art targets that
+                                    // tested well. Each step up makes targets.mind much bigger for little gain in recognition.
+      const PREVIEW_PPI = 2;      // lighter version for the live preview
+      const MIND_BUDGET = 6 * 1024 * 1024; // tools/check-sizes.py warns above this
+      const MIN_OVERLAP = 0.6;    // same rule as js/app.js: how much of an object must be inside a target
+      const PICTURE = 'images/mural-wall.webp';
+      const PICTURE_MAX_BYTES = 1.8 * 1024 * 1024; // tools/check-sizes.py stops the deploy at 2 MB
+      const DEMO_IMAGE = 'targets/source/00-demo-card.png';
+
+      const $ = (id) => document.getElementById(id);
+      const photoCanvas = document.createElement('canvas');
+      photoCanvas.id = 'photo-canvas';
+      const photoCtx = photoCanvas.getContext('2d');
+      const flatCanvas = document.createElement('canvas');
+      const loupe = $('loupe').getContext('2d');
+
+      let data = null;        // data/objects.json as loaded
+      let photo = null;       // the photo, possibly scaled down, as a canvas
+      let pixels = null;      // its ImageData, for sampling
+      let corners = null;     // [top-left, top-right, bottom-right, bottom-left] in photo pixels
+      let dragging = -1;
+      let result = null;      // what Build made: { files: Map(path -> Blob), targets, demoKept }
+
+      // ---------- objects.json and checks ----------
+
+      async function loadData() {
+        data = await (await fetch('../data/objects.json', { cache: 'no-store' })).json();
+        renderChecks();
+      }
+
+      function overlap(a, b) {
+        const w = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+        const h = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+        return w > 0 && h > 0 ? w * h : 0;
+      }
+
+      function renderChecks() {
+        const list = $('checks');
+        list.replaceChildren();
+        const add = (text, cls = '') => {
+          const li = document.createElement('li');
+          li.textContent = text;
+          li.className = cls;
+          list.append(li);
+        };
+        const wallTargets = data.targets.filter((t) => !t.demo);
+        add(`${wallTargets.length} AR targets to cut from the photo${data.targets.some((t) => t.demo) ? ', plus the demo card' : ''}.`);
+
+        const missing = data.objects.filter((o) => o.location && !data.targets.some((t) => overlap(t, o.location) / (o.location.w * o.location.h) >= MIN_OVERLAP));
+        if (missing.length) {
+          add(`${missing.length} object${missing.length > 1 ? 's aren\'t' : ' isn\'t'} inside any target, so the camera can't find ${missing.length > 1 ? 'them' : 'it'}: ` +
+            missing.map((o) => o.product ?? o.name).join(', ') + '. Add a target around them in tools/locate.html.', 'warn');
+        } else {
+          add('Every object on the wall is inside at least one target.', 'good');
+        }
+
+        const glassy = wallTargets
+          .map((t) => ({ t, glass: data.landmarks.reduce((sum, l) => sum + overlap(t, l), 0) / (t.w * t.h) }))
+          .filter(({ glass }) => glass > 0.1);
+        if (glassy.length) {
+          add(`${glassy.length} targets are partly window glass, which reflects and changes all day, so the camera may not learn them: ` +
+            glassy.map(({ t, glass }) => `${t.index} (${Math.round(glass * 100)}%)`).join(', ') +
+            '. Move or shrink them in tools/locate.html.', 'warn');
+        }
+        if (!data.mural.width || !data.mural.height) add('mural.width and mural.height are missing from objects.json.', 'bad');
+      }
+
+      // ---------- loading the photo ----------
+
+      $('photo').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) loadPhoto(URL.createObjectURL(file));
+      });
+      $('use-reference').addEventListener('click', () => loadPhoto('../reference/mural-concept.webp'));
+
+      function loadPhoto(src) {
+        if (!data) return;
+        const img = new Image();
+        img.onload = () => {
+          // Very big photos are scaled down: there's no use for more than about twice the detail of the output.
+          const scale = Math.min(1, (data.mural.width * PPI * 2) / img.naturalWidth);
+          photo = document.createElement('canvas');
+          photo.width = Math.round(img.naturalWidth * scale);
+          photo.height = Math.round(img.naturalHeight * scale);
+          photo.getContext('2d').drawImage(img, 0, 0, photo.width, photo.height);
+          pixels = photo.getContext('2d').getImageData(0, 0, photo.width, photo.height);
+          photoCanvas.width = photo.width;
+          photoCanvas.height = photo.height;
+          $('photo-stage').replaceChildren(photoCanvas);
+          resetCorners();
+          $('reset').disabled = false;
+          $('build').disabled = false;
+          setResult(null);
+          $('step-hint').textContent = 'Drag each blue dot onto a corner of the painted area, then check the straightened wall below.';
+        };
+        img.onerror = () => ($('step-hint').textContent = 'That file couldn\'t be opened as an image. Try a JPEG or PNG.');
+        img.src = src;
+      }
+
+      function resetCorners() {
+        // Starts with a box the wall's shape, centred in the photo.
+        const aspect = data.mural.width / data.mural.height;
+        let w = photo.width * 0.9;
+        let h = w / aspect;
+        if (h > photo.height * 0.9) { h = photo.height * 0.9; w = h * aspect; }
+        const x = (photo.width - w) / 2, y = (photo.height - h) / 2;
+        corners = [{ x, y }, { x: x + w, y }, { x: x + w, y: y + h }, { x, y: y + h }];
+        changed();
+      }
+      $('reset').addEventListener('click', resetCorners);
+
+      // ---------- dragging the corners ----------
+
+      const displayScale = () => photoCanvas.width / photoCanvas.getBoundingClientRect().width; // photo px per screen px
+      const toPhoto = (e) => {
+        const r = photoCanvas.getBoundingClientRect();
+        return { x: (e.clientX - r.left) * displayScale(), y: (e.clientY - r.top) * displayScale() };
+      };
+
+      photoCanvas.addEventListener('pointerdown', (e) => {
+        if (!corners) return;
+        const p = toPhoto(e);
+        const reach = 40 * displayScale();
+        let best = -1, bestD = Infinity;
+        corners.forEach((c, i) => {
+          const d = Math.hypot(c.x - p.x, c.y - p.y);
+          if (d < bestD) { best = i; bestD = d; }
+        });
+        if (bestD > reach) return;
+        dragging = best;
+        photoCanvas.setPointerCapture(e.pointerId);
+        drawLoupe();
+      });
+      photoCanvas.addEventListener('pointermove', (e) => {
+        if (dragging < 0) return;
+        const p = toPhoto(e);
+        corners[dragging] = { x: clamp(p.x, 0, photo.width), y: clamp(p.y, 0, photo.height) };
+        drawPhoto();
+        drawLoupe();
+        schedulePreview();
+      });
+      photoCanvas.addEventListener('pointerup', () => {
+        if (dragging < 0) return;
+        dragging = -1;
+        changed();
+      });
+
+      const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+      function changed() {
+        setResult(null);
+        drawPhoto();
+        drawLoupe();
+        drawPreview();
+      }
+
+      function drawPhoto() {
+        photoCtx.drawImage(photo, 0, 0);
+        const lw = Math.max(2, photo.width / 600);
+        // panel grid, mapped through the same homography the straightening uses
+        const H = homography();
+        const { width: W, height: Ht, panelSize: P } = data.mural;
+        photoCtx.lineWidth = lw / 2;
+        photoCtx.strokeStyle = 'rgb(255 255 255 / 0.6)';
+        photoCtx.beginPath();
+        for (let x = P; x < W; x += P) line(H, x, 0, x, Ht);
+        for (let y = P; y < Ht; y += P) line(H, 0, y, W, y);
+        photoCtx.stroke();
+        photoCtx.lineWidth = lw * 1.5;
+        photoCtx.strokeStyle = '#2a8bc0';
+        photoCtx.beginPath();
+        corners.forEach((c, i) => (i ? photoCtx.lineTo(c.x, c.y) : photoCtx.moveTo(c.x, c.y)));
+        photoCtx.closePath();
+        photoCtx.stroke();
+        corners.forEach((c) => {
+          photoCtx.beginPath();
+          photoCtx.arc(c.x, c.y, lw * 5, 0, Math.PI * 2);
+          photoCtx.fillStyle = 'rgb(42 139 192 / 0.5)';
+          photoCtx.fill();
+          photoCtx.stroke();
+        });
+      }
+
+      function line(H, x0, y0, x1, y1) {
+        // seams are straight lines on the wall and stay straight in the photo, so two points are enough
+        const a = apply(H, x0, y0), b = apply(H, x1, y1);
+        photoCtx.moveTo(a.x, a.y);
+        photoCtx.lineTo(b.x, b.y);
+      }
+
+      function drawLoupe() {
+        const size = 360;
+        loupe.fillStyle = '#2e1b0e';
+        loupe.fillRect(0, 0, size, size);
+        const c = corners[dragging >= 0 ? dragging : 0];
+        const span = 45 * displayScale(); // photo px shown across the loupe: about 4× zoom
+        loupe.imageSmoothingEnabled = false;
+        loupe.drawImage(photo, c.x - span / 2, c.y - span / 2, span, span, 0, 0, size, size);
+        loupe.strokeStyle = '#2a8bc0';
+        loupe.lineWidth = 2;
+        loupe.beginPath();
+        loupe.moveTo(size / 2, 0); loupe.lineTo(size / 2, size);
+        loupe.moveTo(0, size / 2); loupe.lineTo(size, size / 2);
+        loupe.stroke();
+      }
+
+      // ---------- straightening ----------
+
+      // Solves for the 3 × 3 matrix taking wall inches (u, v) to photo pixels (x, y) at the four corners.
+      function homography() {
+        const { width: W, height: Ht } = data.mural;
+        const src = [[0, 0], [W, 0], [W, Ht], [0, Ht]];
+        const A = [], b = [];
+        src.forEach(([u, v], i) => {
+          const { x, y } = corners[i];
+          A.push([u, v, 1, 0, 0, 0, -u * x, -v * x]); b.push(x);
+          A.push([0, 0, 0, u, v, 1, -u * y, -v * y]); b.push(y);
+        });
+        return [...solve(A, b), 1];
+      }
+
+      function solve(A, b) {
+        // Gaussian elimination with partial pivoting; 8 unknowns
+        const n = b.length;
+        const M = A.map((row, i) => [...row, b[i]]);
+        for (let col = 0; col < n; col++) {
+          let pivot = col;
+          for (let r = col + 1; r < n; r++) if (Math.abs(M[r][col]) > Math.abs(M[pivot][col])) pivot = r;
+          [M[col], M[pivot]] = [M[pivot], M[col]];
+          for (let r = 0; r < n; r++) {
+            if (r === col) continue;
+            const f = M[r][col] / M[col][col];
+            for (let k = col; k <= n; k++) M[r][k] -= f * M[col][k];
+          }
+        }
+        return M.map((row, i) => row[n] / row[i]);
+      }
+
+      function apply(H, u, v) {
+        const w = H[6] * u + H[7] * v + H[8];
+        return { x: (H[0] * u + H[1] * v + H[2]) / w, y: (H[3] * u + H[4] * v + H[5]) / w };
+      }
+
+      // Draws the painted area, straightened, at `ppi` pixels per inch (bilinear sampling).
+      function straighten(ppi) {
+        const H = homography();
+        const out = document.createElement('canvas');
+        out.width = Math.round(data.mural.width * ppi);
+        out.height = Math.round(data.mural.height * ppi);
+        const ctx = out.getContext('2d');
+        const img = ctx.createImageData(out.width, out.height);
+        const src = pixels.data, sw = pixels.width, sh = pixels.height, dst = img.data;
+        for (let j = 0; j < out.height; j++) {
+          const v = (j + 0.5) / ppi;
+          for (let i = 0; i < out.width; i++) {
+            const u = (i + 0.5) / ppi;
+            const w = H[6] * u + H[7] * v + H[8];
+            const x = clamp((H[0] * u + H[1] * v + H[2]) / w - 0.5, 0, sw - 1.001);
+            const y = clamp((H[3] * u + H[4] * v + H[5]) / w - 0.5, 0, sh - 1.001);
+            const x0 = x | 0, y0 = y | 0, fx = x - x0, fy = y - y0;
+            const p = (y0 * sw + x0) * 4, q = p + sw * 4;
+            const o = (j * out.width + i) * 4;
+            for (let c = 0; c < 3; c++) {
+              const top = src[p + c] + (src[p + 4 + c] - src[p + c]) * fx;
+              const bottom = src[q + c] + (src[q + 4 + c] - src[q + c]) * fx;
+              dst[o + c] = top + (bottom - top) * fy;
+            }
+            dst[o + 3] = 255;
+          }
+        }
+        ctx.putImageData(img, 0, 0);
+        return out;
+      }
+
+      let previewQueued = false;
+      function schedulePreview() {
+        if (previewQueued) return;
+        previewQueued = true;
+        requestAnimationFrame(() => { previewQueued = false; drawPreview(); });
+      }
+
+      function drawPreview() {
+        const flat = straighten(PREVIEW_PPI);
+        // drawn at twice the size so the overlay lines stay crisp
+        const k = 2 * PREVIEW_PPI;
+        flatCanvas.width = flat.width * 2;
+        flatCanvas.height = flat.height * 2;
+        const ctx = flatCanvas.getContext('2d');
+        ctx.drawImage(flat, 0, 0, flatCanvas.width, flatCanvas.height);
+        const { width: W, height: Ht, panelSize: P } = data.mural;
+        ctx.strokeStyle = 'rgb(255 255 255 / 0.7)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = P; x < W; x += P) { ctx.moveTo(x * k, 0); ctx.lineTo(x * k, Ht * k); }
+        for (let y = P; y < Ht; y += P) { ctx.moveTo(0, y * k); ctx.lineTo(W * k, y * k); }
+        ctx.stroke();
+        const box = (r, color, width) => { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.strokeRect(r.x * k, r.y * k, r.w * k, r.h * k); };
+        data.landmarks.forEach((l) => box(l, '#5fc4f0', 2));
+        data.targets.filter((t) => !t.demo).forEach((t) => box(t, '#c8173a', 1.5));
+        if (!flatCanvas.isConnected) $('flat-stage').replaceChildren(flatCanvas);
+      }
+
+      // ---------- building ----------
+
+      $('build').addEventListener('click', build);
+
+      async function build() {
+        $('build').disabled = true;
+        setResult(null);
+        const status = (text) => ($('build-status').textContent = text);
+        const bar = $('progress');
+        bar.hidden = false;
+        bar.value = 0;
+        try {
+          status('Straightening the photo…');
+          await nextFrame();
+          const flat = straighten(PPI);
+
+          // The wall targets are cut from the photo; the demo card keeps its own image or is dropped.
+          const keepDemo = $('keep-demo').checked;
+          const targets = data.targets
+            .slice()
+            .sort((a, b) => a.index - b.index)
+            .filter((t) => keepDemo || !t.demo)
+            .map((t, index) => ({ ...t, index }));
+          const images = [];
+          const files = new Map();
+          for (const t of targets) {
+            if (t.demo) {
+              images.push(await loadImage('../' + DEMO_IMAGE));
+              continue;
+            }
+            const crop = document.createElement('canvas');
+            crop.width = Math.round(t.w * PPI);
+            crop.height = Math.round(t.h * PPI);
+            crop.getContext('2d').drawImage(flat, t.x * PPI, t.y * PPI, t.w * PPI, t.h * PPI, 0, 0, crop.width, crop.height);
+            const small = document.createElement('canvas');
+            small.width = Math.round(t.w * COMPILE_PPI);
+            small.height = Math.round(t.h * COMPILE_PPI);
+            small.getContext('2d').drawImage(crop, 0, 0, small.width, small.height);
+            images.push(small);
+            const name = `targets/source/${String(t.index).padStart(2, '0')}-wall-x${t.x}-y${t.y}.webp`;
+            t.note = `Cut from the wall photo by tools/make-targets.html (${name}).`;
+            files.set(name, await toBlob(crop, 0.9));
+          }
+
+          status(`Compiling ${images.length} targets. This can take a minute; keep this tab open.`);
+          const { Compiler } = await import(MINDAR);
+          const compiler = new Compiler();
+          await compiler.compileImageTargets(images, (percent) => (bar.value = percent));
+          files.set('targets/targets.mind', new Blob([compiler.exportData()]));
+
+          status('Saving the straightened picture…');
+          let quality = 0.85, picture;
+          do {
+            picture = await toBlob(flat, quality);
+            quality -= 0.1;
+          } while (picture.size > PICTURE_MAX_BYTES && quality > 0.3);
+          files.set(PICTURE, picture);
+
+          setResult({ files, targets, demoKept: keepDemo && targets.some((t) => t.demo) });
+          const mind = files.get('targets/targets.mind').size;
+          status(`Built ${images.length} targets (targets.mind is ${(mind / 1024 / 1024).toFixed(2)} MB). Now save them.` +
+            (mind > MIND_BUDGET ? ' That\'s over the 6 MB budget, so phones will wait longer at Start: drop targets that have no objects in them.' : ''));
+        } catch (err) {
+          console.error(err);
+          status(`Something went wrong: ${err.message ?? err}`);
+        } finally {
+          bar.hidden = true;
+          $('build').disabled = false;
+        }
+      }
+
+      function setResult(next) {
+        result = next;
+        $('save-folder').disabled = !result || !window.showDirectoryPicker;
+        $('save-zip').disabled = !result;
+        if (!result) { $('log').replaceChildren(); $('build-status').textContent = ''; }
+      }
+
+      const nextFrame = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r)));
+      const toBlob = (canvas, quality) => new Promise((r) => canvas.toBlob(r, 'image/webp', quality));
+      function loadImage(src) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error(`couldn't load ${src}`));
+          img.src = src;
+        });
+      }
+
+      // The project's objects.json with the new targets and picture. Everything else in it is left alone.
+      function updatedData(json) {
+        json.targets = result.targets.map(({ index, note, demo, x, y, w, h, ...rest }) =>
+          ({ index, note, ...(demo ? { demo } : {}), x, y, w, h, ...rest }));
+        json.mural.picture = PICTURE;
+        json.mural.pictureNote = 'No-camera mode shows this picture: the wall photo straightened and cropped to exactly the painted area by tools/make-targets.html.';
+        return JSON.stringify(json, null, 2) + '\n';
+      }
+
+      const sameBoxes = (a, b) => JSON.stringify(a.map(({ x, y, w, h, demo }) => [x, y, w, h, !!demo])) ===
+        JSON.stringify(b.map(({ x, y, w, h, demo }) => [x, y, w, h, !!demo]));
+
+      // ---------- saving ----------
+
+      $('save-folder').addEventListener('click', async () => {
+        try {
+          const root = await showDirectoryPicker({ id: 'mural-project', mode: 'readwrite' });
+          await saveInto(root);
+        } catch (err) {
+          if (err.name !== 'AbortError') log(`Not saved: ${err.message ?? err}`, 'bad');
+        }
+      });
+
+      async function saveInto(root) {
+        $('log').replaceChildren();
+        let json;
+        try {
+          const file = await (await root.getDirectoryHandle('data')).getFileHandle('objects.json');
+          json = JSON.parse(await (await file.getFile()).text());
+        } catch {
+          throw new Error('that folder has no data/objects.json. Pick the project folder, the one with index.html in it.');
+        }
+        // The targets were cut using the boxes this page loaded, so they must match the ones in the folder.
+        if (!sameBoxes(json.targets, data.targets)) {
+          throw new Error('the AR target boxes in that folder\'s data/objects.json are different from the ones this page loaded. ' +
+            'Open this page from that folder (python3 -m http.server, then localhost:8000/tools/make-targets.html) and build again.');
+        }
+
+        // Old wall target images go, so targets/source only holds what's in targets.mind.
+        const source = await dir(root, 'targets/source');
+        for await (const [name] of source.entries()) {
+          if (/^\d+-wall-.*\.webp$/.test(name) && !result.files.has(`targets/source/${name}`)) {
+            await source.removeEntry(name);
+            log(`Removed targets/source/${name}`);
+          }
+        }
+        if (!result.demoKept) {
+          try { await source.removeEntry(DEMO_IMAGE.split('/').pop()); log(`Removed ${DEMO_IMAGE}`); } catch { /* already gone */ }
+        }
+        for (const [path, blob] of result.files) {
+          await write(root, path, blob);
+          log(`Saved ${path}`);
+        }
+        await write(root, 'data/objects.json', new Blob([updatedData(json)]));
+        log('Updated data/objects.json (targets and mural.picture)');
+        log('Done. Run python3 tools/check-sizes.py, then test at the wall.', 'good');
+      }
+
+      async function dir(root, path) {
+        let d = root;
+        for (const part of path.split('/')) d = await d.getDirectoryHandle(part, { create: true });
+        return d;
+      }
+
+      async function write(root, path, blob) {
+        const parts = path.split('/');
+        const name = parts.pop();
+        const handle = await (await dir(root, parts.join('/'))).getFileHandle(name, { create: true });
+        const stream = await handle.createWritable();
+        await stream.write(blob);
+        await stream.close();
+      }
+
+      function log(text, cls = '') {
+        const li = document.createElement('li');
+        li.textContent = text;
+        li.className = cls;
+        $('log').append(li);
+      }
+
+      // A plain .zip (stored, not compressed: the images and targets.mind are already compressed).
+      $('save-zip').addEventListener('click', async () => {
+        const entries = [...result.files, ['data/objects.json', new Blob([updatedData(structuredClone(data))])]];
+        const zip = await makeZip(entries);
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(zip);
+        a.download = 'mural-targets.zip';
+        a.click();
+        $('log').replaceChildren();
+        log('Downloaded mural-targets.zip. Delete the old targets/source/*-wall-* images, then unzip it over the project folder.');
+      });
+
+      const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
+        let c = n;
+        for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+        return c >>> 0;
+      });
+      function crc32(bytes) {
+        let c = 0xffffffff;
+        for (const b of bytes) c = CRC_TABLE[(c ^ b) & 0xff] ^ (c >>> 8);
+        return (c ^ 0xffffffff) >>> 0;
+      }
+
+      async function makeZip(entries) {
+        const parts = [], central = [];
+        let offset = 0;
+        for (const [path, blob] of entries) {
+          const name = new TextEncoder().encode(path);
+          const body = new Uint8Array(await blob.arrayBuffer());
+          const crc = crc32(body);
+          const local = new DataView(new ArrayBuffer(30));
+          local.setUint32(0, 0x04034b50, true);
+          local.setUint16(4, 20, true);
+          local.setUint32(14, crc, true);
+          local.setUint32(18, body.length, true);
+          local.setUint32(22, body.length, true);
+          local.setUint16(26, name.length, true);
+          parts.push(local, name, body);
+          const entry = new DataView(new ArrayBuffer(46));
+          entry.setUint32(0, 0x02014b50, true);
+          entry.setUint16(4, 20, true);
+          entry.setUint16(6, 20, true);
+          entry.setUint32(16, crc, true);
+          entry.setUint32(20, body.length, true);
+          entry.setUint32(24, body.length, true);
+          entry.setUint16(28, name.length, true);
+          entry.setUint32(42, offset, true);
+          central.push(entry, name);
+          offset += 30 + name.length + body.length;
+        }
+        const size = central.reduce((n, p) => n + p.byteLength, 0);
+        const end = new DataView(new ArrayBuffer(22));
+        end.setUint32(0, 0x06054b50, true);
+        end.setUint16(8, entries.length, true);
+        end.setUint16(10, entries.length, true);
+        end.setUint32(12, size, true);
+        end.setUint32(16, offset, true);
+        return new Blob([...parts, ...central, end], { type: 'application/zip' });
+      }
+
+      loadData().catch(() => {
+        $('checks').innerHTML = '<li class="bad">Couldn\'t load data/objects.json. Open this page through a web server, e.g. ' +
+          '<code>python3 -m http.server</code> in the project folder, then <code>localhost:8000/tools/make-targets.html</code>.</li>';
+      });
+      // lets a test script set the corners and save into a stand-in folder
+      window.makeTargets = { get corners() { return corners; }, set corners(c) { corners = c; changed(); }, saveInto, get result() { return result; } };
+    </script>
+  </body>
+</html>
