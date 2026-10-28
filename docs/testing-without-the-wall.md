@@ -22,6 +22,10 @@ Open the site and tap **No camera? Play on a picture of the mural**. Scroll and 
 riddle describes. A wrong tap says which way to look; the right one lands the lens on it, then shows the "You spied it!"
 card with the 3D rendering spinning in it.
 
+Over the mural, two-finger pinching zooms just the artwork. Ordinary wheel/trackpad scrolling pans up, down, left,
+and right; one-finger dragging pans on phones. The zoom follows the pinch midpoint, and the riddle stays fixed below.
+Browser zoom outside the mural keeps its normal behavior; the corner zoom buttons also remain available.
+
 This mode is also there for players who can't or won't use the camera at the wall.
 
 ## Test 2: the AR, pointed at a screen

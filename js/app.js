@@ -11,6 +11,7 @@
 // never need to touch this file. Riddles come live from the riddle team's Google Sheet (see loadSheetRiddles).
 
 import { createSpinningModel, modelUrl, prefetchModel } from './popout.js';
+import { setupMuralZoom } from './mural-zoom.js?v=pan-fix-14';
 
 const OBJECTS_URL = 'data/objects.json';
 const TOAST_COOLDOWN_MS = 3000;
@@ -95,6 +96,7 @@ const anchors = new Map(); // target index -> its MindAR anchor
 const found = loadFound(); // ids of the objects this player has spied
 let mode = 'camera';   // 'camera' (AR at the wall) or 'picture' (tap the object on a picture of the mural)
 let zoom = 1;
+let pictureTapBlockedUntil = 0;
 let directionTimer;
 
 init().catch((err) => {
@@ -137,6 +139,12 @@ async function init() {
     ui.pictureWall.addEventListener('click', onPictureTap);
     ui.zoomIn.addEventListener('click', () => setZoom(zoom * 1.6));
     ui.zoomOut.addEventListener('click', () => setZoom(zoom / 1.6));
+    setupMuralZoom({
+      viewport: ui.pictureScroll,
+      getZoom: () => zoom,
+      setZoom,
+      onGesture: () => { pictureTapBlockedUntil = performance.now() + 400; },
+    });
   }
 
   ui.startButton.textContent = 'Start';
@@ -151,7 +159,7 @@ async function loadData() {
 
   const objects = data.objects
     .map((obj) => {
-      const row = sheet?.get(normalize(obj.product ?? obj.name));
+      const row = obj.riddleSource === 'local' ? null : sheet?.get(normalize(obj.product ?? obj.name));
       return row ? { ...obj, riddle: row.riddle, hint: row.hint || obj.hint } : obj;
     })
     // objects with no riddle or no position yet are left out of the game
@@ -529,7 +537,7 @@ function nextRiddle() {
 
   prefetchModel(modelUrl(current)); // download the 3D model while the player reads the riddle
   ui.riddleText.textContent = current.riddle;
-  ui.tapTip.textContent = mode === 'picture' ? 'Tap the object to answer.' : 'Find it on the mural, then tap.';
+  ui.tapTip.textContent = mode === 'picture' ? 'Pinch to zoom. Scroll or drag to move. Tap to answer.' : 'Find it on the mural, then tap.';
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
   ui.hintButton.hidden = false; // even without a written hint, the hint turns on the "which way" arrow
@@ -592,14 +600,20 @@ function startPictureGame() {
   setZoom(1);
 }
 
-function setZoom(z) {
+function setZoom(z, anchor, previousAnchor = anchor) {
   const scroll = ui.pictureScroll;
-  const keepX = (scroll.scrollLeft + scroll.clientWidth / 2) / scroll.scrollWidth;
-  const keepY = (scroll.scrollTop + scroll.clientHeight / 2) / scroll.scrollHeight;
+  const viewport = scroll.getBoundingClientRect();
+  const before = ui.pictureWall.getBoundingClientRect();
+  if (!before.width || !before.height) return;
+  anchor ??= { x: viewport.left + scroll.clientWidth / 2, y: viewport.top + scroll.clientHeight / 2 };
+  previousAnchor ??= anchor;
+  const keepX = (previousAnchor.x - before.left) / before.width;
+  const keepY = (previousAnchor.y - before.top) / before.height;
   zoom = Math.min(4, Math.max(1, z));
   ui.pictureView.style.setProperty('--zoom', zoom);
-  scroll.scrollLeft = keepX * scroll.scrollWidth - scroll.clientWidth / 2;
-  scroll.scrollTop = keepY * scroll.scrollHeight - scroll.clientHeight / 2;
+  const after = ui.pictureWall.getBoundingClientRect();
+  scroll.scrollLeft += after.left + keepX * after.width - anchor.x;
+  scroll.scrollTop += after.top + keepY * after.height - anchor.y;
 }
 
 // Where a tap lands on the wall, in inches.
@@ -612,7 +626,7 @@ function tapToWall(event) {
 }
 
 function onPictureTap(event) {
-  if (!current || !ui.foundCard.hidden || cardTimer) return;
+  if (!current || !ui.foundCard.hidden || cardTimer || performance.now() < pictureTapBlockedUntil) return;
   const p = tapToWall(event);
   const loc = current.location;
   const hit = p.x >= loc.x - TAP_SLACK_IN && p.x <= loc.x + loc.w + TAP_SLACK_IN

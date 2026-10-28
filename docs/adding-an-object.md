@@ -71,6 +71,7 @@ looks like this:
 | `id` | Short, lowercase, dashes. Used in QR links: `?object=typewriter` |
 | `product` | The exact name in the riddle sheet's **Products** column. The riddle and hint come from that row |
 | `riddle`, `hint` | Backup copy used if the sheet can't be reached. `hint` is optional |
+| `riddleSource` | Optional: set to `"local"` to use this object's `riddle` and `hint` instead of the live sheet. Omit it to resume sheet updates |
 | `location` | The object's box on the wall, in inches (from the marking tool). Add `"label": "on the top shelf"` to override the auto-generated "Right side of the mural: 9th panel from the left, top row" |
 | `student.pageUrl` | From the website team. Leave it `""` to hide the button |
 | 3D rendering | Not a field: save it as **`models/<id>.glb`** and the app finds it. Until it exists, the lens still marks the spot. Optional `popout` settings (`model`, `scale`, `rotation`) are in [3d-models.md](3d-models.md) |

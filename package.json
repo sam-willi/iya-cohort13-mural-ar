@@ -4,6 +4,7 @@
   "description": "Asset tools for the I Spy mural AR app. The app itself has no build step; these only prepare files. See docs/compression.md.",
   "type": "module",
   "scripts": {
+    "test": "node --test",
     "models": "node tools/compress-models.mjs",
     "sizes": "python3 tools/check-sizes.py"
   },

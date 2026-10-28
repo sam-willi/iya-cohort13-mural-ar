@@ -505,6 +505,7 @@ body:has(#riddle-card:not([hidden])) #ar-scene {
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y; /* Native panning stays local; two-finger pinch is handled by the mural. */
 }
 .picture-wall {
   position: relative;

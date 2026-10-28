@@ -14,7 +14,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5,900&family=Oswald:wght@500;600&display=swap"
     />
-    <link rel="stylesheet" href="css/style.css?v=glint-brighter-11" />
+    <link rel="stylesheet" href="css/style.css?v=mural-gestures-13" />
     <script defer src="js/lamps.js?v=glint-brighter-11"></script>
 
     <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0.
@@ -22,7 +22,7 @@
          before js/app.js. Only the weights the CSS uses are requested from Google Fonts (see docs/compression.md). -->
     <script defer src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="js/app.js?v=riddle-dock-7" type="module"></script>
+    <script src="js/app.js?v=pan-fix-14" type="module"></script>
   </head>
   <body>
     <!-- 1. Start screen: the mural's I Spy badge in front of a workshop scene drawn in the mural's style (camera permission is requested when "Start" is tapped) -->
@@ -76,7 +76,7 @@
 
     <!-- No-camera mode: the same game played by tapping objects on a picture of the mural (scroll and zoom to search) -->
     <section id="picture-view" class="picture-view" hidden>
-      <div id="picture-scroll" class="picture-scroll">
+      <div id="picture-scroll" class="picture-scroll" role="region" aria-label="Interactive mural. Pinch to zoom; scroll or drag to move." tabindex="0">
         <div id="picture-wall" class="picture-wall">
           <img id="picture-img" alt="The Cohort 13 I Spy mural" draggable="false" />
           <span id="picture-lens" class="picture-lens" aria-hidden="true" hidden></span>

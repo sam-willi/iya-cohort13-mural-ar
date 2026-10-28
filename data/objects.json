@@ -763,7 +763,8 @@
       "id": "art-nouveau-desk-lamp",
       "product": "Desk Lamp (Art Nouveau)",
       "name": "Art Nouveau Desk Lamp",
-      "riddle": "I spy a lamp with a stained glass shade, glowing in every color.",
+      "riddle": "I spy a dome with petals of glass,\nOn a long, thin stem, with a look from the past.\nMy shade curves down and my stand stays tall,\nI give off a glow when the night starts to fall.",
+      "riddleSource": "local",
       "hint": "",
       "location": {
         "x": 40,
@@ -1212,7 +1213,8 @@
       "id": "lamp",
       "product": "Lamp",
       "name": "Lamp",
-      "riddle": "I spy a tall stack topped with a glowing bulb, lighting up big ideas.",
+      "riddle": "I spy stacked blocks rising straight and tall,\nWith one bare bulb shining over them all.\nMy geometric tower is simple and bright,\nFind the sharp-edged stack that holds up the light.",
+      "riddleSource": "local",
       "hint": "",
       "location": {
         "x": 288,
