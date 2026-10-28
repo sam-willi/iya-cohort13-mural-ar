@@ -325,7 +325,8 @@ add("</g>")
 add('<g clip-path="url(#round-window)">')
 add('<rect x="120" y="170" width="660" height="660" fill="url(#sky)"/>')
 for d in [rect(190, 470, 60, 400), rect(640, 420, 70, 450), poly((250, 640), (640, 560), (640, 590), (250, 672)),
-          poly((560, 260), (585, 215), (610, 260), (610, 520), (560, 520))]:
+          # Extend the obelisk past the round window's bottom; the window clip grounds its base.
+          poly((560, 260), (585, 215), (610, 260), (610, 840), (560, 840))]:
     add(f'<path d="{d}" fill="{C["stone"]}" opacity=".5"/>')
 add(f'<path d="M140 520 Q450 380 760 520" fill="none" stroke="{C["stone"]}" stroke-width="10" opacity=".6"/>')
 for cx, cy, s in [(250, 300, 1.1), (660, 370, .9), (300, 560, 1)]:

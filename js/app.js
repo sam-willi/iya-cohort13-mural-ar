@@ -32,6 +32,9 @@ const sceneEl = document.getElementById('ar-scene');
 const ui = {
   startScreen: document.getElementById('start-screen'),
   startButton: document.getElementById('start-button'),
+  menuDescription: document.getElementById('menu-description'),
+  menuSecondary: document.getElementById('menu-secondary'),
+  menuBack: document.getElementById('menu-back'),
   riddleCard: document.getElementById('riddle-card'),
   riddleText: document.getElementById('riddle-text'),
   hintText: document.getElementById('hint-text'),
@@ -159,6 +162,8 @@ async function init() {
 
   ui.startButton.textContent = 'Start';
   ui.startButton.disabled = false;
+  ui.menuDescription.hidden = false;
+  ui.menuSecondary.hidden = false;
 }
 
 async function loadData() {
@@ -786,6 +791,7 @@ function markFound(obj) {
 
 function showFoundButton() {
   updateFoundButton();
+  ui.menuBack.hidden = false;
   ui.foundButton.hidden = false;
 }
 

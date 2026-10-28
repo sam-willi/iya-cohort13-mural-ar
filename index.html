@@ -14,15 +14,15 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5,900&family=Oswald:wght@500;600&display=swap"
     />
-    <link rel="stylesheet" href="css/style.css?v=safari-art-18" />
-    <script defer src="js/lamps.js?v=safari-art-18"></script>
+    <link rel="stylesheet" href="css/style.css?v=window-silhouette-24" />
+    <script defer src="js/lamps.js?v=window-silhouette-24"></script>
 
     <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0.
          `defer` lets the start screen show straight away while these ~660 KB download; they still run in order,
          before js/app.js. Only the weights the CSS uses are requested from Google Fonts (see docs/compression.md). -->
     <script defer src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="js/app.js?v=position-hints-17" type="module"></script>
+    <script src="js/app.js?v=menu-loading-25" type="module"></script>
   </head>
   <body>
     <!-- 1. Start screen: the mural's I Spy badge in front of a workshop scene drawn in the mural's style (camera permission is requested when "Start" is tapped) -->
@@ -39,10 +39,25 @@
       </div>
       <div class="cover-actions">
         <button id="start-button" class="btn btn-primary btn-big" disabled>Loading…</button>
-        <p class="fine-print">Solve each riddle, find the object on the mural, and watch it come to life.<br />You'll be asked to allow camera access.</p>
-        <button id="picture-button" class="btn btn-quiet" hidden>No camera? Play on a picture of the mural</button>
+        <p id="menu-description" class="fine-print" hidden>Solve each riddle, find the object on the mural, and watch it come to life.<br />You'll be asked to allow camera access.</p>
+        <div id="menu-secondary" class="menu-secondary" hidden>
+          <button id="picture-button" class="btn btn-quiet" hidden>No camera?<br />Play on the picture</button>
+          <a class="cohort-link" href="https://iyac13.app/profiles" target="_blank" rel="noopener noreferrer" aria-label="Meet the cohort. Explore the people and products behind the mural. Opens in a new tab.">
+            <span class="cohort-link-title">Meet the cohort
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10" /></svg>
+            </span>
+            <span class="cohort-link-description">People &amp; products</span>
+          </a>
+        </div>
       </div>
     </section>
+
+    <!-- Normal navigation ends the camera/game session and returns to the menu; saved finds remain. -->
+    <a id="menu-back" class="menu-back" href="./" aria-label="Back to main menu" title="Back to main menu" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M19 12H5m7-7-7 7 7 7" />
+      </svg>
+    </a>
 
     <!-- Top-right button: everything you've spied so far. Tap it to see each one's riddle, location and 3D rendering. -->
     <button id="found-button" class="found-button" type="button" hidden>

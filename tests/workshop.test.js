@@ -26,7 +26,7 @@ async function start({ reduced = false, fail = false, legacy = false, width = 39
   };
   filter.parentElement = svg;
   const background = { clientWidth: width, clientHeight: height, append(node) { this.child = node; } };
-  const screen = { hidden: false, querySelector: () => background };
+  const screen = { hidden: false, querySelector: () => background, style: { setProperty(key, value) { this[key] = value; } } };
   const media = { matches: reduced, addListener(fn) { events.set('motion', fn); } };
   if (!legacy) media.addEventListener = (_, fn) => events.set('motion', fn);
   const context = {
@@ -44,7 +44,7 @@ async function start({ reduced = false, fail = false, legacy = false, width = 39
   vm.runInNewContext(source, context);
   // Flush the fetch/text/initialization promise chain, including failure cleanup.
   for (let i = 0; i < 8; i++) await Promise.resolve();
-  return { svg, filter, background, events, timers, calls, removed: () => removed };
+  return { svg, filter, background, screen, events, timers, calls, removed: () => removed };
 }
 
 test('workshop covers portrait and landscape without a transformed root; moving objects have no filtered ancestor', async () => {
@@ -56,6 +56,9 @@ test('workshop covers portrait and landscape without a transformed root; moving 
     assert.equal(Number.parseFloat(app.svg.style.left), (width - artWidth) / 2);
     assert.equal(Number.parseFloat(app.svg.style.top), (height - artHeight) * 0.4);
     assert.equal(app.svg.attributes.width, artWidth);
+    const paintedWindowY = Number.parseFloat(app.svg.style.top) + 500 * artWidth / 900;
+    assert.ok(Math.abs(Number.parseFloat(app.screen.style['--window-center-y']) - paintedWindowY) < 1e-9,
+      'menu badge must share the actual painted window center');
     assert.equal(app.filter.value, null);
     assert.equal(app.svg.style.transform, undefined);
     assert.equal(app.background.child, app.svg);

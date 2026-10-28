@@ -70,7 +70,7 @@
 <path d="M190 470h60v400h-60Z" fill="#8fb0c4" opacity=".5"/>
 <path d="M640 420h70v450h-70Z" fill="#8fb0c4" opacity=".5"/>
 <path d="M250.0 640.0 L640.0 560.0 L640.0 590.0 L250.0 672.0Z" fill="#8fb0c4" opacity=".5"/>
-<path d="M560.0 260.0 L585.0 215.0 L610.0 260.0 L610.0 520.0 L560.0 520.0Z" fill="#8fb0c4" opacity=".5"/>
+<path d="M560.0 260.0 L585.0 215.0 L610.0 260.0 L610.0 840.0 L560.0 840.0Z" fill="#8fb0c4" opacity=".5"/>
 <path d="M140 520 Q450 380 760 520" fill="none" stroke="#8fb0c4" stroke-width="10" opacity=".6"/>
 <g transform="translate(250 300) scale(1.1)" fill="#fff" opacity=".9"><ellipse rx="56" ry="16"/><ellipse cx="-20" cy="-10" rx="24" ry="18"/><ellipse cx="14" cy="-14" rx="28" ry="22"/></g>
 <g transform="translate(660 370) scale(0.9)" fill="#fff" opacity=".9"><ellipse rx="56" ry="16"/><ellipse cx="-20" cy="-10" rx="24" ry="18"/><ellipse cx="14" cy="-14" rx="28" ry="22"/></g>

@@ -10,7 +10,7 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let artwork;
 
-  fetch('images/workshop.svg?v=safari-art-18', { cache: 'no-cache' })
+  fetch('images/workshop.svg?v=window-silhouette-24', { cache: 'no-cache' })
     .then((response) => {
       if (!response.ok) throw new Error('Workshop artwork could not load');
       return response.text();
@@ -44,6 +44,8 @@
         // Position directly instead of transforming the whole filtered SVG surface.
         svg.style.left = `${(width - artworkWidth) * 0.5}px`;
         svg.style.top = `${(height - artworkHeight) * 0.4}px`;
+        // The menu badge shares the painted window's actual center at every cover size.
+        screen.style.setProperty('--window-center-y', `${(height - artworkHeight) * 0.4 + 500 * scale}px`);
       };
       background.append(svg);
       fit();
