@@ -14,7 +14,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5,900&family=Oswald:wght@500;600&display=swap"
     />
-    <link rel="stylesheet" href="css/style.css?v=mural-gestures-13" />
+    <link rel="stylesheet" href="css/style.css?v=position-hints-15" />
     <script defer src="js/lamps.js?v=glint-brighter-11"></script>
 
     <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0.
@@ -22,7 +22,7 @@
          before js/app.js. Only the weights the CSS uses are requested from Google Fonts (see docs/compression.md). -->
     <script defer src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="js/app.js?v=pan-fix-14" type="module"></script>
+    <script src="js/app.js?v=position-hints-17" type="module"></script>
   </head>
   <body>
     <!-- 1. Start screen: the mural's I Spy badge in front of a workshop scene drawn in the mural's style (camera permission is requested when "Start" is tapped) -->
@@ -110,6 +110,14 @@
       <p id="riddle-text" class="riddle" tabindex="0"></p>
       <p id="tap-tip" class="tap-tip"></p>
       <p id="hint-text" class="hint" tabindex="0" hidden></p>
+      <button id="hint-map-button" class="hint-map-button" type="button" hidden>
+        <svg id="hint-map" role="img" aria-label="Mural search area">
+          <image id="hint-map-image" preserveAspectRatio="none" />
+          <rect id="hint-map-region" class="hint-map-region" />
+          <rect id="hint-map-viewport" class="hint-map-viewport" hidden />
+        </svg>
+        <span id="hint-map-caption" class="hint-map-caption"></span>
+      </button>
       <div class="row">
         <button id="hint-button" class="btn">Hint</button>
         <button id="skip-button" class="btn">Skip</button>

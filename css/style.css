@@ -416,6 +416,28 @@ body > video { z-index: 0 !important; }
   font-size: 0.85rem;
   box-shadow: 2px 2px 0 var(--ink);
 }
+.hint-map-button {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+  width: clamp(126px, 28vw, 180px);
+  padding: 3px;
+  border: 1px solid var(--wood);
+  border-radius: 6px;
+  background: var(--wood-dark);
+  color: var(--cream);
+  cursor: pointer;
+}
+.hint-map-button:disabled { cursor: default; }
+.hint-map-button:focus-visible { outline: 3px solid var(--ring-blue); outline-offset: 2px; }
+#hint-map { display: block; width: 100%; aspect-ratio: 4 / 1; overflow: hidden; }
+.hint-map-region { fill: rgb(255 205 55 / 0.25); stroke: #ffd34f; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.hint-map-viewport { fill: none; stroke: #70d9ff; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.hint-map-caption { display: block; margin-top: 3px; font-family: var(--font-label); font-size: 0.58rem; line-height: 1.15; }
+#riddle-card.has-position-hint .row { grid-row: 3 / -1; flex-direction: row; gap: 6px; }
+#riddle-card.has-position-hint .btn { min-width: 58px; padding: 0 7px; }
+#riddle-card.has-position-hint .tap-tip { display: none; }
+#riddle-card.has-position-hint .hint { max-height: 5.2em; font-size: 0.72rem; }
 body:has(#riddle-card:not([hidden])) .picture-scroll {
   height: calc(100% - var(--riddle-dock-space));
 }

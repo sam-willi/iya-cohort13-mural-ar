@@ -12,8 +12,9 @@
 
 import { createSpinningModel, modelUrl, prefetchModel } from './popout.js';
 import { setupMuralZoom } from './mural-zoom.js?v=pan-fix-14';
+import { positionHint, landmarkClue, visibleMuralRegion } from './position-hints.js?v=position-hints-15';
 
-const OBJECTS_URL = 'data/objects.json';
+const OBJECTS_URL = 'data/objects.json?v=position-hints-17';
 const TOAST_COOLDOWN_MS = 3000;
 const SHEET_TIMEOUT_MS = 5000; // give up on the riddle sheet after this and use objects.json
 const WRONG_SCANS_BEFORE_ARROW = 3; // after this many wrong spots, point the player toward the answer
@@ -35,6 +36,12 @@ const ui = {
   riddleText: document.getElementById('riddle-text'),
   hintText: document.getElementById('hint-text'),
   hintButton: document.getElementById('hint-button'),
+  hintMapButton: document.getElementById('hint-map-button'),
+  hintMap: document.getElementById('hint-map'),
+  hintMapImage: document.getElementById('hint-map-image'),
+  hintMapRegion: document.getElementById('hint-map-region'),
+  hintMapViewport: document.getElementById('hint-map-viewport'),
+  hintMapCaption: document.getElementById('hint-map-caption'),
   skipButton: document.getElementById('skip-button'),
   progress: document.getElementById('progress'),
   foundCard: document.getElementById('found-card'),
@@ -122,6 +129,7 @@ async function init() {
 
   ui.startButton.addEventListener('click', startGame);
   ui.hintButton.addEventListener('click', showHint);
+  ui.hintMapButton.addEventListener('click', focusHintArea);
   ui.skipButton.addEventListener('click', skipRiddle);
   ui.nextButton.addEventListener('click', nextRiddle);
   ui.restartButton.addEventListener('click', () => {
@@ -139,6 +147,8 @@ async function init() {
     ui.pictureWall.addEventListener('click', onPictureTap);
     ui.zoomIn.addEventListener('click', () => setZoom(zoom * 1.6));
     ui.zoomOut.addEventListener('click', () => setZoom(zoom / 1.6));
+    ui.pictureScroll.addEventListener('scroll', updateHintViewport, { passive: true });
+    new ResizeObserver(updateHintViewport).observe(ui.pictureScroll);
     setupMuralZoom({
       viewport: ui.pictureScroll,
       getZoom: () => zoom,
@@ -152,7 +162,7 @@ async function init() {
 }
 
 async function loadData() {
-  const res = await fetch(OBJECTS_URL);
+  const res = await fetch(OBJECTS_URL, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Failed to load ${OBJECTS_URL}: ${res.status}`);
   const data = await res.json();
   const sheet = await loadSheetRiddles(data.riddleSheet);
@@ -412,21 +422,20 @@ function showDirection(target, prefix = '') {
   }
   ui.direction.hidden = false;
   clearTimeout(directionTimer);
-  directionTimer = setTimeout(hideDirection, 4000);
+  directionTimer = setTimeout(hideDirection, 5500);
 }
 
 function hideDirection() {
   ui.direction.hidden = true;
 }
 
-// e.g. "about 9 ft to the right and higher up"
+// Direction in the mural, without physical distances players cannot judge on a phone.
 function describeOffset(dx, dy) {
   const parts = [];
   if (Math.abs(dx) > 12) parts.push(dx > 0 ? 'to the right' : 'to the left');
   if (Math.abs(dy) > 12) parts.push(dy > 0 ? 'lower down' : 'higher up');
   if (parts.length === 0) return 'looking a little closer around here';
-  const feet = Math.max(1, Math.round(Math.hypot(dx, dy) / 12));
-  return `about ${feet} ft ${parts.join(' and ')}`;
+  return `looking ${parts.join(' and ')}`;
 }
 
 // e.g. "Just left of the middle window: 9th panel from the left, top row"
@@ -447,21 +456,7 @@ function describeLocation(loc) {
 // Where a spot is relative to the nearest landmark, e.g. "just left of the middle window".
 // Returns null when no landmark is close enough to be a useful reference.
 function nearLandmark(loc) {
-  const c = centre(loc);
-  let best = null;
-  for (const lm of landmarks) {
-    const dx = c.x < lm.x ? c.x - lm.x : c.x > lm.x + lm.w ? c.x - (lm.x + lm.w) : 0;
-    const dy = c.y < lm.y ? c.y - lm.y : c.y > lm.y + lm.h ? c.y - (lm.y + lm.h) : 0;
-    const dist = Math.hypot(dx, dy);
-    if (!best || dist < best.dist) best = { lm, dx, dy, dist };
-  }
-  if (!best || best.dist > mural.panelSize * 1.5) return null;
-
-  const { lm, dx, dy, dist } = best;
-  if (dist === 0) return `in ${lm.name}`;
-  const side = Math.abs(dx) >= Math.abs(dy) ? (dx < 0 ? 'left of' : 'right of') : (dy < 0 ? 'above' : 'below');
-  const howFar = dist < mural.panelSize / 2 ? 'just' : `about ${Math.max(1, Math.round(dist / 12))} ft`;
-  return `${howFar} ${side} ${lm.name}`;
+  return landmarkClue(loc, landmarks, mural.panelSize);
 }
 
 function ordinal(n) {
@@ -540,6 +535,9 @@ function nextRiddle() {
   ui.tapTip.textContent = mode === 'picture' ? 'Pinch to zoom. Scroll or drag to move. Tap to answer.' : 'Find it on the mural, then tap.';
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
+  ui.hintMapButton.hidden = true;
+  ui.riddleCard.classList.remove('has-position-hint');
+  ui.hintButton.textContent = 'Hint';
   ui.hintButton.hidden = false; // even without a written hint, the hint turns on the "which way" arrow
   ui.progress.textContent = `(${Math.min(objects.length, found.size + 1)} of ${objects.length})`;
   ui.riddleCard.hidden = false;
@@ -547,13 +545,70 @@ function nextRiddle() {
 }
 
 function showHint() {
+  if (!current) return;
+  if (!ui.hintMapButton.hidden) {
+    ui.hintText.hidden = true;
+    ui.hintMapButton.hidden = true;
+    ui.riddleCard.classList.remove('has-position-hint');
+    ui.hintButton.textContent = 'Hint';
+    return;
+  }
   hintUsed = true;
-  ui.hintText.textContent = current.hint || (mode === 'picture'
-    ? "Tap anywhere on the picture and we'll show you which way to look."
-    : "Point your camera at the mural and tap the screen. We'll show you which way to look.");
+  const hint = positionHint(mural, current.location, landmarks);
+  if (!hint) return;
+  ui.hintText.textContent = `${current.hint ? `${current.hint} ` : ''}${hint.text}`;
   ui.hintText.hidden = false;
-  ui.hintButton.hidden = true;
+  ui.hintMap.setAttribute('viewBox', `0 0 ${mural.width} ${mural.height}`);
+  ui.hintMap.setAttribute('aria-label', `Mural overview. ${hint.text} Gold shows the search area.${mode === 'picture' ? ' Blue shows your current view.' : ''}`);
+  ui.hintMapImage.setAttribute('href', mural.picture);
+  ui.hintMapImage.setAttribute('width', mural.width);
+  ui.hintMapImage.setAttribute('height', mural.height);
+  setMapRect(ui.hintMapRegion, hint.region);
+  ui.hintMapButton.disabled = mode !== 'picture';
+  ui.hintMapButton.setAttribute('aria-label', mode === 'picture' ? 'Move the mural to the suggested search area' : 'Suggested search area on the mural');
+  ui.hintMapCaption.textContent = mode === 'picture' ? 'Gold: search · Blue: view · Tap to move' : 'Gold: suggested search area';
+  ui.hintMapButton.hidden = false;
+  ui.hintButton.textContent = 'Hide hint';
+  ui.riddleCard.classList.add('has-position-hint');
+  updateHintViewport();
   if (visibleTarget && !contains(visibleTarget, current.location)) showDirection(visibleTarget);
+}
+
+function setMapRect(element, rect) {
+  for (const key of ['x', 'y']) element.setAttribute(key, rect[key]);
+  element.setAttribute('width', rect.w);
+  element.setAttribute('height', rect.h);
+}
+
+function updateHintViewport() {
+  if (ui.hintMapButton.hidden) return;
+  ui.hintMapViewport.toggleAttribute('hidden', mode !== 'picture');
+  if (mode !== 'picture') return;
+  const viewport = ui.pictureScroll.getBoundingClientRect();
+  const region = visibleMuralRegion(mural, ui.pictureWall.getBoundingClientRect(), {
+    left: viewport.left, top: viewport.top, width: ui.pictureScroll.clientWidth, height: ui.pictureScroll.clientHeight,
+  });
+  ui.hintMapViewport.toggleAttribute('hidden', !region);
+  if (region) setMapRect(ui.hintMapViewport, region);
+}
+
+function focusHintArea() {
+  if (mode !== 'picture' || !current) return;
+  const hint = positionHint(mural, current.location, landmarks);
+  if (!hint) return;
+  const scroll = ui.pictureScroll;
+  let wall = ui.pictureWall.getBoundingClientRect();
+  const fit = Math.min(scroll.clientWidth / (hint.region.w / mural.width * wall.width / zoom),
+    scroll.clientHeight / (hint.region.h / mural.height * wall.height / zoom)) * 0.9;
+  setZoom(Math.min(zoom, fit));
+  wall = ui.pictureWall.getBoundingClientRect();
+  const viewport = scroll.getBoundingClientRect();
+  const c = centre(hint.region);
+  scroll.scrollTo({
+    left: scroll.scrollLeft + wall.left + c.x / mural.width * wall.width - viewport.left - scroll.clientWidth / 2,
+    top: scroll.scrollTop + wall.top + c.y / mural.height * wall.height - viewport.top - scroll.clientHeight / 2,
+    behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+  });
 }
 
 function skipRiddle() {
@@ -614,6 +669,7 @@ function setZoom(z, anchor, previousAnchor = anchor) {
   const after = ui.pictureWall.getBoundingClientRect();
   scroll.scrollLeft += after.left + keepX * after.width - anchor.x;
   scroll.scrollTop += after.top + keepY * after.height - anchor.y;
+  updateHintViewport();
 }
 
 // Where a tap lands on the wall, in inches.

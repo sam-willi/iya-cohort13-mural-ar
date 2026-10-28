@@ -103,7 +103,10 @@ Done so far:
 - [x] Tools: position marking, 3D model preview, model compressor, size check on every deploy
 - [x] Playable now on the concept art: object positions, AR targets and backup riddles ([testing without the wall](docs/testing-without-the-wall.md))
 - [x] No-camera mode: tap the object on a picture of the mural
+- [x] Position hints: landmark wording and a small overview with a broad gold search area; picture mode also shows the current view in blue and lets players tap the overview to move there
 - [x] A first 3D rendering for every object on the checklist (built from the isometric drawings; see [tools/model-gallery.html](tools/model-gallery.html))
+
+Position hints use the same `objects.json` wall coordinates as answer detection. Each gold area contains the object's whole bounding box, rather than marking the exact answer. Landmark wording comes from the defined window rectangles. The overview stays in the riddle dock in both modes; AR omits the blue viewport because tracking a local target does not establish the full camera crop. Run `node --test` to check every object's region and picture-mode positioning across phone and landscape viewport shapes. These checks validate the configured coordinates, not a field survey of the painted wall.
 
 ## Contributing
 

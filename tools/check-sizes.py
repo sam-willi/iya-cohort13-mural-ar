@@ -20,7 +20,7 @@ TARGETS_BYTES = (6 * MB, 15 * MB)
 FIRST_LOAD_BYTES = (300 * 1024, 1 * MB)  # our own files loaded before the start button works
 IMAGE_BYTES = (300 * 1024, 2 * MB)
 
-FIRST_LOAD = ["index.html", "css/style.css", "js/app.js", "js/lamps.js", "js/mural-zoom.js", "js/popout.js", "data/objects.json", "images/workshop.svg"]
+FIRST_LOAD = ["index.html", "css/style.css", "js/app.js", "js/lamps.js", "js/mural-zoom.js", "js/position-hints.js", "js/popout.js", "data/objects.json", "images/workshop.svg"]
 
 in_ci = os.environ.get("GITHUB_ACTIONS") == "true"
 problems = {"warning": 0, "error": 0}
