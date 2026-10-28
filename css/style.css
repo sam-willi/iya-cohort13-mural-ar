@@ -509,6 +509,68 @@ body:has(#riddle-card:not([hidden])) #ar-scene {
   #riddle-card { padding-top: 7px; padding-bottom: calc(7px + env(safe-area-inset-bottom)); row-gap: 3px; }
   #riddle-card .tap-tip { display: none; }
 }
+/* ---------- Camera mode: the camera fills the screen ----------
+   The riddle is a slim see-through bar at the bottom that sizes to its text (and can shrink to a tab),
+   the camera isn't cut off behind it, and the magnifier is a small sight in the middle. */
+.riddle-toggle { display: none; }
+body[data-mode="camera"] > video,
+body[data-mode="camera"] #ar-scene { clip-path: none !important; }
+body[data-mode="camera"] #riddle-card {
+  left: 10px;
+  right: 10px;
+  bottom: calc(10px + env(safe-area-inset-bottom));
+  height: auto;
+  max-height: 34dvh;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 10px 12px 10px 14px;
+  border-width: 2px;
+  border-radius: 14px;
+  background: rgb(251 243 227 / 0.88);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow: 3px 3px 0 var(--ink);
+  grid-template-rows: auto auto auto auto;
+}
+body[data-mode="camera"] #riddle-text { max-height: 5.4em; }
+body[data-mode="camera"] #riddle-card .row { flex-direction: row; gap: 6px; grid-row: 2 / -1; align-self: end; }
+body[data-mode="camera"] #riddle-card .btn { min-width: 0; min-height: 36px; padding: 0 10px; font-size: 0.75rem; }
+body[data-mode="camera"] .riddle-toggle {
+  display: block;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+/* collapsed: just a small tab in the corner */
+body[data-mode="camera"] #riddle-card.collapsed {
+  left: auto;
+  right: 10px;
+  width: auto;
+  padding: 6px 6px 6px 12px;
+  grid-template-columns: auto auto;
+  column-gap: 10px;
+}
+body[data-mode="camera"] #riddle-card.collapsed > :not(.eyebrow, .riddle-toggle) { display: none !important; }
+body[data-mode="camera"] #riddle-card.collapsed .eyebrow { align-self: center; }
+/* with a hint open, the little map sits under the Hide button instead of on top of it */
+body[data-mode="camera"] #riddle-card.has-position-hint .hint-map-button { grid-row: 2 / 4; align-self: start; width: clamp(110px, 30vw, 160px); }
+body[data-mode="camera"] #riddle-card.has-position-hint .row { grid-column: 1 / -1; grid-row: 5; justify-content: flex-end; }
+body[data-mode="camera"] .magnifier { --size: min(34vw, 140px); top: 42%; }
+body[data-mode="camera"] .magnifier-lens { border-width: 6px; background: rgb(169 214 238 / 0.06); }
+body[data-mode="camera"] .magnifier-handle { width: 12px; }
+
 /* The mural is in view: the magnifier glows, ready for the player to tap */
 .magnifier.ready .magnifier-lens { box-shadow: 0 0 0 3px var(--ink), inset 0 0 0 3px var(--ink), 0 0 28px 10px rgb(240 169 58 / 0.75); }
 .hint { margin: 10px 0 0; font-style: italic; color: var(--wood); }

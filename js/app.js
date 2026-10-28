@@ -126,6 +126,8 @@ async function init() {
 
   document.addEventListener('click', onSpyTap);
   ui.foundButton.addEventListener('click', openCollection);
+  // In camera mode the riddle can shrink to a small tab so the whole screen is camera
+  document.getElementById('riddle-toggle').addEventListener('click', () => setRiddleCollapsed(!ui.riddleCard.classList.contains('collapsed')));
   ui.collectionClose.addEventListener('click', () => (ui.collection.hidden = true));
   ui.detailBack.addEventListener('click', showCollectionList);
   sceneEl.addEventListener('arError', () => showToast('Camera could not start. Check camera permissions and try again.'));
@@ -490,6 +492,7 @@ function drawMiniMap(loc, svg = ui.miniMap) {
 
 function startGame() {
   mode = 'camera';
+  document.body.dataset.mode = mode;
   ui.startButton.disabled = true;
   ui.startScreen.hidden = true;
   resetQueue();
@@ -537,6 +540,7 @@ function nextRiddle() {
 
   prefetchModel(modelUrl(current)); // download the 3D model while the player reads the riddle
   ui.riddleText.textContent = current.riddle;
+  setRiddleCollapsed(false); // every new riddle starts open
   ui.tapTip.textContent = mode === 'picture' ? 'Pinch to zoom. Scroll or drag to move. Tap to answer.' : 'Find it on the mural, then tap.';
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
@@ -650,6 +654,7 @@ function showFound(obj) {
 
 function startPictureGame() {
   mode = 'picture';
+  document.body.dataset.mode = mode;
   ui.startScreen.hidden = true;
   ui.pictureView.hidden = false;
   if (!ui.pictureImg.src) ui.pictureImg.src = mural.picture;
@@ -767,6 +772,13 @@ async function createViewer(obj, { zoom }) {
   })) viewer.setAttribute(k, v);
   if (!zoom) viewer.setAttribute('disable-zoom', '');
   return viewer;
+}
+
+function setRiddleCollapsed(collapsed) {
+  ui.riddleCard.classList.toggle('collapsed', collapsed);
+  const toggle = document.getElementById('riddle-toggle');
+  toggle.textContent = collapsed ? 'Show riddle' : 'Hide';
+  toggle.setAttribute('aria-expanded', String(!collapsed));
 }
 
 // ---------- Found so far ----------
