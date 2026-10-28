@@ -66,14 +66,12 @@ body > video { z-index: 0 !important; }
 .scene-bg {
   position: absolute;
   inset: 0;
-  background: url("../images/workshop.svg?v=glint-brighter-11") 50% 40% / cover no-repeat;
+  background: url("../images/workshop.svg?v=safari-art-18") 50% 40% / cover no-repeat;
 }
-.scene-bg.is-inline { background: none; }
 .scene-bg > svg {
   position: absolute;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -40%);
+  left: 0;
+  top: 0;
   pointer-events: none;
 }
 .scene-bg .workshop-gear {

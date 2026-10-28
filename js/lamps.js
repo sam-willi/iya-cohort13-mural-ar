@@ -8,8 +8,9 @@
   const screen = document.getElementById('start-screen');
   const background = screen.querySelector('.scene-bg');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let artwork;
 
-  fetch('images/workshop.svg?v=glint-brighter-11')
+  fetch('images/workshop.svg?v=safari-art-18', { cache: 'no-cache' })
     .then((response) => {
       if (!response.ok) throw new Error('Workshop artwork could not load');
       return response.text();
@@ -18,19 +19,36 @@
       const parsed = new DOMParser().parseFromString(source, 'image/svg+xml');
       if (parsed.querySelector('parsererror')) throw new Error('Invalid workshop artwork');
       const svg = document.importNode(parsed.documentElement, true);
+      artwork = svg;
       svg.setAttribute('aria-hidden', 'true');
       svg.setAttribute('focusable', 'false');
 
+      // Filtered ancestors can rasterize their animated descendants in WebKit.
+      // Keep the existing texture elsewhere, and draw the moving objects as vectors.
+      for (const moving of svg.querySelectorAll('.workshop-gear, .workshop-eye-open, .workshop-eye-closed, .teapot-steam, .magnifier-glint, .lamp-light')) {
+        for (let parent = moving.parentElement; parent && parent !== svg; parent = parent.parentElement) {
+          parent.removeAttribute('filter');
+        }
+      }
+
       // Match the existing background's cover sizing and 50% / 40% positioning.
       const fit = () => {
-        const scale = Math.max(background.clientWidth / 900, background.clientHeight / 1400);
-        svg.style.width = `${900 * scale}px`;
-        svg.style.height = `${1400 * scale}px`;
+        const { clientWidth: width, clientHeight: height } = background;
+        if (!width || !height) return;
+        const scale = Math.max(width / 900, height / 1400);
+        const artworkWidth = 900 * scale, artworkHeight = 1400 * scale;
+        svg.setAttribute('width', artworkWidth);
+        svg.setAttribute('height', artworkHeight);
+        svg.style.width = `${artworkWidth}px`;
+        svg.style.height = `${artworkHeight}px`;
+        // Position directly instead of transforming the whole filtered SVG surface.
+        svg.style.left = `${(width - artworkWidth) * 0.5}px`;
+        svg.style.top = `${(height - artworkHeight) * 0.4}px`;
       };
       background.append(svg);
       fit();
-      background.classList.add('is-inline');
-      new ResizeObserver(fit).observe(background);
+      if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fit).observe(background);
+      window.addEventListener('resize', fit);
 
       const lights = [
         [...svg.querySelectorAll('.lamp-light:not(.lamp-light-right)')],
@@ -76,8 +94,13 @@
 
       new MutationObserver(sync).observe(screen, { attributes: true, attributeFilter: ['hidden'] });
       document.addEventListener('visibilitychange', sync);
-      reducedMotion.addEventListener('change', sync);
+      window.addEventListener('pageshow', () => { fit(); sync(); });
+      if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', sync);
+      else reducedMotion.addListener(sync);
       sync();
     })
-    .catch((error) => console.warn('Lamp animation unavailable:', error));
+    .catch((error) => {
+      artwork?.remove(); // Leave the static CSS illustration visible if enhancement fails.
+      console.warn('Lamp animation unavailable:', error);
+    });
 })();
