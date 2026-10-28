@@ -418,12 +418,7 @@
       "name": "Toilet Paper",
       "riddle": "I spy a soft roll that everyone needs and nobody wants to run out of.",
       "hint": "",
-      "location": {
-        "x": 520,
-        "y": 115,
-        "w": 28,
-        "h": 24
-      },
+      "location": null,
       "student": {
         "name": "",
         "pageUrl": ""
@@ -813,10 +808,10 @@
       "riddle": "I spy two cushioned cups joined by a band that hush the world and play your songs.",
       "hint": "",
       "location": {
-        "x": 195,
-        "y": 7,
-        "w": 20,
-        "h": 12
+        "x": 520,
+        "y": 115,
+        "w": 28,
+        "h": 24
       },
       "student": {
         "name": "",
@@ -1233,7 +1228,12 @@
       "name": "Wireless Earbuds",
       "riddle": "I spy two tiny speakers with no wires that tuck into your ears.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 195,
+        "y": 7,
+        "w": 20,
+        "h": 12
+      },
       "student": {
         "name": "",
         "pageUrl": ""
