@@ -16,6 +16,8 @@
   --signed-blue: #23709f;
   --lens-rim: #8a2a1e;
   --handle-gold: #f2c230;
+  --riddle-dock-height: clamp(160px, 26dvh, 200px);
+  --riddle-dock-space: calc(var(--riddle-dock-height) + env(safe-area-inset-bottom));
 
   --font-logo: "Noto Serif Display", "Didot", "Bodoni 72", Georgia, serif; /* tall condensed serif, like the badge's "I SPY" */
   --font-label: "Oswald", "Arial Narrow", sans-serif;                      /* condensed sans, like "IYA COHORT 13" */
@@ -64,7 +66,61 @@ body > video { z-index: 0 !important; }
 .scene-bg {
   position: absolute;
   inset: 0;
-  background: url("../images/workshop.svg") 50% 40% / cover no-repeat;
+  background: url("../images/workshop.svg?v=glint-brighter-11") 50% 40% / cover no-repeat;
+}
+.scene-bg.is-inline { background: none; }
+.scene-bg > svg {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -40%);
+  pointer-events: none;
+}
+.scene-bg .workshop-gear {
+  transform-box: view-box;
+  transform-origin: 880px 300px;
+  animation: gear-turn 60s linear infinite;
+}
+@keyframes gear-turn {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.scene-bg .workshop-eye-open {
+  transform-box: view-box;
+  transform-origin: 60px 616px;
+  animation: eye-blink 5s steps(1, end) infinite;
+}
+.scene-bg .workshop-eye-closed {
+  animation: eye-lid 5s steps(1, end) infinite;
+}
+/* Hold each drawing for a beat, like a small stop-motion loop. */
+@keyframes eye-blink {
+  0%, 86%, 100% { transform: scaleY(1); }
+  88%, 98% { transform: scaleY(0.65); }
+  90%, 96% { transform: scaleY(0.25); }
+  92%, 94% { transform: scaleY(0); }
+}
+@keyframes eye-lid {
+  0%, 96%, 100% { opacity: 0; }
+  92%, 94% { opacity: 1; }
+}
+.scene-bg .teapot-steam { animation: teapot-puff 9s steps(2, end) infinite; }
+.scene-bg .magnifier-glint { animation: glass-glint 12s linear infinite; }
+/* A short wisp, followed by a long, completely clear pause. */
+@keyframes teapot-puff {
+  0%, 20%, 100% { opacity: 0; transform: translate(0, 4px); }
+  23% { opacity: 0.18; transform: translate(-1px, 0); }
+  27% { opacity: 0.45; transform: translate(-3px, -7px); }
+  32% { opacity: 0.52; transform: translate(-5px, -14px); }
+  38% { opacity: 0.2; transform: translate(-6px, -23px); }
+  42% { opacity: 0; transform: translate(-8px, -30px); }
+}
+@keyframes glass-glint {
+  /* 41.6667% of twelve seconds is the five-second mark. */
+  0%, 41.6667% { opacity: 0; transform: translateX(-100px); }
+  42.6667% { opacity: 0.24; }
+  48% { opacity: 0.38; }
+  55%, 100% { opacity: 0; transform: translateX(160px); }
 }
 .cover > :not(.scene-bg) { position: relative; z-index: 1; }
 
@@ -288,6 +344,93 @@ body > video { z-index: 0 !important; }
   text-wrap: balance;
 }
 .tap-tip { margin: 8px 0 0; font-family: var(--font-label); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rust); }
+
+/* Keep the riddle in a compact bottom dock, entirely below the playable viewport. */
+#riddle-card {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: none;
+  height: var(--riddle-dock-space);
+  padding: 10px max(14px, calc((100vw - 720px) / 2)) calc(10px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  column-gap: 14px;
+  row-gap: 5px;
+  border-width: 2px 0 0;
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 -3px 10px rgb(0 0 0 / 0.18);
+  text-align: left;
+}
+#riddle-card .mini-badge { display: none; }
+#riddle-card .eyebrow {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+#riddle-text {
+  grid-column: 1;
+  grid-row: 2;
+  min-height: 0;
+  margin: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  font-size: clamp(0.82rem, 2.6vw, 0.95rem);
+  line-height: 1.35;
+  white-space: normal;
+  text-wrap: pretty;
+}
+#riddle-card .hint {
+  grid-column: 1;
+  grid-row: 3;
+  max-height: 2.6em;
+  margin: 0;
+  overflow-y: auto;
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+#riddle-card .tap-tip {
+  grid-column: 1;
+  grid-row: 4;
+  margin: 0;
+  font-size: 0.65rem;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+}
+#riddle-card .row {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: center;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+#riddle-card .btn {
+  min-width: 64px;
+  padding: 0 12px;
+  border-width: 2px;
+  font-size: 0.85rem;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+body:has(#riddle-card:not([hidden])) .picture-scroll {
+  height: calc(100% - var(--riddle-dock-space));
+}
+body:has(#riddle-card:not([hidden])) .picture-zoom {
+  top: calc(100% - var(--riddle-dock-space) - 56px);
+}
+body:has(#riddle-card:not([hidden])) > video,
+body:has(#riddle-card:not([hidden])) #ar-scene {
+  clip-path: inset(0 0 var(--riddle-dock-space) 0);
+}
+@media (max-height: 480px) {
+  :root { --riddle-dock-height: 128px; }
+  #riddle-card { padding-top: 7px; padding-bottom: calc(7px + env(safe-area-inset-bottom)); row-gap: 3px; }
+  #riddle-card .tap-tip { display: none; }
+}
 /* The mural is in view: the magnifier glows, ready for the player to tap */
 .magnifier.ready .magnifier-lens { box-shadow: 0 0 0 3px var(--ink), inset 0 0 0 3px var(--ink), 0 0 28px 10px rgb(240 169 58 / 0.75); }
 .hint { margin: 10px 0 0; font-style: italic; color: var(--wood); }
@@ -493,6 +636,8 @@ body .direction, body #toast { top: calc(68px + env(safe-area-inset-top)); } /* 
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .scene-bg .workshop-gear, .scene-bg .workshop-eye-open, .scene-bg .workshop-eye-closed,
+  .scene-bg .teapot-steam, .scene-bg .magnifier-glint,
   .magnifier, .mini-map .map-ring, .picture-lens, .picture-miss { animation: none; }
   .magnifier.landing, .direction-arrow { transition: none; }
   .btn { transition: none; }

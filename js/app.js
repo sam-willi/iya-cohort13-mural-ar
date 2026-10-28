@@ -529,7 +529,7 @@ function nextRiddle() {
 
   prefetchModel(modelUrl(current)); // download the 3D model while the player reads the riddle
   ui.riddleText.textContent = current.riddle;
-  ui.tapTip.textContent = mode === 'picture' ? 'Tap the object on the picture.' : 'Look at the mural, then tap the screen when you spy it.';
+  ui.tapTip.textContent = mode === 'picture' ? 'Tap the object to answer.' : 'Find it on the mural, then tap.';
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
   ui.hintButton.hidden = false; // even without a written hint, the hint turns on the "which way" arrow

@@ -14,14 +14,15 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5,900&family=Oswald:wght@500;600&display=swap"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css?v=glint-brighter-11" />
+    <script defer src="js/lamps.js?v=glint-brighter-11"></script>
 
     <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0.
          `defer` lets the start screen show straight away while these ~660 KB download; they still run in order,
          before js/app.js. Only the weights the CSS uses are requested from Google Fonts (see docs/compression.md). -->
     <script defer src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="js/app.js" type="module"></script>
+    <script src="js/app.js?v=riddle-dock-7" type="module"></script>
   </head>
   <body>
     <!-- 1. Start screen: the mural's I Spy badge in front of a workshop scene drawn in the mural's style (camera permission is requested when "Start" is tapped) -->
@@ -102,13 +103,13 @@
       <span class="magnifier-handle"></span>
     </div>
 
-    <!-- 2. Riddle card, shown over the camera while the player searches -->
+    <!-- 2. Compact riddle dock, below the camera or mural picture while the player searches -->
     <section id="riddle-card" class="card card-bottom" hidden>
       <span class="mini-badge" aria-hidden="true">I SPY</span>
       <p class="eyebrow">Riddle <span id="progress"></span></p>
-      <p id="riddle-text" class="riddle"></p>
+      <p id="riddle-text" class="riddle" tabindex="0"></p>
       <p id="tap-tip" class="tap-tip"></p>
-      <p id="hint-text" class="hint" hidden></p>
+      <p id="hint-text" class="hint" tabindex="0" hidden></p>
       <div class="row">
         <button id="hint-button" class="btn">Hint</button>
         <button id="skip-button" class="btn">Skip</button>
