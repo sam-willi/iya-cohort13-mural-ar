@@ -70,16 +70,20 @@ If a model is still over budget after that, it needs fewer triangles: use the De
 
 ## The generated set
 
-Every object on the Cohort 13 checklist already has a first-pass rendering in `models/`, modelled in code from the
-students' isometric drawings (the "Isometric Product Illustrations" Drive folder). Browse them all in
+Every object on the Cohort 13 checklist has a rendering in `models/`, modelled in Blender from the students' isometric
+drawings (the "Isometric Product Illustrations" Drive folder). Browse them all in
 **[tools/model-gallery.html](../tools/model-gallery.html)**.
 
-- The source is in [`tools/models/`](../tools/models/): one Python function per object in `objs_*.py`.
-  [`manifest_src.py`](../tools/models/manifest_src.py) says which drawing and student each one comes from.
-- To change one, edit its function, then run `python3 tools/models/build.py <id>` and `npm run models`.
+- Each object is one Python script, [`tools/models/blender/<id>.py`](../tools/models/blender/), built from shared helpers
+  in [`kit.py`](../tools/models/blender/kit.py). Most open with a note on what they follow from the drawing and what was guessed.
+- To change one, install [Blender](https://www.blender.org/) 5.x, edit its script, then from the repo folder run
+  `blender -b -P tools/models/blender/<id>.py -- --check` and `npm run models`. `--check` also renders four views into
+  `tools/models/blender/check/<id>.png` (not committed) so you can see the result without opening Blender.
+- Some scripts use macOS fonts for lettering and fall back to Blender's built-in font elsewhere.
 - Objects with no drawing in the folder (violin, basketball + baseball, motorcycle, bowler hat, toilet paper,
-  electric fan, ice chest, treadmill, snow shovel, skateboard, exercise weights, toolbox) got a generic model until
-  their drawings turn up. [`catalog.json`](../tools/models/catalog.json) flags these and a few other open questions.
+  electric fan, ice chest, treadmill, snow shovel, skateboard, exercise weights, toolbox) got a classic version until
+  their drawings turn up. [`catalog.json`](../tools/models/catalog.json) flags these and the drawings that don't match
+  their checklist name.
 - A hand-made model from Blender or Fusion can replace any of them: just export it to `models/incoming/<id>.glb`
   and run `npm run models` as usual.
 
