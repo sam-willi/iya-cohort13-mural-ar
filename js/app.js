@@ -11,6 +11,7 @@
 // never need to touch this file. Riddles come live from the riddle team's Google Sheet (see loadSheetRiddles).
 
 import { createSpinningModel, modelUrl, prefetchModel } from './popout.js';
+import { addRoomEnvironment } from './environment.js';
 import { setupMuralZoom } from './mural-zoom.js?v=pan-fix-14';
 import { positionHint, landmarkClue, visibleMuralRegion } from './position-hints.js?v=position-hints-15';
 
@@ -29,6 +30,7 @@ const THREE = AFRAME.THREE;
 // add the AR scene to the page (see the <template> in index.html).
 document.body.append(document.getElementById('ar-scene-template').content.cloneNode(true));
 const sceneEl = document.getElementById('ar-scene');
+addRoomEnvironment(sceneEl);
 const ui = {
   startScreen: document.getElementById('start-screen'),
   startButton: document.getElementById('start-button'),

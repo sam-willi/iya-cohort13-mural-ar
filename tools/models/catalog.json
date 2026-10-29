@@ -1,805 +1,805 @@
 {
-  "models": [
-    {
-      "id": "boombox",
-      "checklist": 90,
-      "name": "Boom box",
-      "model": "models/boombox.glb",
-      "student": "Daniel Thomas",
-      "drawing": "DanielThomas_RV_Boombox_P5a.pdf",
-      "note": ""
-    },
-    {
-      "id": "jukebox",
-      "checklist": 89,
-      "name": "Jukebox",
-      "model": "models/jukebox.glb",
-      "student": "Emma Xiao",
-      "drawing": "EmmaXiao_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "violin",
-      "checklist": 88,
-      "name": "Violin",
-      "model": "models/violin.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "gaming-mouse",
-      "checklist": 87,
-      "name": "Gaming mouse",
-      "model": "models/gaming-mouse.glb",
-      "student": "Sarah Tu",
-      "drawing": "SarahTu_GamingMouse.jpg",
-      "note": ""
-    },
-    {
-      "id": "spatula-spoon-fork",
-      "checklist": 86,
-      "name": "Spatula, spoon, fork",
-      "model": "models/spatula-spoon-fork.glb",
-      "student": "Lelia Twersky",
-      "drawing": "LeliaTwersky_RV_P4a_SpatulaSpoonFork.jpg",
-      "note": ""
-    },
-    {
-      "id": "top-hat-2",
-      "checklist": 85,
-      "name": "Tophat",
-      "model": "models/top-hat-2.glb",
-      "student": "Lana Kim",
-      "drawing": "LanaKim_RV_P5a_Cohort_TopHat.jpg",
-      "note": "Two top hats on the checklist but one in objects.json; saved as top-hat-2"
-    },
-    {
-      "id": "basketball-baseball",
-      "checklist": 84,
-      "name": "Basketball + baseball",
-      "model": "models/basketball-baseball.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "fish-aquarium",
-      "checklist": 83,
-      "name": "Fish aquarium",
-      "model": "models/fish-aquarium.glb",
-      "student": "Beatrice Madden",
-      "drawing": "BeatriceMadden_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "motorcycle",
-      "checklist": 82,
-      "name": "Motorcycle",
-      "model": "models/motorcycle.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "crystal-ball",
-      "checklist": 81,
-      "name": "Crystal ball",
-      "model": "models/crystal-ball.glb",
-      "student": "Madison Harris",
-      "drawing": "MadisonHarris_RV_P5Aa_CohortMural.pdf",
-      "note": ""
-    },
-    {
-      "id": "rice-cooker",
-      "checklist": 80,
-      "name": "Rice cooker",
-      "model": "models/rice-cooker.glb",
-      "student": "Gabrielle Tiu",
-      "drawing": "GabrielleTiu_RV_P5a_RiceCooker.jpg",
-      "note": ""
-    },
-    {
-      "id": "hand-mixer",
-      "checklist": 79,
-      "name": "Hand mixer",
-      "model": "models/hand-mixer.glb",
-      "student": "Jonathan Bakhash",
-      "drawing": "JonathanBakhash_RV_P5a_Cohort_Mural.jpg",
-      "note": "Drawing is unlabeled; matched to hand mixer by elimination - please confirm"
-    },
-    {
-      "id": "pan",
-      "checklist": 78,
-      "name": "Cast iron skillet",
-      "model": "models/pan.glb",
-      "student": "Sid Chowdhury",
-      "drawing": "Sid_Chowdhury_RV_P5a_Pan.png",
-      "note": ""
-    },
-    {
-      "id": "1950s-car",
-      "checklist": 77,
-      "name": "Car (50s)",
-      "model": "models/1950s-car.glb",
-      "student": "Alene Abdulian",
-      "drawing": "AleneAbdulian_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "backpack",
-      "checklist": 76,
-      "name": "Backpack",
-      "model": "models/backpack.glb",
-      "student": "Asher Lasky",
-      "drawing": "AsherLasky_RV_P5a_Cohort_Mural.jpg",
-      "note": ""
-    },
-    {
-      "id": "contemporary-robot",
-      "checklist": 74,
-      "name": "Contemporary robot",
-      "model": "models/contemporary-robot.glb",
-      "student": "Iris Zhang",
-      "drawing": "IrisZhang_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "bowler-hat",
-      "checklist": 73,
-      "name": "Bowler hat",
-      "model": "models/bowler-hat.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "toilet-paper",
-      "checklist": 72,
-      "name": "Toilet paper",
-      "model": "models/toilet-paper.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "tennis-racket",
-      "checklist": 71,
-      "name": "Tennis racket",
-      "model": "models/tennis-racket.glb",
-      "student": "Alex Tully",
-      "drawing": "AlexTully_RV_P5a_Cohort_Mural.png",
-      "note": ""
-    },
-    {
-      "id": "tv-screen",
-      "checklist": 70,
-      "name": "Television screen",
-      "model": "models/tv-screen.glb",
-      "student": "Shayla Nguyen",
-      "drawing": "ShaylaNguyen_RV_P4a_TelevisionScreen.jpg",
-      "note": ""
-    },
-    {
-      "id": "handheld-fan",
-      "checklist": 69,
-      "name": "Handheld fan",
-      "model": "models/handheld-fan.glb",
-      "student": "Edie Murawski",
-      "drawing": "EDIEMURAWSKI_RV_P5a_ISOMETRIC PRODUCT.jpeg",
-      "note": ""
-    },
-    {
-      "id": "electric-fan",
-      "checklist": 68,
-      "name": "Electric fan",
-      "model": "models/electric-fan.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "telescope",
-      "checklist": 67,
-      "name": "Telescope",
-      "model": "models/telescope.glb",
-      "student": "Matthew Carlin",
-      "drawing": "MatthewCarlin_RV_P4a_Telescope.pdf",
-      "note": ""
-    },
-    {
-      "id": "sunglasses",
-      "checklist": 66,
-      "name": "Sunglasses",
-      "model": "models/sunglasses.glb",
-      "student": "Brian Lee",
-      "drawing": "BrianLee_Sunglasses.jpg",
-      "note": ""
-    },
-    {
-      "id": "lock",
-      "checklist": 65,
-      "name": "Bike lock",
-      "model": "models/lock.glb",
-      "student": "Tsion Pescasio",
-      "drawing": "TsionPescasioRV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "coffee-grinder",
-      "checklist": 64,
-      "name": "Coffee grinder",
-      "model": "models/coffee-grinder.glb",
-      "student": "Lauren Young",
-      "drawing": "Lauren Young_RV_P5a_coffee grinder.jpeg",
-      "note": ""
-    },
-    {
-      "id": "beard-trimmer",
-      "checklist": 63,
-      "name": "Beard trimmer",
-      "model": "models/beard-trimmer.glb",
-      "student": "Sam Williamson",
-      "drawing": "SamWilliamson_RV_P5a_BeardTrimmer.png",
-      "note": ""
-    },
-    {
-      "id": "car-tire",
-      "checklist": 62,
-      "name": "Car tire",
-      "model": "models/car-tire.glb",
-      "student": "Matt Turner",
-      "drawing": "MattTurner_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "drill",
-      "checklist": 61,
-      "name": "Electric drill",
-      "model": "models/drill.glb",
-      "student": "Julia Chen",
-      "drawing": "JuliaChen_RV_P4a_ElectricDrill.jpeg",
-      "note": ""
-    },
-    {
-      "id": "bread-maker",
-      "checklist": 60,
-      "name": "Bread maker",
-      "model": "models/bread-maker.glb",
-      "student": "Sara Attal",
-      "drawing": "Sara_Attal_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "label-maker",
-      "checklist": 59,
-      "name": "Label maker",
-      "model": "models/label-maker.glb",
-      "student": "Alana McCareins",
-      "drawing": "Alana_McCareins_LabelMaker.jpg",
-      "note": ""
-    },
-    {
-      "id": "ice-chest-cooler",
-      "checklist": 58,
-      "name": "Ice chest cooler",
-      "model": "models/ice-chest-cooler.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "vinyl-record-player",
-      "checklist": 57,
-      "name": "Vinyl record player",
-      "model": "models/vinyl-record-player.glb",
-      "student": "Saissha Jain",
-      "drawing": "SaisshaJain_VinylRecordPlayer.jpg",
-      "note": ""
-    },
-    {
-      "id": "hot-air-balloon",
-      "checklist": 56,
-      "name": "Air balloon",
-      "model": "models/hot-air-balloon.glb",
-      "student": "Garrett McCormick",
-      "drawing": "GarrettMcCormick_RV_P5a_Cohort_Mural.jpg",
-      "note": ""
-    },
-    {
-      "id": "pinball-machine",
-      "checklist": 55,
-      "name": "Pinball machine",
-      "model": "models/pinball-machine.glb",
-      "student": "Leanne W.",
-      "drawing": "LeanneW_RV_5b_pinball machine.pdf",
-      "note": ""
-    },
-    {
-      "id": "washing-machine",
-      "checklist": 53,
-      "name": "Washing machine",
-      "model": "models/washing-machine.glb",
-      "student": "Christian Kim",
-      "drawing": "ChristianKim_RV_P5a_WashingMachine.pdf",
-      "note": ""
-    },
-    {
-      "id": "paint-roller-kit",
-      "checklist": 52,
-      "name": "Paint roller kit",
-      "model": "models/paint-roller-kit.glb",
-      "student": "Sara Gold",
-      "drawing": "SaraGold_PaintRollerKit.jpg",
-      "note": ""
-    },
-    {
-      "id": "treadmill",
-      "checklist": 51,
-      "name": "Treadmill",
-      "model": "models/treadmill.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "flashlight",
-      "checklist": 50,
-      "name": "Flashlight",
-      "model": "models/flashlight.glb",
-      "student": "Makeda West",
-      "drawing": "MakedaWest_Flashlight.jpg",
-      "note": ""
-    },
-    {
-      "id": "baby-stroller",
-      "checklist": 49,
-      "name": "Baby stroller",
-      "model": "models/baby-stroller.glb",
-      "student": "Oli Reyes",
-      "drawing": "OliReyes_Babystroller.pdf",
-      "note": ""
-    },
-    {
-      "id": "smart-watch",
-      "checklist": 48,
-      "name": "Smartwatch",
-      "model": "models/smart-watch.glb",
-      "student": "Alexis Limary",
-      "drawing": "AlexisLimary_SmartWatch.jpg",
-      "note": ""
-    },
-    {
-      "id": "drone-2",
-      "checklist": 47,
-      "name": "Drone",
-      "model": "models/drone-2.glb",
-      "student": "Celeste Oder",
-      "drawing": "CelesteOder_Drone.jpg",
-      "note": "Two drones on the checklist but one in objects.json; saved as drone-2"
-    },
-    {
-      "id": "sewing-machine",
-      "checklist": 46,
-      "name": "Sewing machine",
-      "model": "models/sewing-machine.glb",
-      "student": "Anne Pham",
-      "drawing": "AnnePham_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "pet-carrier",
-      "checklist": 45,
-      "name": "Pet carrier",
-      "model": "models/pet-carrier.glb",
-      "student": "Ledger A.P.",
-      "drawing": "LEDGERAP_RV_P5a_Cohort_Mural 2.pdf",
-      "note": ""
-    },
-    {
-      "id": "suitcase",
-      "checklist": 44,
-      "name": "Suitcase",
-      "model": "models/suitcase.glb",
-      "student": "Maddie Cheng",
-      "drawing": "MaddieCheng_RV_P5a_Cohort_Mural.jpg.pdf",
-      "note": ""
-    },
-    {
-      "id": "top-hat",
-      "checklist": 43,
-      "name": "Tophat",
-      "model": "models/top-hat.glb",
-      "student": "April Ortiz",
-      "drawing": "AprilOrtiz_RV_P4a_TopHat.jpg",
-      "note": ""
-    },
-    {
-      "id": "toaster",
-      "checklist": 42,
-      "name": "Toaster oven",
-      "model": "models/toaster.glb",
-      "student": "JT Lu-Morris",
-      "drawing": "JTLu-Morris_RV_P5a_Toaster.pdf",
-      "note": ""
-    },
-    {
-      "id": "pendulum-clock",
-      "checklist": 41,
-      "name": "Pendulum clock",
-      "model": "models/pendulum-clock.glb",
-      "student": "Christine Wu",
-      "drawing": "ChristineWu_RV_P4a_PendulumClock.jpg",
-      "note": ""
-    },
-    {
-      "id": "hose",
-      "checklist": 40,
-      "name": "Garden hose",
-      "model": "models/hose.glb",
-      "student": "Bowden Eley",
-      "drawing": "Bowdeneley_RV_P5a_Isometric Product.heif",
-      "note": ""
-    },
-    {
-      "id": "electric-scooter",
-      "checklist": 39,
-      "name": "Electric scooter",
-      "model": "models/electric-scooter.glb",
-      "student": "Elizabeth Ahn",
-      "drawing": "ElizabethAhn_ElectricScooter.pdf",
-      "note": ""
-    },
-    {
-      "id": "office-desk",
-      "checklist": 38,
-      "name": "Office desk",
-      "model": "models/office-desk.glb",
-      "student": "Zachary Lehr",
-      "drawing": "ZacharyLehr_OfficeDesk.jpg",
-      "note": ""
-    },
-    {
-      "id": "tripod",
-      "checklist": 37,
-      "name": "Smartphone tripod",
-      "model": "models/tripod.glb",
-      "student": "Srinja Chukkapalli",
-      "drawing": "SrinjaChukkapalli_RV_P4a_Tripod.pdf",
-      "note": ""
-    },
-    {
-      "id": "office-chair",
-      "checklist": 36,
-      "name": "Office chair",
-      "model": "models/office-chair.glb",
-      "student": "Sophie Ogawa",
-      "drawing": "SophieOgawa_RV_P5a_OfficeChair.pdf",
-      "note": ""
-    },
-    {
-      "id": "portable-power-station",
-      "checklist": 35,
-      "name": "Portable power station",
-      "model": "models/portable-power-station.glb",
-      "student": "Jake Ellengold",
-      "drawing": "JakeEllengold_RV_P5a_Cohort_Mural.png",
-      "note": ""
-    },
-    {
-      "id": "binoculars",
-      "checklist": 34,
-      "name": "Binoculars",
-      "model": "models/binoculars.glb",
-      "student": "Cara Austring",
-      "drawing": "CaraAustring_RV_P5a_Binoculars.pdf",
-      "note": ""
-    },
-    {
-      "id": "snow-shovel",
-      "checklist": 33,
-      "name": "Snow shovel",
-      "model": "models/snow-shovel.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "fortune-telling-machine",
-      "checklist": 32,
-      "name": "Fortune telling machine",
-      "model": "models/fortune-telling-machine.glb",
-      "student": "Brendan Giang",
-      "drawing": "BrendanGiang_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "vacuum",
-      "checklist": 31,
-      "name": "Vacuum cleaner",
-      "model": "models/vacuum.glb",
-      "student": "Nina Zhang",
-      "drawing": "NinaZhang_RV_5a_Vacuum Cleaner.jpg",
-      "note": ""
-    },
-    {
-      "id": "skateboard",
-      "checklist": 30,
-      "name": "Skateboard",
-      "model": "models/skateboard.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "astronaut-helmet",
-      "checklist": 29,
-      "name": "Astronaut helmet",
-      "model": "models/astronaut-helmet.glb",
-      "student": "Jessy Elias",
-      "drawing": "JessyElias_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "exercise-weights",
-      "checklist": 28,
-      "name": "Exercise weights",
-      "model": "models/exercise-weights.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "toolbox",
-      "checklist": 27,
-      "name": "Toolbox",
-      "model": "models/toolbox.glb",
-      "student": "",
-      "drawing": null,
-      "note": "No drawing in the folder; generic model"
-    },
-    {
-      "id": "drone",
-      "checklist": 26,
-      "name": "Drone",
-      "model": "models/drone.glb",
-      "student": "Hudsen Brodt",
-      "drawing": "HudsenBrodt_RV_P5a_Cohort_Mural.jpg",
-      "note": "Two drones on the checklist; this one is objects.json \"drone\""
-    },
-    {
-      "id": "radio",
-      "checklist": 25,
-      "name": "Radio (Art Deco)",
-      "model": "models/radio.glb",
-      "student": "Mikayla Wang",
-      "drawing": "MikaylaWang_RV_P4a_Radio(Art_Deco).jpg",
-      "note": ""
-    },
-    {
-      "id": "rain-jacket",
-      "checklist": 24,
-      "name": "Rain jacket",
-      "model": "models/rain-jacket.glb",
-      "student": "Michelle Shen",
-      "drawing": "MichelleShen_RV_P5a_Rainjacket.jpg",
-      "note": ""
-    },
-    {
-      "id": "espresso-machine",
-      "checklist": 23,
-      "name": "Espresso machine",
-      "model": "models/espresso-machine.glb",
-      "student": "Sarah Yoo",
-      "drawing": "sarah Yoo_espresso machine.jpg",
-      "note": ""
-    },
-    {
-      "id": "umbrella",
-      "checklist": 22,
-      "name": "Umbrella",
-      "model": "models/umbrella.glb",
-      "student": "Bua",
-      "drawing": "Bua_RV_5a_Umbrella.jpg",
-      "note": ""
-    },
-    {
-      "id": "art-nouveau-desk-lamp",
-      "checklist": 21,
-      "name": "Desk lamp (Art Nouveau)",
-      "model": "models/art-nouveau-desk-lamp.glb",
-      "student": "Grace Li",
-      "drawing": "Grace Li_RV_P4a_Desk Lamp (Art Nouveau).JPG",
-      "note": ""
-    },
-    {
-      "id": "movie-camera",
-      "checklist": 20,
-      "name": "Movie camera",
-      "model": "models/movie-camera.glb",
-      "student": "Samuel Poole",
-      "drawing": "Samuel Poole_Movie Camera.jpg",
-      "note": ""
-    },
-    {
-      "id": "trumpet",
-      "checklist": 19,
-      "name": "Trumpet",
-      "model": "models/trumpet.glb",
-      "student": "Shin Masada",
-      "drawing": "ShinMasada_Trumpet 1.jpg",
-      "note": ""
-    },
-    {
-      "id": "electric-kettle",
-      "checklist": 18,
-      "name": "Electric kettle",
-      "model": "models/electric-kettle.glb",
-      "student": "Jenny Zhang",
-      "drawing": "IMG_5177.JPG",
-      "note": ""
-    },
-    {
-      "id": "ice-cream-truck",
-      "checklist": 17,
-      "name": "Ice cream truck",
-      "model": "models/ice-cream-truck.glb",
-      "student": "Isabel Rosse",
-      "drawing": "IsabelRosse_RV_P5a_Cohort_Mural (1).pdf",
-      "note": ""
-    },
-    {
-      "id": "air-purifier",
-      "checklist": 16,
-      "name": "Air purifier",
-      "model": "models/air-purifier.glb",
-      "student": "Manya Singh",
-      "drawing": "Manya Singh_RV_P5a_Air Purifier.pdf",
-      "note": ""
-    },
-    {
-      "id": "african-drums",
-      "checklist": 15,
-      "name": "African drums",
-      "model": "models/african-drums.glb",
-      "student": "Jerry Wu",
-      "drawing": "Jerry_Africa_Drum.jpg",
-      "note": ""
-    },
-    {
-      "id": "sneakers",
-      "checklist": 14,
-      "name": "Running shoes",
-      "model": "models/sneakers.glb",
-      "student": "Adityavardhan Singh",
-      "drawing": "AdityavardhanSingh_RV_P5a_Cohort_Mural.jpeg",
-      "note": ""
-    },
-    {
-      "id": "portable-blender",
-      "checklist": 13,
-      "name": "Portable blender",
-      "model": "models/portable-blender.glb",
-      "student": "Jewels Freedman",
-      "drawing": "JewelsFreedman_RV_P5a_Cohort_Mural.jpg.jpg",
-      "note": "Drawing is unlabeled; matched to portable blender by its shape - please confirm"
-    },
-    {
-      "id": "bicycle-helmet",
-      "checklist": 12,
-      "name": "Bicycle helmet",
-      "model": "models/bicycle-helmet.glb",
-      "student": "Daniel Sunoo",
-      "drawing": "DanielSunoo_RV_P4a_BicycleHelmet.PNG",
-      "note": ""
-    },
-    {
-      "id": "bicycle",
-      "checklist": 11,
-      "name": "Bicycle",
-      "model": "models/bicycle.glb",
-      "student": "Sophia Li",
-      "drawing": "SophiaLi_Bicycle.HEIC",
-      "note": ""
-    },
-    {
-      "id": "lamp",
-      "checklist": 10,
-      "name": "Lamp - ceiling or floor",
-      "model": "models/lamp.glb",
-      "student": "Renzo Ogami",
-      "drawing": "RenzoOgami_Lamp.pdf",
-      "note": ""
-    },
-    {
-      "id": "headphones",
-      "checklist": 9,
-      "name": "Noise-canceling headphones",
-      "model": "models/headphones.glb",
-      "student": "Hartley Scales",
-      "drawing": "HartleyScales_RV_P5a_Cohort_Mural.jpg",
-      "note": ""
-    },
-    {
-      "id": "japanese-toy-robot",
-      "checklist": 8,
-      "name": "Japanese toy robot (80s)",
-      "model": "models/japanese-toy-robot.glb",
-      "student": "Keanna Bantay",
-      "drawing": "KeannaBantay_RV_p5a_JapaneseRobot.jpeg",
-      "note": ""
-    },
-    {
-      "id": "toothbrush",
-      "checklist": 7,
-      "name": "Electric toothbrush",
-      "model": "models/toothbrush.glb",
-      "student": "George Shannon",
-      "drawing": "GeorgeShannon_RV_P5a_Cohort_Mural.pdf",
-      "note": ""
-    },
-    {
-      "id": "baby-mobile",
-      "checklist": 6,
-      "name": "Mobile for babies",
-      "model": "models/baby-mobile.glb",
-      "student": "Thomas Du",
-      "drawing": "Thomas Du_Mobile for baby.jpg",
-      "note": ""
-    },
-    {
-      "id": "wireless-earbuds",
-      "checklist": 5,
-      "name": "Wireless earbuds",
-      "model": "models/wireless-earbuds.glb",
-      "student": "Riya Rajkumar",
-      "drawing": "RiyaRajkumar_RV_P5a_WirelessEarbuds.jpeg",
-      "note": ""
-    },
-    {
-      "id": "midcentury-modern-chair",
-      "checklist": 4,
-      "name": "Midcentury mod chair",
-      "model": "models/midcentury-modern-chair.glb",
-      "student": "Ame Wang",
-      "drawing": "AmeWang_RV_P4a_MidcenturyModChair.jpg.jpeg",
-      "note": ""
-    },
-    {
-      "id": "camping-lantern",
-      "checklist": 3,
-      "name": "Camping lantern",
-      "model": "models/camping-lantern.glb",
-      "student": "Rodrigo Santana",
-      "drawing": "RODRIGO SANTANA.jpg",
-      "note": ""
-    },
-    {
-      "id": "tea-set",
-      "checklist": 2,
-      "name": "Tea cup and tea pot",
-      "model": "models/tea-set.glb",
-      "student": "Grace Bishara",
-      "drawing": "GraceBishara_Tea_Set.png",
-      "note": ""
-    },
-    {
-      "id": "typewriter",
-      "checklist": 1,
-      "name": "Typewriter",
-      "model": "models/typewriter.glb",
-      "student": "Daisy Wang",
-      "drawing": "DaisyWang_Typewriter.jpg",
-      "note": ""
-    },
-    {
-      "id": "comb",
-      "checklist": null,
-      "name": "Comb (not on the checklist)",
-      "model": "models/comb.glb",
-      "student": "Hamza Nassief",
-      "drawing": "HamzaNassief_RV_P5a_Cohort_Mural3.pdf",
-      "note": "Not on the checklist doc, but it is in objects.json"
-    }
-  ]
+ "models": [
+  {
+   "id": "boombox",
+   "checklist": 90,
+   "name": "Boom box",
+   "model": "models/boombox.glb",
+   "student": "Daniel Thomas",
+   "drawing": "DanielThomas_RV_Boombox_P5a.pdf",
+   "note": ""
+  },
+  {
+   "id": "jukebox",
+   "checklist": 89,
+   "name": "Jukebox",
+   "model": "models/jukebox.glb",
+   "student": "Emma Xiao",
+   "drawing": "EmmaXiao_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "violin",
+   "checklist": 88,
+   "name": "Violin",
+   "model": "models/violin.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "gaming-mouse",
+   "checklist": 87,
+   "name": "Gaming mouse",
+   "model": "models/gaming-mouse.glb",
+   "student": "Sarah Tu",
+   "drawing": "SarahTu_GamingMouse.jpg",
+   "note": ""
+  },
+  {
+   "id": "spatula-spoon-fork",
+   "checklist": 86,
+   "name": "Spatula, spoon, fork",
+   "model": "models/spatula-spoon-fork.glb",
+   "student": "Lelia Twersky",
+   "drawing": "LeliaTwersky_RV_P4a_SpatulaSpoonFork.jpg",
+   "note": ""
+  },
+  {
+   "id": "top-hat-2",
+   "checklist": 85,
+   "name": "Tophat",
+   "model": "models/top-hat-2.glb",
+   "student": "Lana Kim",
+   "drawing": "LanaKim_RV_P5a_Cohort_TopHat.jpg",
+   "note": "Two top hats on the checklist but one in objects.json; saved as top-hat-2"
+  },
+  {
+   "id": "basketball-baseball",
+   "checklist": 84,
+   "name": "Basketball + baseball",
+   "model": "models/basketball-baseball.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "fish-aquarium",
+   "checklist": 83,
+   "name": "Fish aquarium",
+   "model": "models/fish-aquarium.glb",
+   "student": "Beatrice Madden",
+   "drawing": "BeatriceMadden_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "motorcycle",
+   "checklist": 82,
+   "name": "Motorcycle",
+   "model": "models/motorcycle.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "crystal-ball",
+   "checklist": 81,
+   "name": "Crystal ball",
+   "model": "models/crystal-ball.glb",
+   "student": "Madison Harris",
+   "drawing": "MadisonHarris_RV_P5Aa_CohortMural.pdf",
+   "note": ""
+  },
+  {
+   "id": "rice-cooker",
+   "checklist": 80,
+   "name": "Rice cooker",
+   "model": "models/rice-cooker.glb",
+   "student": "Gabrielle Tiu",
+   "drawing": "GabrielleTiu_RV_P5a_RiceCooker.jpg",
+   "note": ""
+  },
+  {
+   "id": "hand-mixer",
+   "checklist": 79,
+   "name": "Hand mixer",
+   "model": "models/hand-mixer.glb",
+   "student": "Jonathan Bakhash",
+   "drawing": "JonathanBakhash_RV_P5a_Cohort_Mural.jpg",
+   "note": "The drawing is a soft-serve machine, not a hand mixer; the model follows the drawing. Confirm with Jonathan"
+  },
+  {
+   "id": "pan",
+   "checklist": 78,
+   "name": "Cast iron skillet",
+   "model": "models/pan.glb",
+   "student": "Sid Chowdhury",
+   "drawing": "Sid_Chowdhury_RV_P5a_Pan.png",
+   "note": ""
+  },
+  {
+   "id": "1950s-car",
+   "checklist": 77,
+   "name": "Car (50s)",
+   "model": "models/1950s-car.glb",
+   "student": "Alene Abdulian",
+   "drawing": "AleneAbdulian_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "backpack",
+   "checklist": 76,
+   "name": "Backpack",
+   "model": "models/backpack.glb",
+   "student": "Asher Lasky",
+   "drawing": "AsherLasky_RV_P5a_Cohort_Mural.jpg",
+   "note": ""
+  },
+  {
+   "id": "contemporary-robot",
+   "checklist": 74,
+   "name": "Contemporary robot",
+   "model": "models/contemporary-robot.glb",
+   "student": "Iris Zhang",
+   "drawing": "IrisZhang_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "bowler-hat",
+   "checklist": 73,
+   "name": "Bowler hat",
+   "model": "models/bowler-hat.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "toilet-paper",
+   "checklist": 72,
+   "name": "Toilet paper",
+   "model": "models/toilet-paper.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "tennis-racket",
+   "checklist": 71,
+   "name": "Tennis racket",
+   "model": "models/tennis-racket.glb",
+   "student": "Alex Tully",
+   "drawing": "AlexTully_RV_P5a_Cohort_Mural.png",
+   "note": ""
+  },
+  {
+   "id": "tv-screen",
+   "checklist": 70,
+   "name": "Television screen",
+   "model": "models/tv-screen.glb",
+   "student": "Shayla Nguyen",
+   "drawing": "ShaylaNguyen_RV_P4a_TelevisionScreen.jpg",
+   "note": ""
+  },
+  {
+   "id": "handheld-fan",
+   "checklist": 69,
+   "name": "Handheld fan",
+   "model": "models/handheld-fan.glb",
+   "student": "Edie Murawski",
+   "drawing": "EDIEMURAWSKI_RV_P5a_ISOMETRIC PRODUCT.jpeg",
+   "note": ""
+  },
+  {
+   "id": "electric-fan",
+   "checklist": 68,
+   "name": "Electric fan",
+   "model": "models/electric-fan.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "telescope",
+   "checklist": 67,
+   "name": "Telescope",
+   "model": "models/telescope.glb",
+   "student": "Matthew Carlin",
+   "drawing": "MatthewCarlin_RV_P4a_Telescope.pdf",
+   "note": ""
+  },
+  {
+   "id": "sunglasses",
+   "checklist": 66,
+   "name": "Sunglasses",
+   "model": "models/sunglasses.glb",
+   "student": "Brian Lee",
+   "drawing": "BrianLee_Sunglasses.jpg",
+   "note": ""
+  },
+  {
+   "id": "lock",
+   "checklist": 65,
+   "name": "Bike lock",
+   "model": "models/lock.glb",
+   "student": "Tsion Pescasio",
+   "drawing": "TsionPescasioRV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "coffee-grinder",
+   "checklist": 64,
+   "name": "Coffee grinder",
+   "model": "models/coffee-grinder.glb",
+   "student": "Lauren Young",
+   "drawing": "Lauren Young_RV_P5a_coffee grinder.jpeg",
+   "note": "The drawing is an exploded stovetop moka pot, not a grinder; the model follows the drawing. Check the name and riddle"
+  },
+  {
+   "id": "beard-trimmer",
+   "checklist": 63,
+   "name": "Beard trimmer",
+   "model": "models/beard-trimmer.glb",
+   "student": "Sam Williamson",
+   "drawing": "SamWilliamson_RV_P5a_BeardTrimmer.png",
+   "note": ""
+  },
+  {
+   "id": "car-tire",
+   "checklist": 62,
+   "name": "Car tire",
+   "model": "models/car-tire.glb",
+   "student": "Matt Turner",
+   "drawing": "MattTurner_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "drill",
+   "checklist": 61,
+   "name": "Electric drill",
+   "model": "models/drill.glb",
+   "student": "Julia Chen",
+   "drawing": "JuliaChen_RV_P4a_ElectricDrill.jpeg",
+   "note": ""
+  },
+  {
+   "id": "bread-maker",
+   "checklist": 60,
+   "name": "Bread maker",
+   "model": "models/bread-maker.glb",
+   "student": "Sara Attal",
+   "drawing": "Sara_Attal_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "label-maker",
+   "checklist": 59,
+   "name": "Label maker",
+   "model": "models/label-maker.glb",
+   "student": "Alana McCareins",
+   "drawing": "Alana_McCareins_LabelMaker.jpg",
+   "note": ""
+  },
+  {
+   "id": "ice-chest-cooler",
+   "checklist": 58,
+   "name": "Ice chest cooler",
+   "model": "models/ice-chest-cooler.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "vinyl-record-player",
+   "checklist": 57,
+   "name": "Vinyl record player",
+   "model": "models/vinyl-record-player.glb",
+   "student": "Saissha Jain",
+   "drawing": "SaisshaJain_VinylRecordPlayer.jpg",
+   "note": "Lettered \"CORHORT13\" as on the drawing; probably a typo"
+  },
+  {
+   "id": "hot-air-balloon",
+   "checklist": 56,
+   "name": "Air balloon",
+   "model": "models/hot-air-balloon.glb",
+   "student": "Garrett McCormick",
+   "drawing": "GarrettMcCormick_RV_P5a_Cohort_Mural.jpg",
+   "note": ""
+  },
+  {
+   "id": "pinball-machine",
+   "checklist": 55,
+   "name": "Pinball machine",
+   "model": "models/pinball-machine.glb",
+   "student": "Leanne W.",
+   "drawing": "LeanneW_RV_5b_pinball machine.pdf",
+   "note": ""
+  },
+  {
+   "id": "washing-machine",
+   "checklist": 53,
+   "name": "Washing machine",
+   "model": "models/washing-machine.glb",
+   "student": "Christian Kim",
+   "drawing": "ChristianKim_RV_P5a_WashingMachine.pdf",
+   "note": ""
+  },
+  {
+   "id": "paint-roller-kit",
+   "checklist": 52,
+   "name": "Paint roller kit",
+   "model": "models/paint-roller-kit.glb",
+   "student": "Sara Gold",
+   "drawing": "SaraGold_PaintRollerKit.jpg",
+   "note": ""
+  },
+  {
+   "id": "treadmill",
+   "checklist": 51,
+   "name": "Treadmill",
+   "model": "models/treadmill.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "flashlight",
+   "checklist": 50,
+   "name": "Flashlight",
+   "model": "models/flashlight.glb",
+   "student": "Makeda West",
+   "drawing": "MakedaWest_Flashlight.jpg",
+   "note": ""
+  },
+  {
+   "id": "baby-stroller",
+   "checklist": 49,
+   "name": "Baby stroller",
+   "model": "models/baby-stroller.glb",
+   "student": "Oli Reyes",
+   "drawing": "OliReyes_Babystroller.pdf",
+   "note": ""
+  },
+  {
+   "id": "smart-watch",
+   "checklist": 48,
+   "name": "Smartwatch",
+   "model": "models/smart-watch.glb",
+   "student": "Alexis Limary",
+   "drawing": "AlexisLimary_SmartWatch.jpg",
+   "note": ""
+  },
+  {
+   "id": "drone-2",
+   "checklist": 47,
+   "name": "Drone",
+   "model": "models/drone-2.glb",
+   "student": "Celeste Oder",
+   "drawing": "CelesteOder_Drone.jpg",
+   "note": "Two drones on the checklist but one in objects.json; saved as drone-2"
+  },
+  {
+   "id": "sewing-machine",
+   "checklist": 46,
+   "name": "Sewing machine",
+   "model": "models/sewing-machine.glb",
+   "student": "Anne Pham",
+   "drawing": "AnnePham_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "pet-carrier",
+   "checklist": 45,
+   "name": "Pet carrier",
+   "model": "models/pet-carrier.glb",
+   "student": "Ledger A.P.",
+   "drawing": "LEDGERAP_RV_P5a_Cohort_Mural 2.pdf",
+   "note": ""
+  },
+  {
+   "id": "suitcase",
+   "checklist": 44,
+   "name": "Suitcase",
+   "model": "models/suitcase.glb",
+   "student": "Maddie Cheng",
+   "drawing": "MaddieCheng_RV_P5a_Cohort_Mural.jpg.pdf",
+   "note": ""
+  },
+  {
+   "id": "top-hat",
+   "checklist": 43,
+   "name": "Tophat",
+   "model": "models/top-hat.glb",
+   "student": "April Ortiz",
+   "drawing": "AprilOrtiz_RV_P4a_TopHat.jpg",
+   "note": ""
+  },
+  {
+   "id": "toaster",
+   "checklist": 42,
+   "name": "Toaster oven",
+   "model": "models/toaster.glb",
+   "student": "JT Lu-Morris",
+   "drawing": "JTLu-Morris_RV_P5a_Toaster.pdf",
+   "note": "The drawing is a pop-up toaster, not a toaster oven; the model follows the drawing"
+  },
+  {
+   "id": "pendulum-clock",
+   "checklist": 41,
+   "name": "Pendulum clock",
+   "model": "models/pendulum-clock.glb",
+   "student": "Christine Wu",
+   "drawing": "ChristineWu_RV_P4a_PendulumClock.jpg",
+   "note": ""
+  },
+  {
+   "id": "hose",
+   "checklist": 40,
+   "name": "Garden hose",
+   "model": "models/hose.glb",
+   "student": "Bowden Eley",
+   "drawing": "Bowdeneley_RV_P5a_Isometric Product.heif",
+   "note": ""
+  },
+  {
+   "id": "electric-scooter",
+   "checklist": 39,
+   "name": "Electric scooter",
+   "model": "models/electric-scooter.glb",
+   "student": "Elizabeth Ahn",
+   "drawing": "ElizabethAhn_ElectricScooter.pdf",
+   "note": ""
+  },
+  {
+   "id": "office-desk",
+   "checklist": 38,
+   "name": "Office desk",
+   "model": "models/office-desk.glb",
+   "student": "Zachary Lehr",
+   "drawing": "ZacharyLehr_OfficeDesk.jpg",
+   "note": ""
+  },
+  {
+   "id": "tripod",
+   "checklist": 37,
+   "name": "Smartphone tripod",
+   "model": "models/tripod.glb",
+   "student": "Srinja Chukkapalli",
+   "drawing": "SrinjaChukkapalli_RV_P4a_Tripod.pdf",
+   "note": ""
+  },
+  {
+   "id": "office-chair",
+   "checklist": 36,
+   "name": "Office chair",
+   "model": "models/office-chair.glb",
+   "student": "Sophie Ogawa",
+   "drawing": "SophieOgawa_RV_P5a_OfficeChair.pdf",
+   "note": ""
+  },
+  {
+   "id": "portable-power-station",
+   "checklist": 35,
+   "name": "Portable power station",
+   "model": "models/portable-power-station.glb",
+   "student": "Jake Ellengold",
+   "drawing": "JakeEllengold_RV_P5a_Cohort_Mural.png",
+   "note": ""
+  },
+  {
+   "id": "binoculars",
+   "checklist": 34,
+   "name": "Binoculars",
+   "model": "models/binoculars.glb",
+   "student": "Cara Austring",
+   "drawing": "CaraAustring_RV_P5a_Binoculars.pdf",
+   "note": ""
+  },
+  {
+   "id": "snow-shovel",
+   "checklist": 33,
+   "name": "Snow shovel",
+   "model": "models/snow-shovel.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "fortune-telling-machine",
+   "checklist": 32,
+   "name": "Fortune telling machine",
+   "model": "models/fortune-telling-machine.glb",
+   "student": "Brendan Giang",
+   "drawing": "BrendanGiang_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "vacuum",
+   "checklist": 31,
+   "name": "Vacuum cleaner",
+   "model": "models/vacuum.glb",
+   "student": "Nina Zhang",
+   "drawing": "NinaZhang_RV_5a_Vacuum Cleaner.jpg",
+   "note": ""
+  },
+  {
+   "id": "skateboard",
+   "checklist": 30,
+   "name": "Skateboard",
+   "model": "models/skateboard.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "astronaut-helmet",
+   "checklist": 29,
+   "name": "Astronaut helmet",
+   "model": "models/astronaut-helmet.glb",
+   "student": "Jessy Elias",
+   "drawing": "JessyElias_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "exercise-weights",
+   "checklist": 28,
+   "name": "Exercise weights",
+   "model": "models/exercise-weights.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "toolbox",
+   "checklist": 27,
+   "name": "Toolbox",
+   "model": "models/toolbox.glb",
+   "student": "",
+   "drawing": null,
+   "note": "No drawing in the folder; generic model"
+  },
+  {
+   "id": "drone",
+   "checklist": 26,
+   "name": "Drone",
+   "model": "models/drone.glb",
+   "student": "Hudsen Brodt",
+   "drawing": "HudsenBrodt_RV_P5a_Cohort_Mural.jpg",
+   "note": "Two drones on the checklist; this one is objects.json \"drone\""
+  },
+  {
+   "id": "radio",
+   "checklist": 25,
+   "name": "Radio (Art Deco)",
+   "model": "models/radio.glb",
+   "student": "Mikayla Wang",
+   "drawing": "MikaylaWang_RV_P4a_Radio(Art_Deco).jpg",
+   "note": ""
+  },
+  {
+   "id": "rain-jacket",
+   "checklist": 24,
+   "name": "Rain jacket",
+   "model": "models/rain-jacket.glb",
+   "student": "Michelle Shen",
+   "drawing": "MichelleShen_RV_P5a_Rainjacket.jpg",
+   "note": "The drawing is ambiguous (a jacket draped over a birdhouse); the model follows the mural concept's upright jacket"
+  },
+  {
+   "id": "espresso-machine",
+   "checklist": 23,
+   "name": "Espresso machine",
+   "model": "models/espresso-machine.glb",
+   "student": "Sarah Yoo",
+   "drawing": "sarah Yoo_espresso machine.jpg",
+   "note": ""
+  },
+  {
+   "id": "umbrella",
+   "checklist": 22,
+   "name": "Umbrella",
+   "model": "models/umbrella.glb",
+   "student": "Bua",
+   "drawing": "Bua_RV_5a_Umbrella.jpg",
+   "note": ""
+  },
+  {
+   "id": "art-nouveau-desk-lamp",
+   "checklist": 21,
+   "name": "Desk lamp (Art Nouveau)",
+   "model": "models/art-nouveau-desk-lamp.glb",
+   "student": "Grace Li",
+   "drawing": "Grace Li_RV_P4a_Desk Lamp (Art Nouveau).JPG",
+   "note": ""
+  },
+  {
+   "id": "movie-camera",
+   "checklist": 20,
+   "name": "Movie camera",
+   "model": "models/movie-camera.glb",
+   "student": "Samuel Poole",
+   "drawing": "Samuel Poole_Movie Camera.jpg",
+   "note": ""
+  },
+  {
+   "id": "trumpet",
+   "checklist": 19,
+   "name": "Trumpet",
+   "model": "models/trumpet.glb",
+   "student": "Shin Masada",
+   "drawing": "ShinMasada_Trumpet 1.jpg",
+   "note": ""
+  },
+  {
+   "id": "electric-kettle",
+   "checklist": 18,
+   "name": "Electric kettle",
+   "model": "models/electric-kettle.glb",
+   "student": "Jenny Zhang",
+   "drawing": "IMG_5177.JPG",
+   "note": ""
+  },
+  {
+   "id": "ice-cream-truck",
+   "checklist": 17,
+   "name": "Ice cream truck",
+   "model": "models/ice-cream-truck.glb",
+   "student": "Isabel Rosse",
+   "drawing": "IsabelRosse_RV_P5a_Cohort_Mural (1).pdf",
+   "note": ""
+  },
+  {
+   "id": "air-purifier",
+   "checklist": 16,
+   "name": "Air purifier",
+   "model": "models/air-purifier.glb",
+   "student": "Manya Singh",
+   "drawing": "Manya Singh_RV_P5a_Air Purifier.pdf",
+   "note": ""
+  },
+  {
+   "id": "african-drums",
+   "checklist": 15,
+   "name": "African drums",
+   "model": "models/african-drums.glb",
+   "student": "Jerry Wu",
+   "drawing": "Jerry_Africa_Drum.jpg",
+   "note": ""
+  },
+  {
+   "id": "sneakers",
+   "checklist": 14,
+   "name": "Running shoes",
+   "model": "models/sneakers.glb",
+   "student": "Adityavardhan Singh",
+   "drawing": "AdityavardhanSingh_RV_P5a_Cohort_Mural.jpeg",
+   "note": ""
+  },
+  {
+   "id": "portable-blender",
+   "checklist": 13,
+   "name": "Portable blender",
+   "model": "models/portable-blender.glb",
+   "student": "Jewels Freedman",
+   "drawing": "JewelsFreedman_RV_P5a_Cohort_Mural.jpg.jpg",
+   "note": "Drawing is unlabeled and doesn't read clearly as a blender; the model follows the drawing. Confirm with Jewels"
+  },
+  {
+   "id": "bicycle-helmet",
+   "checklist": 12,
+   "name": "Bicycle helmet",
+   "model": "models/bicycle-helmet.glb",
+   "student": "Daniel Sunoo",
+   "drawing": "DanielSunoo_RV_P4a_BicycleHelmet.PNG",
+   "note": ""
+  },
+  {
+   "id": "bicycle",
+   "checklist": 11,
+   "name": "Bicycle",
+   "model": "models/bicycle.glb",
+   "student": "Sophia Li",
+   "drawing": "SophiaLi_Bicycle.HEIC",
+   "note": ""
+  },
+  {
+   "id": "lamp",
+   "checklist": 10,
+   "name": "Lamp - ceiling or floor",
+   "model": "models/lamp.glb",
+   "student": "Renzo Ogami",
+   "drawing": "RenzoOgami_Lamp.pdf",
+   "note": ""
+  },
+  {
+   "id": "headphones",
+   "checklist": 9,
+   "name": "Noise-canceling headphones",
+   "model": "models/headphones.glb",
+   "student": "Hartley Scales",
+   "drawing": "HartleyScales_RV_P5a_Cohort_Mural.jpg",
+   "note": ""
+  },
+  {
+   "id": "japanese-toy-robot",
+   "checklist": 8,
+   "name": "Japanese toy robot (80s)",
+   "model": "models/japanese-toy-robot.glb",
+   "student": "Keanna Bantay",
+   "drawing": "KeannaBantay_RV_p5a_JapaneseRobot.jpeg",
+   "note": ""
+  },
+  {
+   "id": "toothbrush",
+   "checklist": 7,
+   "name": "Electric toothbrush",
+   "model": "models/toothbrush.glb",
+   "student": "George Shannon",
+   "drawing": "GeorgeShannon_RV_P5a_Cohort_Mural.pdf",
+   "note": ""
+  },
+  {
+   "id": "baby-mobile",
+   "checklist": 6,
+   "name": "Mobile for babies",
+   "model": "models/baby-mobile.glb",
+   "student": "Thomas Du",
+   "drawing": "Thomas Du_Mobile for baby.jpg",
+   "note": ""
+  },
+  {
+   "id": "wireless-earbuds",
+   "checklist": 5,
+   "name": "Wireless earbuds",
+   "model": "models/wireless-earbuds.glb",
+   "student": "Riya Rajkumar",
+   "drawing": "RiyaRajkumar_RV_P5a_WirelessEarbuds.jpeg",
+   "note": ""
+  },
+  {
+   "id": "midcentury-modern-chair",
+   "checklist": 4,
+   "name": "Midcentury mod chair",
+   "model": "models/midcentury-modern-chair.glb",
+   "student": "Ame Wang",
+   "drawing": "AmeWang_RV_P4a_MidcenturyModChair.jpg.jpeg",
+   "note": ""
+  },
+  {
+   "id": "camping-lantern",
+   "checklist": 3,
+   "name": "Camping lantern",
+   "model": "models/camping-lantern.glb",
+   "student": "Rodrigo Santana",
+   "drawing": "RODRIGO SANTANA.jpg",
+   "note": ""
+  },
+  {
+   "id": "tea-set",
+   "checklist": 2,
+   "name": "Tea cup and tea pot",
+   "model": "models/tea-set.glb",
+   "student": "Grace Bishara",
+   "drawing": "GraceBishara_Tea_Set.png",
+   "note": ""
+  },
+  {
+   "id": "typewriter",
+   "checklist": 1,
+   "name": "Typewriter",
+   "model": "models/typewriter.glb",
+   "student": "Daisy Wang",
+   "drawing": "DaisyWang_Typewriter.jpg",
+   "note": ""
+  },
+  {
+   "id": "comb",
+   "checklist": null,
+   "name": "Comb (not on the checklist)",
+   "model": "models/comb.glb",
+   "student": "Hamza Nassief",
+   "drawing": "HamzaNassief_RV_P5a_Cohort_Mural3.pdf",
+   "note": "Not on the checklist doc, but it is in objects.json"
+  }
+ ]
 }
