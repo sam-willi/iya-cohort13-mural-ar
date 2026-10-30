@@ -8,7 +8,8 @@
 // See docs/how-it-works.md.
 //
 // All content (student names, links, pop-out art) lives in data/objects.json, so most changes
-// never need to touch this file. Riddles come live from the riddle team's Google Sheet (see loadSheetRiddles).
+// never need to touch this file. Riddles come live from the riddle team's Google Sheet (see loadSheetRiddles),
+// and student names and page links come live from the profiles website (see loadProfiles).
 
 import { createSpinningModel, modelUrl, prefetchModel } from './popout.js';
 import { addRoomEnvironment } from './environment.js';
@@ -18,6 +19,7 @@ import { positionHint, landmarkClue, visibleMuralRegion } from './position-hints
 const OBJECTS_URL = 'data/objects.json?v=wall-scan-18';
 const TOAST_COOLDOWN_MS = 3000;
 const SHEET_TIMEOUT_MS = 5000; // give up on the riddle sheet after this and use objects.json
+const PROFILES_TIMEOUT_MS = 5000; // give up on the profiles website after this and use objects.json
 const WRONG_SCANS_BEFORE_ARROW = 3; // after this many wrong spots, point the player toward the answer
 const MIN_OVERLAP = 0.6; // how much of an object must be inside a target for that target to "contain" it
 const MAX_TARGETS = 3;   // per object: a straight-on target, plus two pre-tilted ones for objects high on the wall
@@ -182,12 +184,16 @@ async function loadData() {
   const res = await fetch(OBJECTS_URL, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Failed to load ${OBJECTS_URL}: ${res.status}`);
   const data = await res.json();
-  const sheet = await loadSheetRiddles(data.riddleSheet);
+  const [sheet, profiles] = await Promise.all([loadSheetRiddles(data.riddleSheet), loadProfiles(data.profiles)]);
 
   const objects = data.objects
     .map((obj) => {
       const row = obj.riddleSource === 'local' ? null : sheet?.get(normalize(obj.product ?? obj.name));
       return row ? { ...obj, riddle: row.riddle, hint: row.hint || obj.hint } : obj;
+    })
+    .map((obj) => {
+      const profile = profiles?.get(obj.id);
+      return profile ? { ...obj, student: { name: profile.studentName, pageUrl: profile.pageUrl } } : obj;
     })
     // objects with no riddle or no position yet are left out of the game
     .filter((obj) => obj.riddle && obj.location);
@@ -224,6 +230,24 @@ async function loadSheetRiddles(sheet) {
     return riddles;
   } catch (err) {
     console.warn('Could not load riddles from the sheet, using objects.json instead.', err);
+    return null;
+  }
+}
+
+// ---------- Student pages from the profiles website ----------
+
+// Each student marks which product they drew when they edit their page on the profiles website, which publishes
+// the list as JSON: { objects: [{ objectId, studentName, pageUrl }] }. objectId matches an object's `id` here.
+// If the site isn't set up or can't be reached, the `student` written in objects.json is used.
+async function loadProfiles(profiles) {
+  if (!profiles?.url) return null;
+  try {
+    const res = await fetch(profiles.url, { signal: AbortSignal.timeout(PROFILES_TIMEOUT_MS) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { objects } = await res.json();
+    return new Map(objects.map((profile) => [profile.objectId, profile]));
+  } catch (err) {
+    console.warn('Could not load student pages from the profiles website, using objects.json instead.', err);
     return null;
   }
 }

@@ -83,7 +83,7 @@ looks like this:
 | `riddleSource` | Optional: set to `"local"` to use this object's `riddle` and `hint` instead of the live sheet. Omit it to resume sheet updates |
 | `location` | The object's box on the wall, in inches, written by `build.py` from `wall.json`. Add `"label": "on the top shelf"` to override the auto-generated "Right side of the mural: 9th panel from the left, top row" |
 | `ar` | Written by `build.py`: the object's recognition file and where each of its targets is on the wall. Don't edit by hand |
-| `student.pageUrl` | From the website team. Leave it `""` to hide the button |
+| `student.pageUrl` | Usually left `""`: the link comes live from the profiles website (see [team-handoff.md](team-handoff.md)). Fill it in only as a fallback. With no link from either, the button is hidden |
 | 3D rendering | Not a field: save it as **`models/<id>.glb`** and the app finds it. Until it exists, the lens still marks the spot. Optional `popout` settings (`model`, `scale`, `rotation`) are in [3d-models.md](3d-models.md) |
 
 An object only appears in the game once it has a riddle (from the sheet) **and** a `location`.

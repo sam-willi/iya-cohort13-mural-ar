@@ -36,15 +36,20 @@ Questions to settle with them:
 
 ## From the student website team
 
-| Column | Example |
-| --- | --- |
-| Object | Typewriter |
-| Student name (as it should appear) | Jordan R. |
-| Student page URL | https://.../students/jordan |
+Student names and page links come **live from the profiles website**. When students edit their page there, they pick
+the product they drew from a list of this repo's object `id`s. The site publishes the result at `/api/mural-objects`:
 
-Questions to settle with them:
-- When will the final URLs be ready? Only the QR code gets printed, not these links, so they can change any time. Just update `objects.json`.
-- Do students want their full name shown, first name only, or no name at all?
+```json
+{ "objects": [{ "objectId": "typewriter", "studentName": "Jordan Rivera", "pageUrl": "https://.../jordan-rivera" }] }
+```
+
+Put that URL in `profiles.url` in [`data/objects.json`](../data/objects.json). The game reads it every time someone opens it,
+so a student's link works as soon as they pick their product. If the site can't be reached, the game falls back to each
+object's `student` in `objects.json`, so the button is hidden for anyone without one there.
+
+Rules that keep it working:
+- **Don't rename an object's `id`.** It's how the website knows which product is whose. Renaming it unlinks that student.
+- **New objects** need to be added to the website's list too (`src/lib/mural-objects.json` in that repo).
 
 ## From the mural/art team
 
