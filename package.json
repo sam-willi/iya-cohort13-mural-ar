@@ -6,10 +6,12 @@
   "scripts": {
     "test": "node --test",
     "models": "node tools/compress-models.mjs",
-    "sizes": "python3 tools/check-sizes.py"
+    "sizes": "python3 tools/check-sizes.py",
+    "targets": "node tools/wall/compile.mjs"
   },
   "devDependencies": {
-    "@gltf-transform/cli": "4.5.1"
+    "@gltf-transform/cli": "4.5.1",
+    "puppeteer-core": "^23.11.1"
   },
   "engines": {
     "node": ">=20"

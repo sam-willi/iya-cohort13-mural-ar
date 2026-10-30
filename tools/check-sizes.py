@@ -16,7 +16,7 @@ MB = 1024 * 1024
 # (soft limit, hard limit)
 MODEL_BYTES = (1.5 * MB, 4 * MB)
 MODEL_TRIANGLES = (50_000, 150_000)
-TARGETS_BYTES = (6 * MB, 15 * MB)
+TARGETS_BYTES = (1 * MB, 2 * MB)   # one object's recognition file; each riddle downloads only its own
 FIRST_LOAD_BYTES = (300 * 1024, 1 * MB)  # our own files loaded before the start button works
 IMAGE_BYTES = (300 * 1024, 2 * MB)
 
@@ -69,10 +69,10 @@ def main():
     first = sum((ROOT / f).stat().st_size for f in FIRST_LOAD if (ROOT / f).exists())
     check("index.html", first, FIRST_LOAD_BYTES, "page, styles, code, data and art together")
 
-    print("\nRecognition file")
-    mind = ROOT / "targets" / "targets.mind"
-    if mind.exists():
-        check("targets/targets.mind", mind.stat().st_size, TARGETS_BYTES, "targets/targets.mind")
+    print("\nRecognition files (each riddle downloads only its own)")
+    for mind in sorted((ROOT / "targets" / "objects").glob("*.mind")):
+        rel = mind.relative_to(ROOT).as_posix()
+        check(rel, mind.stat().st_size, TARGETS_BYTES, rel)
 
     print("\n3D renderings (each downloads only when its riddle comes up)")
     models = sorted((ROOT / "models").glob("*.glb"))

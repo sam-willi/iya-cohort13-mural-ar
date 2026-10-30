@@ -1,45 +1,54 @@
 # Adding mural objects and AR targets
 
-Read [how-it-works.md](how-it-works.md) first. In short, three things go into [`data/objects.json`](../data/objects.json):
+Read [how-it-works.md](how-it-works.md) first. Everything about the wall comes from one straight-on image of the painted
+wall, made from LiDAR scans, and lives in [`tools/wall/`](../tools/wall/):
 
-- **Targets:** parts of the wall the camera recognises, each with a position on the wall
-- **Landmarks:** the real windows, used to give players directions
-- **Objects:** the things people hunt for, each with a position on the wall, the student, and a 3D rendering
+- [`wall.json`](../tools/wall/wall.json): the panel-seam calibration, the windows, and a pixel box for every product
+- [`wall-scan.webp`](../tools/wall/wall-scan.webp): the wall itself, straight on, 2.5 mm per pixel
 
-All positions are in **inches from the top-left corner of the painted area**.
+[`build.py`](../tools/wall/build.py) turns those into the positions, windows and no-camera picture in
+[`data/objects.json`](../data/objects.json), and the AR targets for each object. All positions in `objects.json` are in
+**inches from the top-left corner of the painted area**.
 
-## 1. Photograph the finished wall
+## 1. Scan the wall (only when the painting changes)
 
-- Photograph the whole painted wall **straight on**, in even light (no glare, no shadows). Stitch several shots if needed.
-- Also take close, straight-on photos of each area you'll use as a target.
+The wall is in a hallway, so it can't be photographed straight on. Scan it instead:
 
-## 2. Mark positions with the tool
+1. With a LiDAR iPhone and a free scan app (Scaniverse works), walk slowly along the wall about 2 ft away: one pass at
+   chest height, one with the phone held overhead and tilted up so the top row is covered. Keep ladders and people out.
+2. Export the scan as USDZ (or GLB/OBJ) and flatten it into a straight-on image with Blender 5.x:
+   `blender -b -P tools/wall/scan_ortho.py -- scan.usdz wall.png 2.5`
+3. If you scanned in parts, merge them (it lines them up automatically; needs `pip install pillow numpy opencv-python-headless`):
+   `python3 tools/wall/merge_scans.py wall-1.png wall-2.png wall-merged.png`
+4. Save the result as `tools/wall/wall-scan.webp`. If the scan's left edge or the panel seams moved, update
+   `calibration` in `wall.json`: the seams repeat every `panel_px` pixels, and `origin_px` is the top-left corner of the
+   12 × 3 panel grid.
 
-Open [`tools/locate.html`](../tools/locate.html), either on the live site at `/tools/locate.html` or locally:
+## 2. Mark the products and windows
 
-1. Choose the wall photo and check the wall size (576 × 144 in by default).
-2. **Wall edge:** drag a box around just the painted area. The tool's white grid should land on the panel seams in the
-   photo. If it doesn't, redraw the edge or retake the photo straighter.
-3. **Object:** drag a tight box around each object and type its product name exactly as it appears in the riddle sheet.
-4. **Window:** drag a box around each real window and name it the way players would say it, e.g. "the middle window".
-5. **AR target:** drag a box around each area the camera should recognise. Panel-sized boxes that overlap by about a
-   third work well. They're numbered in the order you draw them. Keep windows out (the tool warns you).
-6. Copy the result and merge its `mural`, `targets`, `landmarks` and objects' `location`s into `objects.json`.
+In `wall.json`, each product is `"<object id>": [x, y, w, h]`, a tight box in the scan image's pixels; each window is a
+named box. Find the pixel boxes by opening the scan in any image editor. A product that isn't in `products` has no
+position and stays out of the game.
 
-## 3. Compile `targets.mind`
+## 3. Build
 
-1. Crop each target area from your close-up photos, matching the boxes you drew. Save them in `targets/source/` as `00-...`,
-   `01-...`, in the **same order** as the targets.
-2. Open the MindAR compiler: <https://hiukim.github.io/mind-ar-js-doc/tools/compile>
-3. Upload every image from `targets/source/` **in number order**. The upload order sets each target's `index`.
-4. Click *Start*, wait, then *Download*, and replace `targets/targets.mind`.
+```bash
+pip install pillow numpy opencv-python-headless   # once
+python3 tools/wall/build.py                       # positions, windows, picture and target images
+npm install                                       # once
+npm run targets                                   # compiles targets/objects/<id>.mind (about 15 min for all of them)
+npm run targets -- jukebox toaster                # or just the ones you changed
+```
 
-Adding or reordering any target means recompiling the whole file.
+Each object gets its own recognition file with one to three targets: a square of wall around it, plus two pre-tilted
+copies if it's high on the wall. The game loads only the current riddle's file.
 
-What recognises well: busy, high-contrast areas with lots of corners and texture.
-What recognises badly: plain areas (sky, white gaps), smooth gradients, repeating shelf boards.
+## 4. Test
 
-## 4. The object entry
+Run `node --test`, then follow [testing-without-the-wall.md](testing-without-the-wall.md) at your desk, and finish on the
+real wall, since lighting changes everything.
+
+## The object entry
 
 Every product in the riddle sheet already has an entry in `objects.json`, waiting for its `location`, student and 3D
 art. When the riddle team adds new products to the sheet, add entries for them with:
@@ -72,13 +81,9 @@ looks like this:
 | `product` | The exact name in the riddle sheet's **Products** column. The riddle and hint come from that row |
 | `riddle`, `hint` | Backup copy used if the sheet can't be reached. `hint` is optional |
 | `riddleSource` | Optional: set to `"local"` to use this object's `riddle` and `hint` instead of the live sheet. Omit it to resume sheet updates |
-| `location` | The object's box on the wall, in inches (from the marking tool). Add `"label": "on the top shelf"` to override the auto-generated "Right side of the mural: 9th panel from the left, top row" |
+| `location` | The object's box on the wall, in inches, written by `build.py` from `wall.json`. Add `"label": "on the top shelf"` to override the auto-generated "Right side of the mural: 9th panel from the left, top row" |
+| `ar` | Written by `build.py`: the object's recognition file and where each of its targets is on the wall. Don't edit by hand |
 | `student.pageUrl` | From the website team. Leave it `""` to hide the button |
 | 3D rendering | Not a field: save it as **`models/<id>.glb`** and the app finds it. Until it exists, the lens still marks the spot. Optional `popout` settings (`model`, `scale`, `rotation`) are in [3d-models.md](3d-models.md) |
 
 An object only appears in the game once it has a riddle (from the sheet) **and** a `location`.
-
-## 5. Test
-
-Run the site locally (see the README), open a target image on a laptop screen, and point your phone at it.
-Then test on the real wall, since lighting changes everything.

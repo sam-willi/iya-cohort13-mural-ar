@@ -29,13 +29,14 @@ index.html               page structure: start screen, riddle card, found card, 
 js/app.js                game logic
 css/style.css            styles
 data/objects.json        ⭐ one entry per mural object: position, student, link (riddles come from the sheet)
-targets/targets.mind     compiled image targets MindAR looks for (one file for all objects)
-targets/source/          the source photo of each AR target, in target order (00-, 01-, ...)
+targets/objects/<id>.mind  each object's own AR targets; the game loads only the current riddle's
+targets/source/          the demo card's target image
+tools/wall/              the painted wall from LiDAR scans, every product's position, and the scripts that build
+                         the targets and the no-camera picture (build.py, then npm run targets)
 models/                  ⭐ the 3D renderings, one per object: models/<id>.glb (see docs/3d-models.md)
 images/workshop.svg      the illustrated workshop behind the start/end screens, in the concept's style, objects fully rendered
 tools/make-workshop-svg.py  draws images/workshop.svg (edit this, then run it)
 reference/               ⭐ the mural concept art and notes, the design reference for everything
-tools/locate.html        mark where each object and AR target is on a photo of the wall
 tools/preview-model.html check a 3D rendering: same sizing, lighting and spin as the game, plus size budgets
 tools/compress-models.mjs  shrink 3D renderings for phones (npm run models)
 tools/check-sizes.py     check everything players download is small enough (runs before every deploy)
@@ -100,13 +101,13 @@ Done so far:
 - [x] Lens lands on the object's exact spot; mini-map, panel and window directions, "which way" arrow
 - [x] Riddles read live from the riddle team's Google Sheet; an `objects.json` entry for every product
 - [x] Design matching the mural (badge, palette, workshop art); concept art kept in `reference/`
-- [x] Tools: position marking, 3D model preview, model compressor, size check on every deploy
-- [x] Playable now on the concept art: object positions, AR targets and backup riddles ([testing without the wall](docs/testing-without-the-wall.md))
+- [x] Tools: wall scan to targets (tools/wall), 3D model preview, model compressor, size check on every deploy
+- [x] Built from the painted wall: a LiDAR scan straightened into one image, every product located on it, and one small AR target set per object, loaded only for its riddle ([how it works](docs/how-it-works.md#why-one-target-per-object))
 - [x] No-camera mode: tap the object on a picture of the mural
 - [x] Position hints: landmark wording and a small overview with a broad gold search area; picture mode also shows the current view in blue and lets players tap the overview to move there
 - [x] A first 3D rendering for every object on the checklist (built from the isometric drawings; see [tools/model-gallery.html](tools/model-gallery.html))
 
-Position hints use the same `objects.json` wall coordinates as answer detection. Each gold area contains the object's whole bounding box, rather than marking the exact answer. Landmark wording comes from the defined window rectangles. The overview stays in the riddle dock in both modes; AR omits the blue viewport because tracking a local target does not establish the full camera crop. Run `node --test` to check every object's region and picture-mode positioning across phone and landscape viewport shapes. These checks validate the configured coordinates, not a field survey of the painted wall.
+Position hints use the same `objects.json` wall coordinates as answer detection. Each gold area contains the object's whole bounding box, rather than marking the exact answer. Landmark wording comes from the defined window rectangles. The overview stays in the riddle dock in both modes; AR omits the blue viewport because tracking a local target does not establish the full camera crop. Run `node --test` to check every object's region and picture-mode positioning across phone and landscape viewport shapes. The coordinates come from the scan of the painted wall (tools/wall/wall.json).
 
 ## Contributing
 

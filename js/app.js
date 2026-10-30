@@ -1,7 +1,7 @@
 // I Spy AR game for the IYA Cohort 13 mural.
 //
-// Flow: show a riddle -> player looks at the mural through the camera -> MindAR keeps track of which part of
-// the mural is in view (a "target") -> the player taps the screen when they spy the answer -> if it's in frame,
+// Flow: show a riddle -> player looks at the mural through the camera -> MindAR watches for the part of the mural
+// around the answer (the riddle's "targets") -> the player taps the screen when they spy the answer -> if it's in frame,
 // a magnifying glass lands on the object's exact spot, a 3D rendering of the object rises out of the wall there
 // and spins, and we link to the student's page; if not, we say so and point the way.
 // Every object and target has a position on the mural in inches, so we always know where things are.
@@ -15,11 +15,12 @@ import { addRoomEnvironment } from './environment.js';
 import { setupMuralZoom } from './mural-zoom.js?v=pan-fix-14';
 import { positionHint, landmarkClue, visibleMuralRegion } from './position-hints.js?v=position-hints-15';
 
-const OBJECTS_URL = 'data/objects.json?v=position-hints-17';
+const OBJECTS_URL = 'data/objects.json?v=wall-scan-18';
 const TOAST_COOLDOWN_MS = 3000;
 const SHEET_TIMEOUT_MS = 5000; // give up on the riddle sheet after this and use objects.json
 const WRONG_SCANS_BEFORE_ARROW = 3; // after this many wrong spots, point the player toward the answer
 const MIN_OVERLAP = 0.6; // how much of an object must be inside a target for that target to "contain" it
+const MAX_TARGETS = 3;   // per object: a straight-on target, plus two pre-tilted ones for objects high on the wall
 const CARD_DELAY_MS = 2600; // let the object pop out of the wall before the "You spied it!" card covers the screen
 const FOUND_KEY = 'ispy-found'; // remembers what this phone has found, so the collection survives a refresh
 const TAP_SLACK_IN = 3; // in no-camera mode, a tap this close (in inches) to the object still counts
@@ -93,7 +94,7 @@ const ui = {
 };
 
 let mural;             // size of the painted wall, in inches
-let targets = [];      // parts of the mural MindAR can recognise, each with its position on the mural
+let targets = [];      // the current riddle's AR targets (parts of the mural around the answer), with their positions
 let landmarks = [];    // fixed things on the wall players can see, like the windows, used in directions
 let objects = [];      // objects that have a riddle
 let queue = [];        // riddles still to play, in order
@@ -105,6 +106,9 @@ let wrongScans = 0;    // wrong parts of the mural scanned for the current riddl
 let hintUsed = false;
 let cardTimer;
 const anchors = new Map(); // target index -> its MindAR anchor
+let arReady = false;   // MindAR has loaded its first targets and is watching the camera
+let startedSrc = null; // the recognition file MindAR was started with
+let swapping = Promise.resolve();
 const found = loadFound(); // ids of the objects this player has spied
 let mode = 'camera';   // 'camera' (AR at the wall) or 'picture' (tap the object on a picture of the mural)
 let zoom = 1;
@@ -118,13 +122,17 @@ init().catch((err) => {
 });
 
 async function init() {
-  ({ mural, targets, landmarks, objects } = await loadData());
+  ({ mural, landmarks, objects } = await loadData());
   if (objects.length === 0) {
     ui.startButton.textContent = 'No riddles yet';
     return;
   }
   await sceneLoaded();
-  targets.forEach(addAnchor);
+  for (let i = 0; i < MAX_TARGETS; i++) addAnchor(i);
+  sceneEl.addEventListener('arReady', () => {
+    arReady = true;
+    if (current?.ar && current.ar.mind !== startedSrc) useTargets(current); // the riddle changed while the camera was starting
+  });
 
   document.addEventListener('click', onSpyTap);
   ui.foundButton.addEventListener('click', openCollection);
@@ -183,7 +191,7 @@ async function loadData() {
     })
     // objects with no riddle or no position yet are left out of the game
     .filter((obj) => obj.riddle && obj.location);
-  return { mural: data.mural, targets: data.targets, landmarks: data.landmarks ?? [], objects };
+  return { mural: data.mural, landmarks: data.landmarks ?? [], objects };
 }
 
 // ---------- Riddles from the Google Sheet ----------
@@ -256,13 +264,27 @@ function sceneLoaded() {
 // ---------- AR: where things are on the mural ----------
 //
 // Positions are in inches from the top-left corner of the painted area (x right, y down).
-// MindAR places each target 1 unit wide, centred on its anchor, with y pointing up,
-// so a mural position converts to anchor coordinates like this:
+// MindAR places each target image 1 unit wide, centred on its anchor, with y pointing up.
+// A straight-on target is a rectangle of the mural, so a mural position converts directly. A pre-tilted target
+// (for objects high on the wall) carries H, which maps mural inches to its image pixels.
 function toAnchor(target, x, y) {
+  if (target.H) {
+    const [[a, b, c], [d, e, f], [g, h, i]] = target.H;
+    const z = g * x + h * y + i;
+    const u = (a * x + b * y + c) / z, v = (d * x + e * y + f) / z;
+    const [pw, ph] = target.px;
+    return { x: (u - pw / 2) / pw, y: -(v - ph / 2) / pw };
+  }
   return {
     x: (x - (target.x + target.w / 2)) / target.w,
     y: -(y - (target.y + target.h / 2)) / target.w,
   };
+}
+
+// How big a stretch of the mural is in anchor units, measured across a point (works for tilted targets too).
+function anchorSpan(target, c, dx, dy) {
+  const a = toAnchor(target, c.x - dx / 2, c.y - dy / 2), b = toAnchor(target, c.x + dx / 2, c.y + dy / 2);
+  return Math.hypot(b.x - a.x, b.y - a.y);
 }
 
 const centre = (r) => ({ x: r.x + r.w / 2, y: r.y + r.h / 2 });
@@ -274,15 +296,50 @@ function contains(target, loc) {
   return w > 0 && h > 0 && (w * h) / (loc.w * loc.h) >= MIN_OVERLAP;
 }
 
-// One anchor per target. MindAR moves it to wherever it sees that part of the mural.
-// Anchors must be added before arSystem.start() is called.
-function addAnchor(target) {
+// One anchor per target slot; each riddle's targets fill slots 0, 1, 2. MindAR moves an anchor to wherever it
+// sees that part of the mural. Anchors must be added before arSystem.start() is called.
+function addAnchor(index) {
   const anchor = document.createElement('a-entity');
-  anchor.setAttribute('mindar-image-target', `targetIndex: ${target.index}`);
-  anchors.set(target.index, anchor);
-  anchor.addEventListener('targetFound', () => onTargetFound(target, anchor));
-  anchor.addEventListener('targetLost', () => onTargetLost(target));
+  anchor.setAttribute('mindar-image-target', `targetIndex: ${index}`);
+  anchors.set(index, anchor);
+  anchor.addEventListener('targetFound', () => targets[index] && onTargetFound(targets[index]));
+  anchor.addEventListener('targetLost', () => targets[index] && onTargetLost(targets[index]));
   sceneEl.appendChild(anchor);
+}
+
+// Each object has its own small recognition file (tools/wall/build.py): its targets only. Loading just the current
+// riddle's keeps the download small, lets MindAR lock on quickly, and means the wrong object can never match.
+function useTargets(obj) {
+  const sys = sceneEl.systems['mindar-image-system'];
+  if (arReady) for (const { el } of sys.anchorEntities) el.updateWorldMatrix(null); // let go of the last riddle's
+  visibleTarget = null;
+  ui.magnifier.classList.remove('ready');
+  targets = (obj?.ar?.targets ?? []).slice(0, MAX_TARGETS).map((t, index) => ({ ...t, index }));
+  const src = obj?.ar?.mind;
+  if (!src) return;
+  if (!arReady) { sys.imageTargetSrc = src; return; } // start() loads it
+  swapping = swapping.then(() => swapTargets(sys, src)).catch((err) => console.error('Could not load targets', src, err));
+}
+
+// Replaces what MindAR looks for without restarting the camera.
+async function swapTargets(sys, src) {
+  const ctrl = sys.controller;
+  if (ctrl.processingVideo) {
+    // let MindAR's video loop finish the frame it's on before its targets change underneath it
+    await new Promise((resolve) => {
+      const before = ctrl.onUpdate;
+      const finish = () => { ctrl.onUpdate = before; resolve(); };
+      ctrl.onUpdate = (e) => { before?.(e); if (e.type === 'processDone') finish(); };
+      setTimeout(finish, 1000);
+      sys.pause(true);
+    });
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  }
+  const { dimensions } = await ctrl.addImageTargets(src);
+  for (const { el, targetIndex } of sys.anchorEntities) {
+    if (targetIndex < dimensions.length) el.setupMarker(dimensions[targetIndex]);
+  }
+  if (mode === 'camera') sys.unpause();
 }
 
 // The camera can see part of the mural. Nothing happens until the player taps (see onSpyTap);
@@ -344,8 +401,8 @@ async function revealAt(obj, target, anchor) {
   const loc = obj.location;
   const c = centre(loc);
   const p = toAnchor(target, c.x, c.y);
-  const w = loc.w / target.w;
-  const h = loc.h / target.w;
+  const w = anchorSpan(target, c, loc.w, 0);
+  const h = anchorSpan(target, c, 0, loc.h);
   const r = Math.max(w, h) * 0.62; // lens radius, just big enough to frame the object
 
   const group = document.createElement('a-entity');
@@ -501,6 +558,7 @@ function startGame() {
   nextRiddle();
   showFoundButton();
   loadModelViewer();
+  startedSrc = current?.ar?.mind ?? null;
   sceneEl.systems['mindar-image-system'].start(); // asks for camera permission
 }
 
@@ -533,6 +591,7 @@ function nextRiddle() {
   ui.magnifier.classList.toggle('ready', Boolean(visibleTarget));
 
   current = queue.shift() ?? null;
+  if (mode === 'camera') useTargets(current);
   if (!current) {
     ui.riddleCard.hidden = true;
     ui.magnifier.hidden = true;
