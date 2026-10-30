@@ -1,20 +1,20 @@
-# Testing before the wall is painted
+# Testing away from the wall
 
-Until the mural is painted, the whole game runs against the **concept art**, so everything can be tested now.
-When the wall is finished, the concept-art pieces get swapped for photos of the real wall (see the end of this page).
+The game is built from a straight-on image of the **painted wall**, made from LiDAR scans ([adding-an-object.md](adding-an-object.md)),
+so most of it can be tested at a desk.
 
 ## What's set up
 
 | Piece | Where | What it is now |
 | --- | --- | --- |
-| Object positions | `location` in [`data/objects.json`](../data/objects.json) | Measured on the concept art for the 69 objects visible in it |
-| AR targets | `targets` in `objects.json`, compiled into [`targets/targets.mind`](../targets/targets.mind) | Target 0 is still the demo card. Targets 1 to 27 are 6 ft × 4 ft pieces of the concept art ([`targets/source/`](../targets/source/)), chosen so every object fits inside at least one |
-| Test picture of the wall | [`reference/mural-concept-wall.webp`](../reference/mural-concept-wall.webp) | The concept art cropped to exactly the painted area (576 × 144 in) |
+| Object positions | `location` in [`data/objects.json`](../data/objects.json), from [`tools/wall/wall.json`](../tools/wall/wall.json) | Measured on the painted wall for every product found on it |
+| AR targets | `ar` on each object, compiled into [`targets/objects/`](../targets/objects/) | One small recognition file per object: a square of wall around it, plus two pre-tilted copies for objects high on the wall |
+| Picture of the wall | [`images/mural-wall.webp`](../images/mural-wall.webp) | The scan, cropped to exactly the painted area (576 × 144 in) |
 | Riddles | Riddle team's sheet, then `riddle` in `objects.json` | The sheet's riddles win. Objects the sheet hasn't covered yet use a simple backup riddle from `objects.json` |
 | 3D renderings | [`models/`](../models/) | One per object ([3d-models.md](3d-models.md)) |
 
-Seven objects aren't drawn in the concept, so they have no position and are left out of the game for now:
-air purifier, comb, electric fan, fortune telling machine, smart watch, toothbrush, wireless earbuds.
+Products with a student drawing that weren't on the wall when it was scanned have no position, so they're left out of the
+game until they're painted and added to `wall.json`.
 
 ## Test 1: no camera (any phone, anywhere)
 
@@ -30,24 +30,26 @@ This mode is also there for players who can't or won't use the camera at the wal
 
 ## Test 2: the AR, pointed at a screen
 
-1. On a laptop, open [`reference/mural-concept-wall.webp`](../reference/mural-concept-wall.webp) and zoom in until about
-   a sixth of the mural (two panels across) fills the screen. That's roughly what a phone sees from 5 ft at the real wall.
-2. On your phone, open the live site and tap **Start**.
-3. Pan around the picture on the laptop while pointing the phone at it. When the answer is in view, the magnifier lands on
-   it and the 3D rendering rises out of the screen.
+1. Pick an object and open the game with `?object=<id>` so its riddle comes first, e.g. `?object=boombox`. The game only
+   looks for the current riddle's object.
+2. On a laptop, open [`images/mural-wall.webp`](../images/mural-wall.webp) and zoom in on that object until about 3 ft of
+   wall fills the screen. That's roughly what a phone sees from 2 to 3 ft away in the hallway.
+3. On your phone, tap **Start**, point it at the laptop, and tap when the magnifier glows.
 
-Tips: turn the laptop brightness up, avoid glare, and hold the phone 30–50 cm away. Add `?object=<id>` to the address to
-start on a specific riddle, e.g. `?object=boombox`.
+Tips: turn the laptop brightness up, avoid glare, and hold the phone 30–50 cm away. The demo card works too: open
+[`targets/source/00-demo-card.png`](../targets/source/00-demo-card.png) and use `?object=demo-card`.
 
-This was checked with a simulated camera feed: the boombox was recognised and found within 6 seconds.
+## How it was checked
 
-## After the wall is painted
+- **Simulated phone views:** 154 views rendered from the 3D scan, 0.55 to 1 m from the wall, aimed at products the way a
+  player would. With only the riddle's targets loaded, the right product landed under the crosshair in 137. Level and
+  downward views worked almost every time; the misses were phones tipped up more than 45° at the top row, worst in the top
+  right corner (toaster, tea set, pan, espresso machine, about 3.4 m up).
+- **The real game with a fake camera:** headless Chrome fed the game video rendered from the scan. The boombox and the TV
+  were recognised within a second and spied; the next riddle's targets then ignored the same view, as they should.
+- **Still to do before launch:** iPhone and Android at the wall, in morning, afternoon and evening light (issue #11).
 
-1. **Photograph the wall** straight on, in even light, and mark every object and target with the
-   [position marking tool](../tools/locate.html) (issue #8).
-2. **Replace the targets**: crop the target images from the photo, compile them with the
-   [MindAR compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile), and replace `targets/targets.mind`,
-   `targets/source/` and `targets` in `objects.json` (issue #10). The concept-art targets won't recognise the painted wall.
-3. **Replace the picture**: crop the photo to exactly the painted area, save it as a `.webp`, and point `mural.picture` in
-   `objects.json` at it.
-4. **Re-check the positions** from the photo (the painters will have moved things a little).
+## When the wall changes
+
+Rescan the part that changed, update `wall.json`, and rebuild ([adding-an-object.md](adding-an-object.md)). Objects painted
+after the scan need a box in `wall.json` before they join the game.
