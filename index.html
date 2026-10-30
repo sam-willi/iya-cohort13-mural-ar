@@ -22,7 +22,7 @@
          before js/app.js. Only the weights the CSS uses are requested from Google Fonts (see docs/compression.md). -->
     <script defer src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="js/app.js?v=room-env-26" type="module"></script>
+    <script src="js/app.js?v=wall-scan-27" type="module"></script>
   </head>
   <body>
     <!-- 1. Start screen: the mural's I Spy badge in front of a workshop scene drawn in the mural's style (camera permission is requested when "Start" is tapped) -->
@@ -177,13 +177,13 @@
 
     <!--
       The AR scene. It sits in a <template> so it's only added to the page (by js/app.js) after A-Frame and MindAR
-      have loaded: A-Frame breaks if it finds a scene that already exists. One <a-entity mindar-image-target> per
-      target is added from data/objects.json; targets/targets.mind holds the compiled images (docs/adding-an-object.md).
+      have loaded: A-Frame breaks if it finds a scene that already exists. js/app.js adds three <a-entity
+      mindar-image-target> slots and loads each riddle's own targets (targets/objects/<id>.mind, made by tools/wall).
     -->
     <template id="ar-scene-template">
       <a-scene
         id="ar-scene"
-        mindar-image="imageTargetSrc: targets/targets.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
+        mindar-image="imageTargetSrc: targets/objects/demo-card.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
         gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
         color-space="sRGB"
         renderer="alpha: true; colorManagement: true; physicallyCorrectLights: true"

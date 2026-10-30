@@ -29,8 +29,10 @@ index.html               page structure: start screen, riddle card, found card, 
 js/app.js                game logic
 css/style.css            styles
 data/objects.json        ⭐ one entry per mural object: position, student, link (riddles come from the sheet)
-targets/targets.mind     compiled image targets MindAR looks for (one file for all objects)
-targets/source/          the source photo of each AR target, in target order (00-, 01-, ...)
+targets/objects/<id>.mind  each object's own AR targets; the game loads only the current riddle's
+targets/source/          the demo card's target image
+tools/wall/              the painted wall from LiDAR scans, every product's position, and the scripts that build
+                         the targets and the no-camera picture (build.py, then npm run targets)
 models/                  ⭐ the 3D renderings, one per object: models/<id>.glb (see docs/3d-models.md)
 images/workshop.svg      the illustrated workshop behind the start/end screens, in the concept's style, objects fully rendered
 tools/make-workshop-svg.py  draws images/workshop.svg (edit this, then run it)

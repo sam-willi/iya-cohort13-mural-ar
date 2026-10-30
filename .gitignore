@@ -6,3 +6,4 @@ node_modules/
 models/incoming/
 tools/models/blender/check/
 __pycache__/
+tools/wall/build/
