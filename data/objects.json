@@ -3,275 +3,49 @@
     "width": 576,
     "height": 144,
     "panelSize": 48,
-    "picture": "reference/mural-concept-wall.webp",
-    "pictureNote": "No-camera mode shows this picture, cropped to exactly the painted area. Swap in a straight-on photo of the finished wall (same crop) after painting."
+    "picture": "images/mural-wall.webp",
+    "pictureNote": "The painted wall, straightened from LiDAR scans (tools/wall). Rebuild with tools/wall/build.py."
   },
-  "targets": [
-    {
-      "index": 0,
-      "note": "Demo: pretend the MindAR sample card is painted on the wall here. Replace with real mural targets.",
-      "x": 420,
-      "y": 40,
-      "w": 20,
-      "h": 36.24
-    },
-    {
-      "index": 1,
-      "note": "Desk-test target cut from the concept art (targets/source/01-wall-x0-y0.webp). Replace with photos of the painted wall.",
-      "x": 0,
-      "y": 0,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 2,
-      "note": "Desk-test target cut from the concept art (targets/source/02-wall-x168-y0.webp). Replace with photos of the painted wall.",
-      "x": 168,
-      "y": 0,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 3,
-      "note": "Desk-test target cut from the concept art (targets/source/03-wall-x240-y0.webp). Replace with photos of the painted wall.",
-      "x": 240,
-      "y": 0,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 4,
-      "note": "Desk-test target cut from the concept art (targets/source/04-wall-x408-y0.webp). Replace with photos of the painted wall.",
-      "x": 408,
-      "y": 0,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 5,
-      "note": "Desk-test target cut from the concept art (targets/source/05-wall-x504-y0.webp). Replace with photos of the painted wall.",
-      "x": 504,
-      "y": 0,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 6,
-      "note": "Desk-test target cut from the concept art (targets/source/06-wall-x0-y24.webp). Replace with photos of the painted wall.",
-      "x": 0,
-      "y": 24,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 7,
-      "note": "Desk-test target cut from the concept art (targets/source/07-wall-x48-y24.webp). Replace with photos of the painted wall.",
-      "x": 48,
-      "y": 24,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 8,
-      "note": "Desk-test target cut from the concept art (targets/source/08-wall-x144-y24.webp). Replace with photos of the painted wall.",
-      "x": 144,
-      "y": 24,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 9,
-      "note": "Desk-test target cut from the concept art (targets/source/09-wall-x192-y24.webp). Replace with photos of the painted wall.",
-      "x": 192,
-      "y": 24,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 10,
-      "note": "Desk-test target cut from the concept art (targets/source/10-wall-x288-y24.webp). Replace with photos of the painted wall.",
-      "x": 288,
-      "y": 24,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 11,
-      "note": "Desk-test target cut from the concept art (targets/source/11-wall-x480-y24.webp). Replace with photos of the painted wall.",
-      "x": 480,
-      "y": 24,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 12,
-      "note": "Desk-test target cut from the concept art (targets/source/12-wall-x504-y24.webp). Replace with photos of the painted wall.",
-      "x": 504,
-      "y": 24,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 13,
-      "note": "Desk-test target cut from the concept art (targets/source/13-wall-x0-y48.webp). Replace with photos of the painted wall.",
-      "x": 0,
-      "y": 48,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 14,
-      "note": "Desk-test target cut from the concept art (targets/source/14-wall-x96-y48.webp). Replace with photos of the painted wall.",
-      "x": 96,
-      "y": 48,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 15,
-      "note": "Desk-test target cut from the concept art (targets/source/15-wall-x264-y48.webp). Replace with photos of the painted wall.",
-      "x": 264,
-      "y": 48,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 16,
-      "note": "Desk-test target cut from the concept art (targets/source/16-wall-x384-y48.webp). Replace with photos of the painted wall.",
-      "x": 384,
-      "y": 48,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 17,
-      "note": "Desk-test target cut from the concept art (targets/source/17-wall-x0-y72.webp). Replace with photos of the painted wall.",
-      "x": 0,
-      "y": 72,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 18,
-      "note": "Desk-test target cut from the concept art (targets/source/18-wall-x96-y72.webp). Replace with photos of the painted wall.",
-      "x": 96,
-      "y": 72,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 19,
-      "note": "Desk-test target cut from the concept art (targets/source/19-wall-x144-y72.webp). Replace with photos of the painted wall.",
-      "x": 144,
-      "y": 72,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 20,
-      "note": "Desk-test target cut from the concept art (targets/source/20-wall-x192-y72.webp). Replace with photos of the painted wall.",
-      "x": 192,
-      "y": 72,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 21,
-      "note": "Desk-test target cut from the concept art (targets/source/21-wall-x288-y72.webp). Replace with photos of the painted wall.",
-      "x": 288,
-      "y": 72,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 22,
-      "note": "Desk-test target cut from the concept art (targets/source/22-wall-x360-y72.webp). Replace with photos of the painted wall.",
-      "x": 360,
-      "y": 72,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 23,
-      "note": "Desk-test target cut from the concept art (targets/source/23-wall-x504-y72.webp). Replace with photos of the painted wall.",
-      "x": 504,
-      "y": 72,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 24,
-      "note": "Desk-test target cut from the concept art (targets/source/24-wall-x48-y96.webp). Replace with photos of the painted wall.",
-      "x": 48,
-      "y": 96,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 25,
-      "note": "Desk-test target cut from the concept art (targets/source/25-wall-x264-y96.webp). Replace with photos of the painted wall.",
-      "x": 264,
-      "y": 96,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 26,
-      "note": "Desk-test target cut from the concept art (targets/source/26-wall-x312-y96.webp). Replace with photos of the painted wall.",
-      "x": 312,
-      "y": 96,
-      "w": 72,
-      "h": 48
-    },
-    {
-      "index": 27,
-      "note": "Desk-test target cut from the concept art (targets/source/27-wall-x480-y96.webp). Replace with photos of the painted wall.",
-      "x": 480,
-      "y": 96,
-      "w": 72,
-      "h": 48
-    }
-  ],
   "landmarks": [
     {
       "name": "the big window by the staircase",
-      "x": 31.0,
-      "y": 0.0,
-      "w": 94.0,
-      "h": 95.0,
-      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+      "x": 34.8,
+      "y": 3.5,
+      "w": 92.7,
+      "h": 91.7,
+      "note": "Measured from the wall scan"
     },
     {
       "name": "the window in the left shelves",
-      "x": 145.0,
-      "y": 65.5,
-      "w": 46.0,
-      "h": 46.0,
-      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+      "x": 146.4,
+      "y": 64.3,
+      "w": 45.9,
+      "h": 47.5,
+      "note": "Measured from the wall scan"
     },
     {
       "name": "the top middle window",
-      "x": 224.5,
+      "x": 224.2,
       "y": 0.0,
-      "w": 62.5,
-      "h": 47.0,
-      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+      "w": 62.8,
+      "h": 47.4,
+      "note": "Measured from the wall scan"
     },
     {
       "name": "the little window by the I Spy badge",
-      "x": 336.5,
-      "y": 33.0,
-      "w": 30.0,
-      "h": 30.0,
-      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+      "x": 333.9,
+      "y": 32.4,
+      "w": 29.9,
+      "h": 28.9,
+      "note": "Measured from the wall scan"
     },
     {
-      "name": "the window in the magnifying glass",
-      "x": 449.0,
-      "y": 49.0,
-      "w": 62.0,
-      "h": 62.0,
-      "note": "From the blue outlines in reference/mural-concept-grid.webp; check against the real wall"
+      "name": "the magnifying glass in the window",
+      "x": 443.5,
+      "y": 44.0,
+      "w": 62.8,
+      "h": 64.2,
+      "note": "Measured from the wall scan"
     }
   ],
   "profiles": {
@@ -300,6 +74,17 @@
       "student": {
         "name": "Student Name",
         "pageUrl": "https://example.com"
+      },
+      "ar": {
+        "mind": "targets/objects/demo-card.mind",
+        "targets": [
+          {
+            "x": 420.5,
+            "y": 40.5,
+            "w": 20,
+            "h": 36.24
+          }
+        ]
       }
     },
     {
@@ -309,14 +94,25 @@
       "riddle": "I spy a pair that never walks alone, laced up tight and built for speed.",
       "hint": "",
       "location": {
-        "x": 305,
-        "y": 117,
-        "w": 13,
-        "h": 13
+        "x": 302.2,
+        "y": 105.8,
+        "w": 17.1,
+        "h": 13.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/sneakers.mind",
+        "targets": [
+          {
+            "x": 297.0,
+            "y": 98.8,
+            "w": 27.4,
+            "h": 27.4
+          }
+        ]
       }
     },
     {
@@ -326,14 +122,25 @@
       "riddle": "I spy a little printer that names everything it meets, one sticky strip at a time.",
       "hint": "",
       "location": {
-        "x": 554,
-        "y": 57,
-        "w": 21,
-        "h": 9
+        "x": 550.7,
+        "y": 55.1,
+        "w": 17.2,
+        "h": 13.7
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/label-maker.mind",
+        "targets": [
+          {
+            "x": 545.5,
+            "y": 48.1,
+            "w": 27.6,
+            "h": 27.6
+          }
+        ]
       }
     },
     {
@@ -343,14 +150,79 @@
       "riddle": "I spy a ride with chrome and fins, straight out of the days of drive-in films.",
       "hint": "",
       "location": {
-        "x": 156,
-        "y": 38,
-        "w": 11,
-        "h": 12
+        "x": 152.0,
+        "y": 45.6,
+        "w": 13.0,
+        "h": 10.6
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/1950s-car.mind",
+        "targets": [
+          {
+            "x": 148.1,
+            "y": 40.5,
+            "w": 20.7,
+            "h": 20.7
+          },
+          {
+            "x": 146.1,
+            "y": 40.5,
+            "w": 24.9,
+            "h": 20.7,
+            "px": [
+              173,
+              107
+            ],
+            "H": [
+              [
+                5.246084,
+                -0.52461,
+                -745.028901
+              ],
+              [
+                -0.0,
+                3.244688,
+                -131.323948
+              ],
+              [
+                -0.0,
+                -0.006065,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 144.8,
+            "y": 40.5,
+            "w": 27.4,
+            "h": 20.7,
+            "px": [
+              173,
+              73
+            ],
+            "H": [
+              [
+                4.290461,
+                -0.686474,
+                -593.558056
+              ],
+              [
+                0.0,
+                1.810426,
+                -73.274296
+              ],
+              [
+                0.0,
+                -0.007936,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -372,14 +244,79 @@
       "riddle": "I spy a frame strung tight with a grid, ready to send a fuzzy ball flying.",
       "hint": "",
       "location": {
-        "x": 201,
-        "y": 41,
-        "w": 7,
-        "h": 13
+        "x": 204.6,
+        "y": 38.6,
+        "w": 11.7,
+        "h": 18.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/tennis-racket.mind",
+        "targets": [
+          {
+            "x": 195.5,
+            "y": 33.0,
+            "w": 29.7,
+            "h": 29.7
+          },
+          {
+            "x": 192.5,
+            "y": 33.0,
+            "w": 35.6,
+            "h": 29.7,
+            "px": [
+              248,
+              154
+            ],
+            "H": [
+              [
+                5.870101,
+                -0.587011,
+                -1110.732764
+              ],
+              [
+                0.0,
+                3.645143,
+                -120.278375
+              ],
+              [
+                0.0,
+                -0.004734,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 190.7,
+            "y": 33.0,
+            "w": 39.2,
+            "h": 29.7,
+            "px": [
+              248,
+              104
+            ],
+            "H": [
+              [
+                4.982675,
+                -0.797229,
+                -924.069221
+              ],
+              [
+                0.0,
+                2.089509,
+                -68.947288
+              ],
+              [
+                0.0,
+                -0.006429,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -389,14 +326,25 @@
       "riddle": "I spy a leather seat with its own footrest, the comfiest spot to read in the room.",
       "hint": "",
       "location": {
-        "x": 17,
-        "y": 64,
-        "w": 26,
-        "h": 28
+        "x": 24.3,
+        "y": 66.3,
+        "w": 26.9,
+        "h": 35.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/midcentury-modern-chair.mind",
+        "targets": [
+          {
+            "x": 15.9,
+            "y": 62.1,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -406,14 +354,25 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 51,
-        "y": 88,
-        "w": 17,
-        "h": 18
+        "x": 52.2,
+        "y": 87.2,
+        "w": 20.4,
+        "h": 15.2
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/sewing-machine.mind",
+        "targets": [
+          {
+            "x": 46.2,
+            "y": 78.5,
+            "w": 32.7,
+            "h": 32.7
+          }
+        ]
       }
     },
     {
@@ -423,14 +382,25 @@
       "riddle": "I spy a soft roll that everyone needs and nobody wants to run out of.",
       "hint": "",
       "location": {
-        "x": 520,
-        "y": 115,
-        "w": 28,
-        "h": 24
+        "x": 349.6,
+        "y": 93.9,
+        "w": 12.7,
+        "h": 12.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/toilet-paper.mind",
+        "targets": [
+          {
+            "x": 345.8,
+            "y": 90.0,
+            "w": 20.2,
+            "h": 20.2
+          }
+        ]
       }
     },
     {
@@ -440,14 +410,25 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 207,
-        "y": 76,
-        "w": 9,
-        "h": 14
+        "x": 207.7,
+        "y": 77.3,
+        "w": 9.8,
+        "h": 13.3
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/top-hat.mind",
+        "targets": [
+          {
+            "x": 201.9,
+            "y": 73.3,
+            "w": 21.2,
+            "h": 21.2
+          }
+        ]
       }
     },
     {
@@ -457,14 +438,79 @@
       "riddle": "I spy a bag with two straps that rides on your back to every class.",
       "hint": "",
       "location": {
-        "x": 193,
-        "y": 38,
-        "w": 10,
-        "h": 15
+        "x": 191.4,
+        "y": 38.4,
+        "w": 14.1,
+        "h": 18.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/backpack.mind",
+        "targets": [
+          {
+            "x": 183.3,
+            "y": 32.7,
+            "w": 30.3,
+            "h": 30.3
+          },
+          {
+            "x": 180.3,
+            "y": 32.7,
+            "w": 36.4,
+            "h": 30.3,
+            "px": [
+              253,
+              157
+            ],
+            "H": [
+              [
+                5.896624,
+                -0.589663,
+                -1043.86047
+              ],
+              [
+                -0.0,
+                3.65917,
+                -119.646882
+              ],
+              [
+                0.0,
+                -0.004661,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 178.5,
+            "y": 32.7,
+            "w": 40.0,
+            "h": 30.3,
+            "px": [
+              253,
+              106
+            ],
+            "H": [
+              [
+                5.013249,
+                -0.80212,
+                -868.528366
+              ],
+              [
+                -0.0,
+                2.100413,
+                -68.678914
+              ],
+              [
+                0.0,
+                -0.006341,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -474,14 +520,25 @@
       "riddle": "I spy a glass box with a whole underwater world swimming inside.",
       "hint": "",
       "location": {
-        "x": 26,
-        "y": 50,
-        "w": 18,
-        "h": 26
+        "x": 36.8,
+        "y": 54.5,
+        "w": 18.2,
+        "h": 19.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/fish-aquarium.mind",
+        "targets": [
+          {
+            "x": 30.0,
+            "y": 48.5,
+            "w": 31.9,
+            "h": 31.9
+          }
+        ]
       }
     },
     {
@@ -491,14 +548,25 @@
       "riddle": "I spy a long green snake that sleeps in a coil and sprays when it wakes.",
       "hint": "",
       "location": {
-        "x": 170,
-        "y": 71,
-        "w": 15,
-        "h": 14
+        "x": 150.2,
+        "y": 72.5,
+        "w": 4.7,
+        "h": 4.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/hose.mind",
+        "targets": [
+          {
+            "x": 142.7,
+            "y": 64.7,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -507,10 +575,26 @@
       "name": "Fortune Telling Machine",
       "riddle": "",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 479.1,
+        "y": 107.5,
+        "w": 11.0,
+        "h": 17.4
+      },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/fortune-telling-machine.mind",
+        "targets": [
+          {
+            "x": 470.6,
+            "y": 102.2,
+            "w": 27.9,
+            "h": 27.9
+          }
+        ]
       }
     },
     {
@@ -520,14 +604,25 @@
       "riddle": "I spy two dark windows you wear on your face when the sun gets too bright.",
       "hint": "",
       "location": {
-        "x": 330,
-        "y": 130,
-        "w": 16,
-        "h": 8
+        "x": 324.5,
+        "y": 120.6,
+        "w": 19.5,
+        "h": 12.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/sunglasses.mind",
+        "targets": [
+          {
+            "x": 318.6,
+            "y": 111.2,
+            "w": 31.3,
+            "h": 31.3
+          }
+        ]
       }
     },
     {
@@ -537,14 +632,79 @@
       "riddle": "I spy a roof you can carry, opening wide whenever the clouds start to cry.",
       "hint": "",
       "location": {
-        "x": 206,
-        "y": 19,
-        "w": 16,
-        "h": 16
+        "x": 205.3,
+        "y": 12.8,
+        "w": 18.4,
+        "h": 21.6
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/umbrella.mind",
+        "targets": [
+          {
+            "x": 197.2,
+            "y": 6.3,
+            "w": 34.6,
+            "h": 34.6
+          },
+          {
+            "x": 193.7,
+            "y": 6.3,
+            "w": 41.5,
+            "h": 34.6,
+            "px": [
+              288,
+              179
+            ],
+            "H": [
+              [
+                6.734268,
+                -0.673426,
+                -1300.364025
+              ],
+              [
+                0.0,
+                4.185534,
+                -26.28672
+              ],
+              [
+                0.0,
+                -0.004677,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 191.6,
+            "y": 6.3,
+            "w": 45.7,
+            "h": 34.6,
+            "px": [
+              288,
+              121
+            ],
+            "H": [
+              [
+                6.041405,
+                -0.966625,
+                -1151.758972
+              ],
+              [
+                0.0,
+                2.538229,
+                -15.941027
+              ],
+              [
+                0.0,
+                -0.006713,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -554,14 +714,25 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 205,
-        "y": 61,
-        "w": 14,
-        "h": 10
+        "x": 211.1,
+        "y": 62.5,
+        "w": 12.0,
+        "h": 8.8
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/binoculars.mind",
+        "targets": [
+          {
+            "x": 207.2,
+            "y": 56.9,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -571,14 +742,79 @@
       "riddle": "I spy a flyer with four spinning blades and no pilot on board.",
       "hint": "",
       "location": {
-        "x": 49,
-        "y": 1,
-        "w": 19,
-        "h": 13
+        "x": 43.8,
+        "y": 9.0,
+        "w": 16.3,
+        "h": 11.2
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/drone.mind",
+        "targets": [
+          {
+            "x": 38.9,
+            "y": 1.5,
+            "w": 26.1,
+            "h": 26.1
+          },
+          {
+            "x": 36.3,
+            "y": 1.5,
+            "w": 31.3,
+            "h": 26.1,
+            "px": [
+              218,
+              135
+            ],
+            "H": [
+              [
+                6.889768,
+                -0.688977,
+                -248.83866
+              ],
+              [
+                0.0,
+                4.266599,
+                -6.379962
+              ],
+              [
+                0.0,
+                -0.006321,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 34.7,
+            "y": 1.5,
+            "w": 34.5,
+            "h": 26.1,
+            "px": [
+              218,
+              92
+            ],
+            "H": [
+              [
+                6.236632,
+                -0.997861,
+                -214.916261
+              ],
+              [
+                0.0,
+                2.631973,
+                -3.935661
+              ],
+              [
+                0.0,
+                -0.009155,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -588,14 +824,25 @@
       "riddle": "I spy a round glass door where clothes go for a spin.",
       "hint": "",
       "location": {
-        "x": 141,
-        "y": 84,
-        "w": 17,
-        "h": 24
+        "x": 140.1,
+        "y": 81.8,
+        "w": 17.9,
+        "h": 24.3
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/washing-machine.mind",
+        "targets": [
+          {
+            "x": 129.6,
+            "y": 74.6,
+            "w": 38.9,
+            "h": 38.9
+          }
+        ]
       }
     },
     {
@@ -605,14 +852,25 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 288,
-        "y": 80,
-        "w": 14,
-        "h": 34
+        "x": 286.0,
+        "y": 76.1,
+        "w": 14.6,
+        "h": 28.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/pendulum-clock.mind",
+        "targets": [
+          {
+            "x": 271.4,
+            "y": 68.4,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -622,14 +880,25 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 506,
-        "y": 55,
-        "w": 19,
-        "h": 17
+        "x": 506.4,
+        "y": 56.0,
+        "w": 24.7,
+        "h": 21.0
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/typewriter.mind",
+        "targets": [
+          {
+            "x": 498.9,
+            "y": 46.8,
+            "w": 39.6,
+            "h": 39.6
+          }
+        ]
       }
     },
     {
@@ -639,14 +908,79 @@
       "riddle": "I spy a hard shell with vents on top that keeps a rider's head safe.",
       "hint": "",
       "location": {
-        "x": 207,
-        "y": 41,
-        "w": 11,
-        "h": 11
+        "x": 213.0,
+        "y": 39.4,
+        "w": 11.2,
+        "h": 9.8
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/bicycle-helmet.mind",
+        "targets": [
+          {
+            "x": 208.6,
+            "y": 34.3,
+            "w": 19.9,
+            "h": 19.9
+          },
+          {
+            "x": 206.7,
+            "y": 34.3,
+            "w": 23.9,
+            "h": 19.9,
+            "px": [
+              166,
+              103
+            ],
+            "H": [
+              [
+                5.392447,
+                -0.539245,
+                -1095.879534
+              ],
+              [
+                -0.0,
+                3.345916,
+                -114.740933
+              ],
+              [
+                -0.0,
+                -0.006497,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 205.5,
+            "y": 34.3,
+            "w": 26.3,
+            "h": 19.9,
+            "px": [
+              166,
+              70
+            ],
+            "H": [
+              [
+                4.451421,
+                -0.712227,
+                -890.155475
+              ],
+              [
+                0.0,
+                1.877105,
+                -64.371257
+              ],
+              [
+                0.0,
+                -0.008581,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -656,14 +990,25 @@
       "riddle": "I spy a box with two big speakers and a handle, made for music on the move.",
       "hint": "",
       "location": {
-        "x": 306,
-        "y": 89,
-        "w": 22,
-        "h": 19
+        "x": 302.3,
+        "y": 84.3,
+        "w": 19.2,
+        "h": 17.6
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/boombox.mind",
+        "targets": [
+          {
+            "x": 296.5,
+            "y": 77.8,
+            "w": 30.8,
+            "h": 30.8
+          }
+        ]
       }
     },
     {
@@ -673,14 +1018,79 @@
       "riddle": "I spy pleats that open into a half moon and make a breeze with a flick of the wrist.",
       "hint": "",
       "location": {
-        "x": 416,
-        "y": 3,
-        "w": 27,
-        "h": 16
+        "x": 410.0,
+        "y": 2.3,
+        "w": 33.0,
+        "h": 21.0
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/handheld-fan.mind",
+        "targets": [
+          {
+            "x": 404.6,
+            "y": -9.1,
+            "w": 43.9,
+            "h": 43.9
+          },
+          {
+            "x": 400.2,
+            "y": -9.1,
+            "w": 52.6,
+            "h": 43.9,
+            "px": [
+              366,
+              227
+            ],
+            "H": [
+              [
+                7.201721,
+                -0.720172,
+                -2889.016477
+              ],
+              [
+                0.0,
+                4.466641,
+                40.519812
+              ],
+              [
+                0.0,
+                -0.003935,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 397.6,
+            "y": -9.1,
+            "w": 57.9,
+            "h": 43.9,
+            "px": [
+              366,
+              154
+            ],
+            "H": [
+              [
+                6.655015,
+                -1.064801,
+                -2655.809527
+              ],
+              [
+                0.0,
+                2.800197,
+                25.402414
+              ],
+              [
+                0.0,
+                -0.005819,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -690,14 +1100,25 @@
       "riddle": "I spy two small wheels, a tall handle and a deck to stand on, zipping across campus.",
       "hint": "",
       "location": {
-        "x": 155,
-        "y": 53,
-        "w": 7,
-        "h": 14
+        "x": 156.5,
+        "y": 57.7,
+        "w": 14.9,
+        "h": 12.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/electric-scooter.mind",
+        "targets": [
+          {
+            "x": 152.0,
+            "y": 52.0,
+            "w": 23.7,
+            "h": 23.7
+          }
+        ]
       }
     },
     {
@@ -707,14 +1128,79 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 290,
-        "y": 2,
-        "w": 14,
-        "h": 25
+        "x": 290.6,
+        "y": 4.7,
+        "w": 11.3,
+        "h": 24.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/jukebox.mind",
+        "targets": [
+          {
+            "x": 276.6,
+            "y": -2.7,
+            "w": 39.3,
+            "h": 39.3
+          },
+          {
+            "x": 272.7,
+            "y": -2.7,
+            "w": 47.1,
+            "h": 39.3,
+            "px": [
+              327,
+              203
+            ],
+            "H": [
+              [
+                7.018015,
+                -0.7018,
+                -1915.756265
+              ],
+              [
+                0.0,
+                4.356749,
+                11.726577
+              ],
+              [
+                0.0,
+                -0.004292,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 270.4,
+            "y": -2.7,
+            "w": 51.8,
+            "h": 39.3,
+            "px": [
+              327,
+              137
+            ],
+            "H": [
+              [
+                6.413691,
+                -1.026191,
+                -1736.710898
+              ],
+              [
+                0.0,
+                2.687082,
+                7.232519
+              ],
+              [
+                0.0,
+                -0.006276,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -724,14 +1210,25 @@
       "riddle": "I spy a pot with a lid that pops open when the grains are fluffy and done.",
       "hint": "",
       "location": {
-        "x": 544,
-        "y": 4,
-        "w": 13,
-        "h": 20
+        "x": 492.5,
+        "y": 107.1,
+        "w": 11.4,
+        "h": 20.1
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/rice-cooker.mind",
+        "targets": [
+          {
+            "x": 482.0,
+            "y": 101.0,
+            "w": 32.2,
+            "h": 32.2
+          }
+        ]
       }
     },
     {
@@ -741,14 +1238,79 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 238,
-        "y": 34,
-        "w": 13,
-        "h": 20
+        "x": 235.8,
+        "y": 27.2,
+        "w": 13.2,
+        "h": 26.3
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/hot-air-balloon.mind",
+        "targets": [
+          {
+            "x": 221.3,
+            "y": 19.3,
+            "w": 42.1,
+            "h": 42.1
+          },
+          {
+            "x": 217.1,
+            "y": 19.3,
+            "w": 50.5,
+            "h": 42.1,
+            "px": [
+              351,
+              218
+            ],
+            "H": [
+              [
+                6.458125,
+                -0.645812,
+                -1389.579279
+              ],
+              [
+                0.0,
+                4.011029,
+                -77.571554
+              ],
+              [
+                0.0,
+                -0.00368,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 214.6,
+            "y": 19.3,
+            "w": 55.5,
+            "h": 42.1,
+            "px": [
+              351,
+              147
+            ],
+            "H": [
+              [
+                5.687053,
+                -0.909929,
+                -1202.715728
+              ],
+              [
+                0.0,
+                2.381757,
+                -46.062148
+              ],
+              [
+                0.0,
+                -0.005185,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -767,17 +1329,29 @@
       "id": "art-nouveau-desk-lamp",
       "product": "Desk Lamp (Art Nouveau)",
       "name": "Art Nouveau Desk Lamp",
-      "riddle": "I spy a lamp with a stained glass shade, glowing in every color.",
+      "riddle": "I spy a dome with petals of glass,\nOn a long, thin stem, with a look from the past.\nMy shade curves down and my stand stays tall,\nI give off a glow when the night starts to fall.",
+      "riddleSource": "local",
       "hint": "",
       "location": {
-        "x": 40,
-        "y": 87,
-        "w": 16,
-        "h": 23
+        "x": 46.3,
+        "y": 89.8,
+        "w": 12.0,
+        "h": 21.1
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/art-nouveau-desk-lamp.mind",
+        "targets": [
+          {
+            "x": 35.4,
+            "y": 83.4,
+            "w": 33.8,
+            "h": 33.8
+          }
+        ]
       }
     },
     {
@@ -787,14 +1361,79 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 494,
-        "y": 23,
-        "w": 14,
-        "h": 11
+        "x": 481.6,
+        "y": 22.5,
+        "w": 11.2,
+        "h": 10.8
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/tea-set.mind",
+        "targets": [
+          {
+            "x": 477.2,
+            "y": 17.9,
+            "w": 19.9,
+            "h": 19.9
+          },
+          {
+            "x": 475.2,
+            "y": 17.9,
+            "w": 23.9,
+            "h": 19.9,
+            "px": [
+              166,
+              103
+            ],
+            "H": [
+              [
+                6.033288,
+                -0.603329,
+                -2856.282609
+              ],
+              [
+                0.0,
+                3.743546,
+                -67.173913
+              ],
+              [
+                -0.0,
+                -0.007269,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 474.0,
+            "y": 17.9,
+            "w": 26.3,
+            "h": 19.9,
+            "px": [
+              166,
+              70
+            ],
+            "H": [
+              [
+                5.177822,
+                -0.828451,
+                -2439.518657
+              ],
+              [
+                0.0,
+                2.183419,
+                -39.179104
+              ],
+              [
+                0.0,
+                -0.009981,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -803,10 +1442,26 @@
       "name": "Comb",
       "riddle": "I spy a row of thin teeth that never bite, only tame your hair.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 242.9,
+        "y": 91.0,
+        "w": 8.1,
+        "h": 17.4
+      },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/comb.mind",
+        "targets": [
+          {
+            "x": 233.0,
+            "y": 85.8,
+            "w": 27.9,
+            "h": 27.9
+          }
+        ]
       }
     },
     {
@@ -816,14 +1471,25 @@
       "riddle": "I spy two cushioned cups joined by a band that hush the world and play your songs.",
       "hint": "",
       "location": {
-        "x": 195,
-        "y": 7,
-        "w": 20,
-        "h": 12
+        "x": 523.2,
+        "y": 116.2,
+        "w": 14.8,
+        "h": 12.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/headphones.mind",
+        "targets": [
+          {
+            "x": 518.7,
+            "y": 110.9,
+            "w": 23.6,
+            "h": 23.6
+          }
+        ]
       }
     },
     {
@@ -833,14 +1499,25 @@
       "riddle": "I spy a modern machine shaped like a person, standing tall and waving hello.",
       "hint": "",
       "location": {
-        "x": 432,
-        "y": 56,
-        "w": 23,
-        "h": 46
+        "x": 427.4,
+        "y": 57.1,
+        "w": 22.8,
+        "h": 42.1
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/contemporary-robot.mind",
+        "targets": [
+          {
+            "x": 416.8,
+            "y": 56.2,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -850,14 +1527,25 @@
       "riddle": "",
       "hint": "",
       "location": {
-        "x": 163,
-        "y": 56,
-        "w": 17,
-        "h": 13
+        "x": 224.6,
+        "y": 111.7,
+        "w": 22.1,
+        "h": 14.3
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/ice-cream-truck.mind",
+        "targets": [
+          {
+            "x": 218.0,
+            "y": 101.1,
+            "w": 35.4,
+            "h": 35.4
+          }
+        ]
       }
     },
     {
@@ -866,12 +1554,7 @@
       "name": "Portable Power Station",
       "riddle": "I spy a box full of outlets that brings electricity wherever you go.",
       "hint": "",
-      "location": {
-        "x": 507,
-        "y": 87,
-        "w": 14,
-        "h": 14
-      },
+      "location": null,
       "student": {
         "name": "",
         "pageUrl": ""
@@ -883,12 +1566,7 @@
       "name": "Electric Kettle",
       "riddle": "I spy a jug that clicks off when the water is boiling.",
       "hint": "",
-      "location": {
-        "x": 492,
-        "y": 38,
-        "w": 9,
-        "h": 14
-      },
+      "location": null,
       "student": {
         "name": "",
         "pageUrl": ""
@@ -901,14 +1579,25 @@
       "riddle": "I spy a goblet-shaped drum that sings when you slap its skin.",
       "hint": "",
       "location": {
-        "x": 182,
-        "y": 84,
-        "w": 12,
-        "h": 27
+        "x": 179.4,
+        "y": 88.3,
+        "w": 9.6,
+        "h": 20.8
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/african-drums.mind",
+        "targets": [
+          {
+            "x": 167.6,
+            "y": 82.0,
+            "w": 33.3,
+            "h": 33.3
+          }
+        ]
       }
     },
     {
@@ -918,14 +1607,25 @@
       "riddle": "I spy a round helmet with a golden visor, ready for a walk in space.",
       "hint": "",
       "location": {
-        "x": 268,
-        "y": 100,
-        "w": 17,
-        "h": 18
+        "x": 273.1,
+        "y": 92.8,
+        "w": 10.2,
+        "h": 11.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/astronaut-helmet.mind",
+        "targets": [
+          {
+            "x": 268.3,
+            "y": 88.6,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -935,14 +1635,79 @@
       "riddle": "I spy a box with two slots that pops up breakfast when it's golden.",
       "hint": "",
       "location": {
-        "x": 528,
-        "y": 4,
-        "w": 18,
-        "h": 18
+        "x": 521.4,
+        "y": 2.4,
+        "w": 12.6,
+        "h": 14.6
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/toaster.mind",
+        "targets": [
+          {
+            "x": 516.0,
+            "y": -2.0,
+            "w": 23.3,
+            "h": 23.3
+          },
+          {
+            "x": 513.7,
+            "y": -2.0,
+            "w": 28.0,
+            "h": 23.3,
+            "px": [
+              194,
+              120
+            ],
+            "H": [
+              [
+                7.030577,
+                -0.703055,
+                -3612.6917
+              ],
+              [
+                0.0,
+                4.348811,
+                8.670526
+              ],
+              [
+                0.0,
+                -0.007248,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 512.3,
+            "y": -2.0,
+            "w": 30.8,
+            "h": 23.3,
+            "px": [
+              194,
+              81
+            ],
+            "H": [
+              [
+                6.433692,
+                -1.029389,
+                -3297.744657
+              ],
+              [
+                0.0,
+                2.686232,
+                5.355728
+              ],
+              [
+                0.0,
+                -0.010612,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -952,14 +1717,25 @@
       "riddle": "I spy a tool with a trigger and a spinning bit that makes holes in a hurry.",
       "hint": "",
       "location": {
-        "x": 540,
-        "y": 92,
-        "w": 18,
-        "h": 28
+        "x": 541.2,
+        "y": 86.6,
+        "w": 24.1,
+        "h": 25.8
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/drill.mind",
+        "targets": [
+          {
+            "x": 532.6,
+            "y": 78.9,
+            "w": 41.3,
+            "h": 41.3
+          }
+        ]
       }
     },
     {
@@ -969,14 +1745,25 @@
       "riddle": "I spy a blocky toy robot from the 80s, red and blue and ready for battle.",
       "hint": "",
       "location": {
-        "x": 336,
-        "y": 72,
-        "w": 16,
-        "h": 34
+        "x": 334.0,
+        "y": 68.8,
+        "w": 18.5,
+        "h": 34.3
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/japanese-toy-robot.mind",
+        "targets": [
+          {
+            "x": 321.3,
+            "y": 64.0,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -985,12 +1772,7 @@
       "name": "Coffee Grinder",
       "riddle": "I spy a machine that crunches beans before the morning brew.",
       "hint": "",
-      "location": {
-        "x": 502,
-        "y": 39,
-        "w": 10,
-        "h": 19
-      },
+      "location": null,
       "student": {
         "name": "",
         "pageUrl": ""
@@ -1003,14 +1785,25 @@
       "riddle": "I spy a tilted table of lights and bumpers where a silver ball bounces.",
       "hint": "",
       "location": {
-        "x": 36,
-        "y": 39,
-        "w": 17,
-        "h": 25
+        "x": 49.5,
+        "y": 42.9,
+        "w": 17.1,
+        "h": 34.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/pinball-machine.mind",
+        "targets": [
+          {
+            "x": 36.2,
+            "y": 38.2,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -1020,14 +1813,25 @@
       "riddle": "I spy a little house with a barred door for a furry friend on the go.",
       "hint": "",
       "location": {
-        "x": 156,
-        "y": 90,
-        "w": 14,
-        "h": 22
+        "x": 156.2,
+        "y": 84.4,
+        "w": 13.0,
+        "h": 24.2
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/pet-carrier.mind",
+        "targets": [
+          {
+            "x": 143.3,
+            "y": 77.2,
+            "w": 38.8,
+            "h": 38.8
+          }
+        ]
       }
     },
     {
@@ -1037,14 +1841,25 @@
       "riddle": "I spy kitchen tools that went sailing: a spatula sail, a spoon oar and a fork rudder.",
       "hint": "",
       "location": {
-        "x": 512,
-        "y": 1,
-        "w": 19,
-        "h": 23
+        "x": 460.2,
+        "y": 108.2,
+        "w": 8.9,
+        "h": 11.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/spatula-spoon-fork.mind",
+        "targets": [
+          {
+            "x": 454.7,
+            "y": 104.2,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -1054,14 +1869,25 @@
       "riddle": "I spy a stack of travel trunks with buckles and handles, packed for an adventure.",
       "hint": "",
       "location": {
-        "x": 74,
-        "y": 115,
-        "w": 22,
-        "h": 24
+        "x": 78.3,
+        "y": 113.4,
+        "w": 27.9,
+        "h": 24.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/suitcase.mind",
+        "targets": [
+          {
+            "x": 70.3,
+            "y": 104.0,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -1071,14 +1897,79 @@
       "riddle": "I spy a glass globe on a stand that claims to know your future.",
       "hint": "",
       "location": {
-        "x": 193,
-        "y": 19,
-        "w": 12,
-        "h": 15
+        "x": 192.3,
+        "y": 16.7,
+        "w": 13.2,
+        "h": 14.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/crystal-ball.mind",
+        "targets": [
+          {
+            "x": 187.3,
+            "y": 12.5,
+            "w": 23.1,
+            "h": 23.1
+          },
+          {
+            "x": 185.0,
+            "y": 12.5,
+            "w": 27.8,
+            "h": 23.1,
+            "px": [
+              193,
+              120
+            ],
+            "H": [
+              [
+                6.381121,
+                -0.638111,
+                -1172.567867
+              ],
+              [
+                0.0,
+                3.967537,
+                -49.439708
+              ],
+              [
+                0.0,
+                -0.006613,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 183.6,
+            "y": 12.5,
+            "w": 30.5,
+            "h": 23.1,
+            "px": [
+              193,
+              81
+            ],
+            "H": [
+              [
+                5.591585,
+                -0.894653,
+                -1015.546055
+              ],
+              [
+                0.0,
+                2.346727,
+                -29.242707
+              ],
+              [
+                0.0,
+                -0.009271,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1088,14 +1979,79 @@
       "riddle": "I spy a tube that throws a beam of light into the dark.",
       "hint": "",
       "location": {
-        "x": 455,
-        "y": 27,
-        "w": 13,
-        "h": 19
+        "x": 450.5,
+        "y": 10.1,
+        "w": 12.8,
+        "h": 32.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/flashlight.mind",
+        "targets": [
+          {
+            "x": 434.9,
+            "y": 4.4,
+            "w": 43.9,
+            "h": 43.9
+          },
+          {
+            "x": 430.6,
+            "y": 4.4,
+            "w": 52.6,
+            "h": 43.9,
+            "px": [
+              366,
+              227
+            ],
+            "H": [
+              [
+                6.839489,
+                -0.683949,
+                -2941.772727
+              ],
+              [
+                0.0,
+                4.241978,
+                -18.606557
+              ],
+              [
+                0.0,
+                -0.003737,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 427.9,
+            "y": 4.4,
+            "w": 57.9,
+            "h": 43.9,
+            "px": [
+              366,
+              154
+            ],
+            "H": [
+              [
+                6.17173,
+                -0.987475,
+                -2636.692385
+              ],
+              [
+                0.0,
+                2.596848,
+                -11.390537
+              ],
+              [
+                0.0,
+                -0.005396,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1104,10 +2060,26 @@
       "name": "Air Purifier",
       "riddle": "I spy a quiet tower that breathes in dusty air and breathes out clean.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 215.8,
+        "y": 104.5,
+        "w": 5.4,
+        "h": 8.3
+      },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/air-purifier.mind",
+        "targets": [
+          {
+            "x": 208.5,
+            "y": 98.6,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -1117,14 +2089,79 @@
       "riddle": "I spy a long tube on three legs that brings the stars up close.",
       "hint": "",
       "location": {
-        "x": 26,
-        "y": 18,
-        "w": 40,
-        "h": 30
+        "x": 38.8,
+        "y": 31.0,
+        "w": 20.1,
+        "h": 18.1
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/telescope.mind",
+        "targets": [
+          {
+            "x": 32.8,
+            "y": 24.0,
+            "w": 32.2,
+            "h": 32.2
+          },
+          {
+            "x": 29.6,
+            "y": 24.0,
+            "w": 38.6,
+            "h": 32.2,
+            "px": [
+              268,
+              166
+            ],
+            "H": [
+              [
+                6.168828,
+                -0.616883,
+                -167.638369
+              ],
+              [
+                0.0,
+                3.82099,
+                -91.798994
+              ],
+              [
+                0.0,
+                -0.004604,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 27.6,
+            "y": 24.0,
+            "w": 42.5,
+            "h": 32.2,
+            "px": [
+              268,
+              113
+            ],
+            "H": [
+              [
+                5.339587,
+                -0.854334,
+                -127.090821
+              ],
+              [
+                0.0,
+                2.251393,
+                -54.08954
+              ],
+              [
+                0.0,
+                -0.006376,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1134,14 +2171,25 @@
       "riddle": "I spy a round rubber wheel with deep treads that grips the road.",
       "hint": "",
       "location": {
-        "x": 141,
-        "y": 70,
-        "w": 11,
-        "h": 11
+        "x": 140.7,
+        "y": 72.4,
+        "w": 5.1,
+        "h": 6.6
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/car-tire.mind",
+        "targets": [
+          {
+            "x": 133.3,
+            "y": 65.7,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -1151,14 +2199,25 @@
       "riddle": "I spy a hooded coat that laughs at the rain.",
       "hint": "",
       "location": {
-        "x": 347,
-        "y": 113,
-        "w": 19,
-        "h": 22
+        "x": 343.4,
+        "y": 109.2,
+        "w": 18.0,
+        "h": 18.3
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/rain-jacket.mind",
+        "targets": [
+          {
+            "x": 337.8,
+            "y": 103.7,
+            "w": 29.3,
+            "h": 29.3
+          }
+        ]
       }
     },
     {
@@ -1168,14 +2227,25 @@
       "riddle": "I spy an Art Deco radio shaped like a building, with knobs on top and music inside.",
       "hint": "",
       "location": {
-        "x": 206,
-        "y": 94,
-        "w": 12,
-        "h": 19
+        "x": 207.4,
+        "y": 92.6,
+        "w": 7.0,
+        "h": 10.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/radio.mind",
+        "targets": [
+          {
+            "x": 200.9,
+            "y": 88.0,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -1185,14 +2255,25 @@
       "riddle": "I spy a hungry machine with a long hose that gobbles up dust.",
       "hint": "",
       "location": {
-        "x": 530,
-        "y": 29,
-        "w": 10,
-        "h": 11
+        "x": 445.0,
+        "y": 107.2,
+        "w": 14.2,
+        "h": 11.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/vacuum.mind",
+        "targets": [
+          {
+            "x": 440.7,
+            "y": 101.6,
+            "w": 22.6,
+            "h": 22.6
+          }
+        ]
       }
     },
     {
@@ -1202,31 +2283,54 @@
       "riddle": "I spy a buggy with a push handle, carrying the smallest passenger in town.",
       "hint": "",
       "location": {
-        "x": 145,
-        "y": 51,
-        "w": 12,
-        "h": 14
+        "x": 138.7,
+        "y": 55.6,
+        "w": 17.9,
+        "h": 12.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/baby-stroller.mind",
+        "targets": [
+          {
+            "x": 133.3,
+            "y": 47.6,
+            "w": 28.7,
+            "h": 28.7
+          }
+        ]
       }
     },
     {
       "id": "lamp",
       "product": "Lamp",
       "name": "Lamp",
-      "riddle": "I spy a tall stack topped with a glowing bulb, lighting up big ideas.",
+      "riddle": "I spy stacked blocks rising straight and tall,\nWith one bare bulb shining over them all.\nMy geometric tower is simple and bright,\nFind the sharp-edged stack that holds up the light.",
+      "riddleSource": "local",
       "hint": "",
       "location": {
-        "x": 288,
-        "y": 119,
-        "w": 12,
-        "h": 25
+        "x": 286.9,
+        "y": 104.4,
+        "w": 13.7,
+        "h": 31.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/lamp.mind",
+        "targets": [
+          {
+            "x": 271.9,
+            "y": 98.2,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -1235,10 +2339,80 @@
       "name": "Wireless Earbuds",
       "riddle": "I spy two tiny speakers with no wires that tuck into your ears.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 197.9,
+        "y": 3.7,
+        "w": 18.9,
+        "h": 12.1
+      },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/wireless-earbuds.mind",
+        "targets": [
+          {
+            "x": 192.2,
+            "y": -5.5,
+            "w": 30.3,
+            "h": 30.3
+          },
+          {
+            "x": 189.2,
+            "y": -5.5,
+            "w": 36.4,
+            "h": 30.3,
+            "px": [
+              253,
+              157
+            ],
+            "H": [
+              [
+                7.173281,
+                -0.717329,
+                -1360.894224
+              ],
+              [
+                -0.0,
+                4.451403,
+                24.406448
+              ],
+              [
+                -0.0,
+                -0.005671,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 187.4,
+            "y": -5.5,
+            "w": 40.0,
+            "h": 30.3,
+            "px": [
+              253,
+              106
+            ],
+            "H": [
+              [
+                6.614644,
+                -1.058343,
+                -1245.059872
+              ],
+              [
+                -0.0,
+                2.771353,
+                15.194957
+              ],
+              [
+                -0.0,
+                -0.008366,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1248,14 +2422,25 @@
       "riddle": "I spy a glowing lantern that lights up the campsite after dark.",
       "hint": "",
       "location": {
-        "x": 230,
-        "y": 86,
-        "w": 14,
-        "h": 24
+        "x": 542.9,
+        "y": 104.8,
+        "w": 6.2,
+        "h": 13.8
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/camping-lantern.mind",
+        "targets": [
+          {
+            "x": 535.0,
+            "y": 100.6,
+            "w": 22.0,
+            "h": 22.0
+          }
+        ]
       }
     },
     {
@@ -1265,14 +2450,25 @@
       "riddle": "I spy a spinning platter and a needle arm that plays a song from grooves.",
       "hint": "",
       "location": {
-        "x": 63,
-        "y": 97,
-        "w": 20,
-        "h": 20
+        "x": 66.8,
+        "y": 96.5,
+        "w": 13.3,
+        "h": 10.3
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/vinyl-record-player.mind",
+        "targets": [
+          {
+            "x": 62.8,
+            "y": 91.0,
+            "w": 21.2,
+            "h": 21.2
+          }
+        ]
       }
     },
     {
@@ -1282,14 +2478,25 @@
       "riddle": "I spy an old camera on a tripod with two big film reels on top.",
       "hint": "",
       "location": {
-        "x": 103,
-        "y": 101,
-        "w": 20,
-        "h": 43
+        "x": 102.6,
+        "y": 98.7,
+        "w": 23.7,
+        "h": 40.1
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/movie-camera.mind",
+        "targets": [
+          {
+            "x": 92.5,
+            "y": 96.8,
+            "w": 43.9,
+            "h": 43.9
+          }
+        ]
       }
     },
     {
@@ -1299,14 +2506,25 @@
       "riddle": "I spy a buzzing tool with tiny teeth that keeps a beard in shape.",
       "hint": "",
       "location": {
-        "x": 317,
-        "y": 69,
-        "w": 19,
-        "h": 12
+        "x": 323.1,
+        "y": 63.5,
+        "w": 9.2,
+        "h": 15.2
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/beard-trimmer.mind",
+        "targets": [
+          {
+            "x": 315.5,
+            "y": 58.9,
+            "w": 24.2,
+            "h": 24.2
+          }
+        ]
       }
     },
     {
@@ -1316,14 +2534,25 @@
       "riddle": "I spy a box that kneads and bakes a whole loaf on its own.",
       "hint": "",
       "location": {
-        "x": 296,
-        "y": 113,
-        "w": 10,
-        "h": 12
+        "x": 35.8,
+        "y": 97.7,
+        "w": 12.5,
+        "h": 16.0
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/bread-maker.mind",
+        "targets": [
+          {
+            "x": 29.2,
+            "y": 92.9,
+            "w": 25.5,
+            "h": 25.5
+          }
+        ]
       }
     },
     {
@@ -1333,14 +2562,25 @@
       "riddle": "I spy a fuzzy roller and a tray, ready to give a wall a new color.",
       "hint": "",
       "location": {
-        "x": 410,
-        "y": 96,
-        "w": 18,
-        "h": 27
+        "x": 407.1,
+        "y": 86.2,
+        "w": 18.5,
+        "h": 24.4
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/paint-roller-kit.mind",
+        "targets": [
+          {
+            "x": 396.9,
+            "y": 78.9,
+            "w": 39.1,
+            "h": 39.1
+          }
+        ]
       }
     },
     {
@@ -1350,14 +2590,79 @@
       "riddle": "I spy a shiny machine that pulls a tiny, mighty cup of coffee.",
       "hint": "",
       "location": {
-        "x": 516,
-        "y": 24,
-        "w": 14,
-        "h": 16
+        "x": 505.9,
+        "y": 19.5,
+        "w": 14.9,
+        "h": 18.6
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/espresso-machine.mind",
+        "targets": [
+          {
+            "x": 498.4,
+            "y": 14.0,
+            "w": 29.8,
+            "h": 29.8
+          },
+          {
+            "x": 495.5,
+            "y": 14.0,
+            "w": 35.8,
+            "h": 29.8,
+            "px": [
+              248,
+              154
+            ],
+            "H": [
+              [
+                6.431623,
+                -0.64316,
+                -3177.646708
+              ],
+              [
+                0.0,
+                3.993831,
+                -55.739442
+              ],
+              [
+                0.0,
+                -0.005187,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 493.7,
+            "y": 14.0,
+            "w": 39.3,
+            "h": 29.8,
+            "px": [
+              248,
+              104
+            ],
+            "H": [
+              [
+                5.660673,
+                -0.905705,
+                -2781.88271
+              ],
+              [
+                0.0,
+                2.373831,
+                -33.130097
+              ],
+              [
+                0.0,
+                -0.007304,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1367,14 +2672,25 @@
       "riddle": "I spy a glowing clicker that fits in your palm and wins the game.",
       "hint": "",
       "location": {
-        "x": 520,
-        "y": 106,
-        "w": 19,
-        "h": 11
+        "x": 524.4,
+        "y": 103.1,
+        "w": 13.4,
+        "h": 8.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/gaming-mouse.mind",
+        "targets": [
+          {
+            "x": 520.4,
+            "y": 96.8,
+            "w": 21.3,
+            "h": 21.3
+          }
+        ]
       }
     },
     {
@@ -1384,14 +2700,79 @@
       "riddle": "I spy an old TV on legs with a roller coaster riding on its roof.",
       "hint": "",
       "location": {
-        "x": 319,
-        "y": 22,
-        "w": 25,
-        "h": 32
+        "x": 314.9,
+        "y": 18.0,
+        "w": 23.4,
+        "h": 34.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/tv-screen.mind",
+        "targets": [
+          {
+            "x": 304.7,
+            "y": 13.4,
+            "w": 43.9,
+            "h": 43.9
+          },
+          {
+            "x": 300.4,
+            "y": 13.4,
+            "w": 52.6,
+            "h": 43.9,
+            "px": [
+              366,
+              227
+            ],
+            "H": [
+              [
+                6.617587,
+                -0.661759,
+                -1978.827686
+              ],
+              [
+                0.0,
+                4.104351,
+                -54.826965
+              ],
+              [
+                0.0,
+                -0.003616,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 297.7,
+            "y": 13.4,
+            "w": 57.9,
+            "h": 43.9,
+            "px": [
+              366,
+              154
+            ],
+            "H": [
+              [
+                5.886735,
+                -0.941876,
+                -1740.073515
+              ],
+              [
+                0.0,
+                2.476932,
+                -33.087494
+              ],
+              [
+                0.0,
+                -0.005147,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1401,14 +2782,25 @@
       "riddle": "I spy a brass horn with three valves that plays a loud fanfare.",
       "hint": "",
       "location": {
-        "x": 193,
-        "y": 75,
-        "w": 15,
-        "h": 14
+        "x": 194.4,
+        "y": 79.7,
+        "w": 12.0,
+        "h": 9.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/trumpet.mind",
+        "targets": [
+          {
+            "x": 190.4,
+            "y": 74.5,
+            "w": 19.9,
+            "h": 19.9
+          }
+        ]
       }
     },
     {
@@ -1418,14 +2810,79 @@
       "riddle": "I spy a heavy black pan with a long handle that sizzles on the stove.",
       "hint": "",
       "location": {
-        "x": 504,
-        "y": 28,
-        "w": 12,
-        "h": 10
+        "x": 492.0,
+        "y": 22.2,
+        "w": 19.7,
+        "h": 12.0
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/pan.mind",
+        "targets": [
+          {
+            "x": 486.0,
+            "y": 12.5,
+            "w": 31.6,
+            "h": 31.6
+          },
+          {
+            "x": 482.8,
+            "y": 12.5,
+            "w": 37.9,
+            "h": 31.6,
+            "px": [
+              263,
+              163
+            ],
+            "H": [
+              [
+                6.507684,
+                -0.650772,
+                -3133.938385
+              ],
+              [
+                0.0,
+                4.03328,
+                -50.258936
+              ],
+              [
+                0.0,
+                -0.004949,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 480.9,
+            "y": 12.5,
+            "w": 41.7,
+            "h": 31.6,
+            "px": [
+              263,
+              110
+            ],
+            "H": [
+              [
+                5.754767,
+                -0.920767,
+                -2756.138011
+              ],
+              [
+                0.0,
+                2.406937,
+                -29.992981
+              ],
+              [
+                0.0,
+                -0.007002,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1435,14 +2892,79 @@
       "riddle": "I spy two wheels, pedals and a seat, the classic way to ride.",
       "hint": "",
       "location": {
-        "x": 145,
-        "y": 37,
-        "w": 13,
-        "h": 15
+        "x": 139.7,
+        "y": 42.4,
+        "w": 16.0,
+        "h": 13.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/bicycle.mind",
+        "targets": [
+          {
+            "x": 134.9,
+            "y": 36.4,
+            "w": 25.5,
+            "h": 25.5
+          },
+          {
+            "x": 132.3,
+            "y": 36.4,
+            "w": 30.6,
+            "h": 25.5,
+            "px": [
+              213,
+              132
+            ],
+            "H": [
+              [
+                5.619824,
+                -0.561982,
+                -723.203046
+              ],
+              [
+                0.0,
+                3.482708,
+                -126.722817
+              ],
+              [
+                0.0,
+                -0.005277,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 130.8,
+            "y": 36.4,
+            "w": 33.7,
+            "h": 25.5,
+            "px": [
+              213,
+              89
+            ],
+            "H": [
+              [
+                4.698841,
+                -0.751814,
+                -587.230497
+              ],
+              [
+                0.0,
+                1.963366,
+                -71.439597
+              ],
+              [
+                0.0,
+                -0.007059,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1451,12 +2973,7 @@
       "name": "Office Chair",
       "riddle": "I spy a grand chair with carved arms, fit for the boss of the office.",
       "hint": "",
-      "location": {
-        "x": 0,
-        "y": 70,
-        "w": 22,
-        "h": 38
-      },
+      "location": null,
       "student": {
         "name": "",
         "pageUrl": ""
@@ -1469,14 +2986,79 @@
       "riddle": "I spy three thin legs holding a phone steady for the perfect shot.",
       "hint": "",
       "location": {
-        "x": 541,
-        "y": 29,
-        "w": 8,
-        "h": 27
+        "x": 542.0,
+        "y": 33.0,
+        "w": 11.5,
+        "h": 26.7
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/tripod.mind",
+        "targets": [
+          {
+            "x": 526.4,
+            "y": 25.0,
+            "w": 42.8,
+            "h": 42.8
+          },
+          {
+            "x": 522.1,
+            "y": 25.0,
+            "w": 51.3,
+            "h": 42.8,
+            "px": [
+              356,
+              221
+            ],
+            "H": [
+              [
+                6.320579,
+                -0.632056,
+                -3284.023136
+              ],
+              [
+                0.0,
+                3.92373,
+                -98.178815
+              ],
+              [
+                0.0,
+                -0.003551,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 519.5,
+            "y": 25.0,
+            "w": 56.5,
+            "h": 42.8,
+            "px": [
+              356,
+              150
+            ],
+            "H": [
+              [
+                5.522924,
+                -0.88367,
+                -2847.117057
+              ],
+              [
+                0.0,
+                2.327075,
+                -58.227613
+              ],
+              [
+                0.0,
+                -0.004964,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1486,14 +3068,79 @@
       "riddle": "I spy a U-shaped lock that keeps a bike from wandering off.",
       "hint": "",
       "location": {
-        "x": 223,
-        "y": 3,
-        "w": 9,
-        "h": 15
+        "x": 226.8,
+        "y": 3.3,
+        "w": 7.5,
+        "h": 13.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/lock.mind",
+        "targets": [
+          {
+            "x": 219.8,
+            "y": -0.7,
+            "w": 21.5,
+            "h": 21.5
+          },
+          {
+            "x": 217.7,
+            "y": -0.7,
+            "w": 25.8,
+            "h": 21.5,
+            "px": [
+              179,
+              111
+            ],
+            "H": [
+              [
+                6.96506,
+                -0.696509,
+                -1516.499599
+              ],
+              [
+                0.0,
+                4.319115,
+                3.013962
+              ],
+              [
+                0.0,
+                -0.007782,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 216.4,
+            "y": -0.7,
+            "w": 28.4,
+            "h": 21.5,
+            "px": [
+              179,
+              75
+            ],
+            "H": [
+              [
+                6.347543,
+                -1.015609,
+                -1374.11296
+              ],
+              [
+                0.0,
+                2.659585,
+                1.85591
+              ],
+              [
+                0.0,
+                -0.011348,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1503,14 +3150,79 @@
       "riddle": "I spy a wide desk where work gets done, with shelves built into its legs.",
       "hint": "",
       "location": {
-        "x": 96,
-        "y": 36,
-        "w": 22,
-        "h": 19
+        "x": 95.9,
+        "y": 32.4,
+        "w": 25.7,
+        "h": 19.5
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/office-desk.mind",
+        "targets": [
+          {
+            "x": 88.2,
+            "y": 21.6,
+            "w": 41.2,
+            "h": 41.2
+          },
+          {
+            "x": 84.1,
+            "y": 21.6,
+            "w": 49.4,
+            "h": 41.2,
+            "px": [
+              343,
+              213
+            ],
+            "H": [
+              [
+                6.383522,
+                -0.638352,
+                -523.090867
+              ],
+              [
+                0.0,
+                3.964111,
+                -85.753238
+              ],
+              [
+                0.0,
+                -0.003722,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 81.6,
+            "y": 21.6,
+            "w": 54.3,
+            "h": 41.2,
+            "px": [
+              343,
+              144
+            ],
+            "H": [
+              [
+                5.598306,
+                -0.895729,
+                -437.651495
+              ],
+              [
+                0.0,
+                2.350309,
+                -50.842828
+              ],
+              [
+                0.0,
+                -0.005223,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1519,10 +3231,26 @@
       "name": "Electric Fan",
       "riddle": "I spy a caged set of spinning blades that cools down the room.",
       "hint": "",
-      "location": null,
+      "location": {
+        "x": 508.9,
+        "y": 107.9,
+        "w": 8.4,
+        "h": 20.3
+      },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/electric-fan.mind",
+        "targets": [
+          {
+            "x": 496.8,
+            "y": 101.8,
+            "w": 32.5,
+            "h": 32.5
+          }
+        ]
       }
     },
     {
@@ -1532,14 +3260,79 @@
       "riddle": "I spy two wheels and a roaring engine, faster than any bicycle.",
       "hint": "",
       "location": {
-        "x": 164,
-        "y": 38,
-        "w": 10,
-        "h": 13
+        "x": 160.9,
+        "y": 48.6,
+        "w": 12.8,
+        "h": 7.8
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/motorcycle.mind",
+        "targets": [
+          {
+            "x": 157.0,
+            "y": 42.4,
+            "w": 20.4,
+            "h": 20.4
+          },
+          {
+            "x": 155.0,
+            "y": 42.4,
+            "w": 24.5,
+            "h": 20.4,
+            "px": [
+              170,
+              105
+            ],
+            "H": [
+              [
+                5.152002,
+                -0.5152,
+                -776.555891
+              ],
+              [
+                0.0,
+                3.182119,
+                -134.818731
+              ],
+              [
+                0.0,
+                -0.006061,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 153.7,
+            "y": 42.4,
+            "w": 27.0,
+            "h": 20.4,
+            "px": [
+              170,
+              71
+            ],
+            "H": [
+              [
+                4.194076,
+                -0.671053,
+                -616.36446
+              ],
+              [
+                0.0,
+                1.751643,
+                -74.212931
+              ],
+              [
+                0.0,
+                -0.007895,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     },
     {
@@ -1549,14 +3342,79 @@
       "riddle": "I spy a moving road that lets you run for miles without leaving the room.",
       "hint": "",
       "location": {
-        "x": 176,
-        "y": 35,
-        "w": 10,
-        "h": 16
+        "x": 171.9,
+        "y": 42.7,
+        "w": 10.7,
+        "h": 12.9
       },
       "student": {
         "name": "",
         "pageUrl": ""
+      },
+      "ar": {
+        "mind": "targets/objects/treadmill.mind",
+        "targets": [
+          {
+            "x": 167.0,
+            "y": 38.8,
+            "w": 20.5,
+            "h": 20.5
+          },
+          {
+            "x": 164.9,
+            "y": 38.8,
+            "w": 24.6,
+            "h": 20.5,
+            "px": [
+              171,
+              106
+            ],
+            "H": [
+              [
+                5.277983,
+                -0.527798,
+                -850.001944
+              ],
+              [
+                0.0,
+                3.271732,
+                -126.873901
+              ],
+              [
+                0.0,
+                -0.006173,
+                1.0
+              ]
+            ]
+          },
+          {
+            "x": 163.7,
+            "y": 38.8,
+            "w": 27.1,
+            "h": 20.5,
+            "px": [
+              171,
+              72
+            ],
+            "H": [
+              [
+                4.327308,
+                -0.692368,
+                -681.498418
+              ],
+              [
+                0.0,
+                1.822024,
+                -70.655943
+              ],
+              [
+                0.0,
+                -0.008098,
+                1.0
+              ]
+            ]
+          }
+        ]
       }
     }
   ]

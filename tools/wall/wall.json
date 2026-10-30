@@ -1,0 +1,537 @@
+{
+ "about": "The painted wall, straightened from LiDAR scans (2026-10-29). Pixel boxes are in wall-scan.webp; build.py turns them into inches on the mural.",
+ "image": "wall-scan.webp",
+ "mm_per_px_scan": 2.5,
+ "calibration": {
+  "note": "From the 48-inch panel seams: seams repeat every 481.5 px; the 12 x 3 panel grid runs from x = -69 px (the scan stops ~17 cm short of the left end) and y = 675 px (top of the top row).",
+  "panel_px": 481.5,
+  "origin_px": [
+   -69,
+   675
+  ],
+  "panels": [
+   12,
+   3
+  ],
+  "panel_in": 48
+ },
+ "windows": [
+  {
+   "name": "the big window by the staircase",
+   "box": [
+    280,
+    710,
+    930,
+    920
+   ]
+  },
+  {
+   "name": "the window in the left shelves",
+   "box": [
+    1400,
+    1320,
+    460,
+    476
+   ]
+  },
+  {
+   "name": "the top middle window",
+   "box": [
+    2180,
+    675,
+    630,
+    475
+   ]
+  },
+  {
+   "name": "the little window by the I Spy badge",
+   "box": [
+    3280,
+    1000,
+    300,
+    290
+   ]
+  },
+  {
+   "name": "the magnifying glass in the window",
+   "box": [
+    4380,
+    1116,
+    630,
+    644
+   ]
+  }
+ ],
+ "products": {
+  "1950s-car": [
+   1456,
+   1132,
+   130,
+   106
+  ],
+  "african-drums": [
+   1731,
+   1561,
+   96,
+   209
+  ],
+  "air-purifier": [
+   2096,
+   1723,
+   54,
+   83
+  ],
+  "art-nouveau-desk-lamp": [
+   395,
+   1576,
+   120,
+   212
+  ],
+  "astronaut-helmet": [
+   2671,
+   1606,
+   102,
+   115
+  ],
+  "baby-mobile": [
+   2283,
+   678,
+   297,
+   384
+  ],
+  "baby-stroller": [
+   1322,
+   1233,
+   180,
+   125
+  ],
+  "backpack": [
+   1851,
+   1060,
+   141,
+   190
+  ],
+  "beard-trimmer": [
+   3172,
+   1312,
+   92,
+   152
+  ],
+  "bicycle": [
+   1332,
+   1100,
+   160,
+   135
+  ],
+  "bicycle-helmet": [
+   2068,
+   1070,
+   112,
+   98
+  ],
+  "binoculars": [
+   2049,
+   1302,
+   120,
+   88
+  ],
+  "boombox": [
+   2963,
+   1521,
+   193,
+   177
+  ],
+  "bread-maker": [
+   290,
+   1655,
+   125,
+   160
+  ],
+  "camping-lantern": [
+   5377,
+   1726,
+   62,
+   138
+  ],
+  "car-tire": [
+   1342,
+   1401,
+   51,
+   66
+  ],
+  "comb": [
+   2368,
+   1588,
+   81,
+   175
+  ],
+  "contemporary-robot": [
+   4218,
+   1248,
+   229,
+   422
+  ],
+  "crystal-ball": [
+   1860,
+   843,
+   132,
+   145
+  ],
+  "drill": [
+   5360,
+   1544,
+   242,
+   259
+  ],
+  "drone": [
+   370,
+   765,
+   164,
+   112
+  ],
+  "drone-2": [
+   868,
+   780,
+   330,
+   266
+  ],
+  "electric-fan": [
+   5036,
+   1757,
+   84,
+   204
+  ],
+  "electric-scooter": [
+   1501,
+   1254,
+   149,
+   124
+  ],
+  "espresso-machine": [
+   5006,
+   871,
+   149,
+   187
+  ],
+  "exercise-weights": [
+   1586,
+   1417,
+   42,
+   60
+  ],
+  "fish-aquarium": [
+   300,
+   1222,
+   183,
+   200
+  ],
+  "flashlight": [
+   4450,
+   776,
+   128,
+   326
+  ],
+  "fortune-telling-machine": [
+   4737,
+   1753,
+   110,
+   175
+  ],
+  "gaming-mouse": [
+   5191,
+   1709,
+   134,
+   89
+  ],
+  "hand-mixer": [
+   1496,
+   1385,
+   74,
+   82
+  ],
+  "handheld-fan": [
+   4044,
+   698,
+   331,
+   211
+  ],
+  "headphones": [
+   5179,
+   1841,
+   148,
+   129
+  ],
+  "hose": [
+   1438,
+   1402,
+   47,
+   45
+  ],
+  "hot-air-balloon": [
+   2296,
+   948,
+   132,
+   264
+  ],
+  "ice-cream-truck": [
+   2184,
+   1795,
+   222,
+   143
+  ],
+  "japanese-toy-robot": [
+   3281,
+   1365,
+   186,
+   344
+  ],
+  "jukebox": [
+   2846,
+   722,
+   113,
+   246
+  ],
+  "label-maker": [
+   5455,
+   1228,
+   173,
+   137
+  ],
+  "lamp": [
+   2809,
+   1722,
+   137,
+   315
+  ],
+  "lock": [
+   2206,
+   708,
+   75,
+   135
+  ],
+  "midcentury-modern-chair": [
+   175,
+   1340,
+   270,
+   355
+  ],
+  "motorcycle": [
+   1545,
+   1163,
+   128,
+   78
+  ],
+  "movie-camera": [
+   960,
+   1665,
+   238,
+   402
+  ],
+  "office-desk": [
+   893,
+   1000,
+   258,
+   196
+  ],
+  "paint-roller-kit": [
+   4015,
+   1540,
+   186,
+   245
+  ],
+  "pan": [
+   4866,
+   898,
+   198,
+   120
+  ],
+  "pendulum-clock": [
+   2800,
+   1438,
+   146,
+   286
+  ],
+  "pet-carrier": [
+   1498,
+   1522,
+   130,
+   243
+  ],
+  "pinball-machine": [
+   428,
+   1105,
+   172,
+   345
+  ],
+  "portable-blender": [
+   1588,
+   1398,
+   48,
+   72
+  ],
+  "radio": [
+   2011,
+   1604,
+   70,
+   109
+  ],
+  "rain-jacket": [
+   3376,
+   1770,
+   181,
+   184
+  ],
+  "rice-cooker": [
+   4871,
+   1749,
+   114,
+   202
+  ],
+  "sewing-machine": [
+   455,
+   1550,
+   205,
+   152
+  ],
+  "sneakers": [
+   2962,
+   1736,
+   172,
+   134
+  ],
+  "spatula-spoon-fork": [
+   4547,
+   1760,
+   89,
+   119
+  ],
+  "suitcase": [
+   716,
+   1813,
+   280,
+   250
+  ],
+  "sunglasses": [
+   3186,
+   1885,
+   196,
+   124
+  ],
+  "tea-set": [
+   4762,
+   901,
+   112,
+   108
+  ],
+  "telescope": [
+   320,
+   986,
+   202,
+   182
+  ],
+  "tennis-racket": [
+   1983,
+   1062,
+   117,
+   186
+  ],
+  "toaster": [
+   5161,
+   699,
+   126,
+   146
+  ],
+  "toilet-paper": [
+   3438,
+   1617,
+   127,
+   124
+  ],
+  "toolbox": [
+   388,
+   1438,
+   90,
+   95
+  ],
+  "top-hat": [
+   2014,
+   1450,
+   98,
+   133
+  ],
+  "top-hat-2": [
+   1910,
+   1292,
+   118,
+   112
+  ],
+  "treadmill": [
+   1655,
+   1103,
+   107,
+   129
+  ],
+  "tripod": [
+   5368,
+   1006,
+   115,
+   268
+  ],
+  "trumpet": [
+   1881,
+   1474,
+   120,
+   95
+  ],
+  "tv-screen": [
+   3090,
+   856,
+   235,
+   346
+  ],
+  "typewriter": [
+   5011,
+   1237,
+   248,
+   211
+  ],
+  "umbrella": [
+   1990,
+   803,
+   185,
+   217
+  ],
+  "vacuum": [
+   4395,
+   1750,
+   142,
+   114
+  ],
+  "vinyl-record-player": [
+   601,
+   1643,
+   133,
+   103
+  ],
+  "washing-machine": [
+   1336,
+   1496,
+   180,
+   244
+  ],
+  "wireless-earbuds": [
+   1916,
+   712,
+   190,
+   121
+  ]
+ },
+ "uncertain": {
+  "drone": "Small pink quadcopter with box body; matched to Hudson Brodt drone by elimination (the blue drone is clearly drone-2). Painted much simpler than the drawing, no visible 13.",
+  "electric-scooter": "T-handlebar above the window frame bar, front wheel and deck below it; the frame hides the stem. Crosses x=1600.",
+  "exercise-weights": "No drawing; a yellow kettlebell marked 10, while the 3D model is dumbbells. Crosses x=1600.",
+  "spatula-spoon-fork": "small rough boat: striped deck, mast with round spatula top, spoon oar at right, fork stick at bottom-left; matches the boat half of the drawing",
+  "toolbox": "No student drawing; yellow box with top handle labelled BUILD.",
+  "top-hat-2": "Plain black top hat with red band; the box, flag and crescent emblem from the drawing are not painted. The other top hat (bunny) is top-hat."
+ }
+}

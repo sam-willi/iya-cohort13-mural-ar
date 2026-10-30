@@ -12,10 +12,10 @@ the checks that keep it that way.
 | | Fonts | ~90 KB | Only the weights and widths the CSS uses are requested |
 | | A-Frame + MindAR (the AR engine) | ~660 KB | Served compressed by their CDNs; loads **in the background** so the start screen shows straight away |
 | | Riddles from the Google Sheet | a few KB | |
-| Pressing Start | Recognition file `targets/targets.mind` | grows with each target (demo: 64 KB) | Fewer, well-chosen targets; [see below](#the-recognition-file-targetsmind) |
-| Each riddle | That object's 3D rendering | aim for under 1 MB each | `npm run models` ([see below](#3d-renderings)) |
+| Each riddle | That object's recognition file `targets/objects/<id>.mind` | 0.2 to 1 MB | Only the current riddle's is loaded; [see below](#recognition-files-targetsobjects) |
+| | That object's 3D rendering | aim for under 1 MB each | `npm run models` ([see below](#3d-renderings)) |
 
-Only the current riddle's model is downloaded, while the player reads the riddle, so nobody downloads all of them.
+Only the current riddle's model and recognition file are downloaded, while the player reads the riddle, so nobody downloads all of them.
 
 ## 3D renderings
 
@@ -58,14 +58,16 @@ This installs [glTF Transform](https://gltf-transform.dev/) for this project onl
 - **To compress harder by hand:**
   `npx gltf-transform optimize in.glb out.glb --compress draco --texture-compress webp --texture-size 512 --simplify-ratio 0.5`
 
-## The recognition file (`targets/targets.mind`)
+## Recognition files (`targets/objects/`)
 
-This holds what the camera has learned about every target, all in one file, so it grows with each target you add.
+Each object has its own file holding what the camera has learned about the wall around it: one target, or three for objects
+high on the wall (a straight-on one and two pre-tilted copies). All of them together are about 27 MB, which is why the game
+only ever loads the current riddle's.
 
-- **Only add targets where there are riddle objects.** Every target costs download size and makes recognition a little slower.
-- **Crop target images to about 1000 px wide** before compiling. Bigger images add size without helping recognition.
-- **Keep windows and plain areas out of targets.** They add size and no useful detail.
-- After compiling, run the size check. If it's too big, merge neighbouring targets or drop ones without objects.
+- **Resolution is what makes close-up recognition work.** Targets are compiled at 600/72 pixels per inch of wall
+  (`PPI` in [`tools/wall/build.py`](../tools/wall/build.py)). At half that, most simulated close-up views failed.
+- **Big objects make big files.** A target is about 1.6 times the object, capped at 1.1 m, so a file tops out around 1 MB.
+- After rebuilding, run the size check.
 
 ## Fonts and images
 
@@ -87,7 +89,7 @@ warning.
 | | Soft limit (warning) | Hard limit (stops the deploy) |
 | --- | --- | --- |
 | Each 3D model | 1.5 MB / 50,000 triangles | 4 MB / 150,000 triangles |
-| `targets/targets.mind` | 6 MB | 15 MB |
+| Each recognition file in `targets/objects/` | 1 MB | 2 MB |
 | Page, styles, code, data and art together | 300 KB | 1 MB |
 | Each image | 300 KB | 2 MB |
 

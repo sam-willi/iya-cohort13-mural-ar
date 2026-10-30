@@ -4,11 +4,14 @@
   "description": "Asset tools for the I Spy mural AR app. The app itself has no build step; these only prepare files. See docs/compression.md.",
   "type": "module",
   "scripts": {
+    "test": "node --test",
     "models": "node tools/compress-models.mjs",
-    "sizes": "python3 tools/check-sizes.py"
+    "sizes": "python3 tools/check-sizes.py",
+    "targets": "node tools/wall/compile.mjs"
   },
   "devDependencies": {
-    "@gltf-transform/cli": "4.5.1"
+    "@gltf-transform/cli": "4.5.1",
+    "puppeteer-core": "^23.11.1"
   },
   "engines": {
     "node": ">=20"

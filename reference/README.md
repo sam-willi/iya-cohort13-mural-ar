@@ -31,7 +31,7 @@ glass are real glass. Their positions, measured from the outlines, are in `landm
 | The window in the left shelves | 145 | 65.5 | 46 × 46 |
 | The top middle window | 224.5 | 0 | 62.5 × 47 |
 | The little window by the I Spy badge | 336.5 | 33 | 30 × 30 |
-| The window in the magnifying glass | 449 | 49 | 62 × 62 |
+| The magnifying glass in the window | 449 | 49 | 62 × 62 |
 
 These come from the concept, so check them against the real wall (a tape measure from the nearest panel seam is enough).
 The names are what players see in directions, so rename them if the final art changes.

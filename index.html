@@ -14,14 +14,15 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:wdth,wght@62.5,900&family=Oswald:wght@500;600&display=swap"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css?v=window-silhouette-24" />
+    <script defer src="js/lamps.js?v=window-silhouette-24"></script>
 
     <!-- A-Frame (3D scene) + MindAR (image tracking). Pinned versions: MindAR 1.2.5 is tested with A-Frame 1.5.0.
          `defer` lets the start screen show straight away while these ~660 KB download; they still run in order,
          before js/app.js. Only the weights the CSS uses are requested from Google Fonts (see docs/compression.md). -->
     <script defer src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="js/app.js" type="module"></script>
+    <script src="js/app.js?v=wall-scan-27" type="module"></script>
   </head>
   <body>
     <!-- 1. Start screen: the mural's I Spy badge in front of a workshop scene drawn in the mural's style (camera permission is requested when "Start" is tapped) -->
@@ -38,10 +39,25 @@
       </div>
       <div class="cover-actions">
         <button id="start-button" class="btn btn-primary btn-big" disabled>Loading…</button>
-        <p class="fine-print">Solve each riddle, find the object on the mural, and watch it come to life.<br />You'll be asked to allow camera access.</p>
-        <button id="picture-button" class="btn btn-quiet" hidden>No camera? Play on a picture of the mural</button>
+        <p id="menu-description" class="fine-print" hidden>Solve each riddle, find the object on the mural, and watch it come to life.<br />You'll be asked to allow camera access.</p>
+        <div id="menu-secondary" class="menu-secondary" hidden>
+          <button id="picture-button" class="btn btn-quiet" hidden>No camera?<br />Play on the picture</button>
+          <a class="cohort-link" href="https://iyac13.app/profiles" target="_blank" rel="noopener noreferrer" aria-label="Meet the cohort. Explore the people and products behind the mural. Opens in a new tab.">
+            <span class="cohort-link-title">Meet the cohort
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10" /></svg>
+            </span>
+            <span class="cohort-link-description">People &amp; products</span>
+          </a>
+        </div>
       </div>
     </section>
+
+    <!-- Normal navigation ends the camera/game session and returns to the menu; saved finds remain. -->
+    <a id="menu-back" class="menu-back" href="./" aria-label="Back to main menu" title="Back to main menu" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M19 12H5m7-7-7 7 7 7" />
+      </svg>
+    </a>
 
     <!-- Top-right button: everything you've spied so far. Tap it to see each one's riddle, location and 3D rendering. -->
     <button id="found-button" class="found-button" type="button" hidden>
@@ -75,7 +91,7 @@
 
     <!-- No-camera mode: the same game played by tapping objects on a picture of the mural (scroll and zoom to search) -->
     <section id="picture-view" class="picture-view" hidden>
-      <div id="picture-scroll" class="picture-scroll">
+      <div id="picture-scroll" class="picture-scroll" role="region" aria-label="Interactive mural. Pinch to zoom; scroll or drag to move." tabindex="0">
         <div id="picture-wall" class="picture-wall">
           <img id="picture-img" alt="The Cohort 13 I Spy mural" draggable="false" />
           <span id="picture-lens" class="picture-lens" aria-hidden="true" hidden></span>
@@ -102,13 +118,22 @@
       <span class="magnifier-handle"></span>
     </div>
 
-    <!-- 2. Riddle card, shown over the camera while the player searches -->
+    <!-- 2. Compact riddle dock, below the camera or mural picture while the player searches -->
     <section id="riddle-card" class="card card-bottom" hidden>
       <span class="mini-badge" aria-hidden="true">I SPY</span>
       <p class="eyebrow">Riddle <span id="progress"></span></p>
-      <p id="riddle-text" class="riddle"></p>
+      <button id="riddle-toggle" class="riddle-toggle" type="button" aria-expanded="true" aria-controls="riddle-text">Hide</button>
+      <p id="riddle-text" class="riddle" tabindex="0"></p>
       <p id="tap-tip" class="tap-tip"></p>
-      <p id="hint-text" class="hint" hidden></p>
+      <p id="hint-text" class="hint" tabindex="0" hidden></p>
+      <button id="hint-map-button" class="hint-map-button" type="button" hidden>
+        <svg id="hint-map" role="img" aria-label="Mural search area">
+          <image id="hint-map-image" preserveAspectRatio="none" />
+          <rect id="hint-map-region" class="hint-map-region" />
+          <rect id="hint-map-viewport" class="hint-map-viewport" hidden />
+        </svg>
+        <span id="hint-map-caption" class="hint-map-caption"></span>
+      </button>
       <div class="row">
         <button id="hint-button" class="btn">Hint</button>
         <button id="skip-button" class="btn">Skip</button>
@@ -152,13 +177,13 @@
 
     <!--
       The AR scene. It sits in a <template> so it's only added to the page (by js/app.js) after A-Frame and MindAR
-      have loaded: A-Frame breaks if it finds a scene that already exists. One <a-entity mindar-image-target> per
-      target is added from data/objects.json; targets/targets.mind holds the compiled images (docs/adding-an-object.md).
+      have loaded: A-Frame breaks if it finds a scene that already exists. js/app.js adds three <a-entity
+      mindar-image-target> slots and loads each riddle's own targets (targets/objects/<id>.mind, made by tools/wall).
     -->
     <template id="ar-scene-template">
       <a-scene
         id="ar-scene"
-        mindar-image="imageTargetSrc: targets/targets.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
+        mindar-image="imageTargetSrc: targets/objects/demo-card.mind; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: yes; uiError: yes; filterMinCF: 0.0001; filterBeta: 0.001"
         gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
         color-space="sRGB"
         renderer="alpha: true; colorManagement: true; physicallyCorrectLights: true"

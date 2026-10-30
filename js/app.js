@@ -1,7 +1,7 @@
 // I Spy AR game for the IYA Cohort 13 mural.
 //
-// Flow: show a riddle -> player looks at the mural through the camera -> MindAR keeps track of which part of
-// the mural is in view (a "target") -> the player taps the screen when they spy the answer -> if it's in frame,
+// Flow: show a riddle -> player looks at the mural through the camera -> MindAR watches for the part of the mural
+// around the answer (the riddle's "targets") -> the player taps the screen when they spy the answer -> if it's in frame,
 // a magnifying glass lands on the object's exact spot, a 3D rendering of the object rises out of the wall there
 // and spins, and we link to the student's page; if not, we say so and point the way.
 // Every object and target has a position on the mural in inches, so we always know where things are.
@@ -12,13 +12,17 @@
 // and student names and page links come live from the profiles website (see loadProfiles).
 
 import { createSpinningModel, modelUrl, prefetchModel } from './popout.js';
+import { addRoomEnvironment } from './environment.js';
+import { setupMuralZoom } from './mural-zoom.js?v=pan-fix-14';
+import { positionHint, landmarkClue, visibleMuralRegion } from './position-hints.js?v=position-hints-15';
 
-const OBJECTS_URL = 'data/objects.json';
+const OBJECTS_URL = 'data/objects.json?v=wall-scan-18';
 const TOAST_COOLDOWN_MS = 3000;
 const SHEET_TIMEOUT_MS = 5000; // give up on the riddle sheet after this and use objects.json
 const PROFILES_TIMEOUT_MS = 5000; // give up on the profiles website after this and use objects.json
 const WRONG_SCANS_BEFORE_ARROW = 3; // after this many wrong spots, point the player toward the answer
 const MIN_OVERLAP = 0.6; // how much of an object must be inside a target for that target to "contain" it
+const MAX_TARGETS = 3;   // per object: a straight-on target, plus two pre-tilted ones for objects high on the wall
 const CARD_DELAY_MS = 2600; // let the object pop out of the wall before the "You spied it!" card covers the screen
 const FOUND_KEY = 'ispy-found'; // remembers what this phone has found, so the collection survives a refresh
 const TAP_SLACK_IN = 3; // in no-camera mode, a tap this close (in inches) to the object still counts
@@ -29,13 +33,23 @@ const THREE = AFRAME.THREE;
 // add the AR scene to the page (see the <template> in index.html).
 document.body.append(document.getElementById('ar-scene-template').content.cloneNode(true));
 const sceneEl = document.getElementById('ar-scene');
+addRoomEnvironment(sceneEl);
 const ui = {
   startScreen: document.getElementById('start-screen'),
   startButton: document.getElementById('start-button'),
+  menuDescription: document.getElementById('menu-description'),
+  menuSecondary: document.getElementById('menu-secondary'),
+  menuBack: document.getElementById('menu-back'),
   riddleCard: document.getElementById('riddle-card'),
   riddleText: document.getElementById('riddle-text'),
   hintText: document.getElementById('hint-text'),
   hintButton: document.getElementById('hint-button'),
+  hintMapButton: document.getElementById('hint-map-button'),
+  hintMap: document.getElementById('hint-map'),
+  hintMapImage: document.getElementById('hint-map-image'),
+  hintMapRegion: document.getElementById('hint-map-region'),
+  hintMapViewport: document.getElementById('hint-map-viewport'),
+  hintMapCaption: document.getElementById('hint-map-caption'),
   skipButton: document.getElementById('skip-button'),
   progress: document.getElementById('progress'),
   foundCard: document.getElementById('found-card'),
@@ -82,7 +96,7 @@ const ui = {
 };
 
 let mural;             // size of the painted wall, in inches
-let targets = [];      // parts of the mural MindAR can recognise, each with its position on the mural
+let targets = [];      // the current riddle's AR targets (parts of the mural around the answer), with their positions
 let landmarks = [];    // fixed things on the wall players can see, like the windows, used in directions
 let objects = [];      // objects that have a riddle
 let queue = [];        // riddles still to play, in order
@@ -94,9 +108,13 @@ let wrongScans = 0;    // wrong parts of the mural scanned for the current riddl
 let hintUsed = false;
 let cardTimer;
 const anchors = new Map(); // target index -> its MindAR anchor
+let arReady = false;   // MindAR has loaded its first targets and is watching the camera
+let startedSrc = null; // the recognition file MindAR was started with
+let swapping = Promise.resolve();
 const found = loadFound(); // ids of the objects this player has spied
 let mode = 'camera';   // 'camera' (AR at the wall) or 'picture' (tap the object on a picture of the mural)
 let zoom = 1;
+let pictureTapBlockedUntil = 0;
 let directionTimer;
 
 init().catch((err) => {
@@ -106,22 +124,29 @@ init().catch((err) => {
 });
 
 async function init() {
-  ({ mural, targets, landmarks, objects } = await loadData());
+  ({ mural, landmarks, objects } = await loadData());
   if (objects.length === 0) {
     ui.startButton.textContent = 'No riddles yet';
     return;
   }
   await sceneLoaded();
-  targets.forEach(addAnchor);
+  for (let i = 0; i < MAX_TARGETS; i++) addAnchor(i);
+  sceneEl.addEventListener('arReady', () => {
+    arReady = true;
+    if (current?.ar && current.ar.mind !== startedSrc) useTargets(current); // the riddle changed while the camera was starting
+  });
 
   document.addEventListener('click', onSpyTap);
   ui.foundButton.addEventListener('click', openCollection);
+  // In camera mode the riddle can shrink to a small tab so the whole screen is camera
+  document.getElementById('riddle-toggle').addEventListener('click', () => setRiddleCollapsed(!ui.riddleCard.classList.contains('collapsed')));
   ui.collectionClose.addEventListener('click', () => (ui.collection.hidden = true));
   ui.detailBack.addEventListener('click', showCollectionList);
   sceneEl.addEventListener('arError', () => showToast('Camera could not start. Check camera permissions and try again.'));
 
   ui.startButton.addEventListener('click', startGame);
   ui.hintButton.addEventListener('click', showHint);
+  ui.hintMapButton.addEventListener('click', focusHintArea);
   ui.skipButton.addEventListener('click', skipRiddle);
   ui.nextButton.addEventListener('click', nextRiddle);
   ui.restartButton.addEventListener('click', () => {
@@ -139,21 +164,31 @@ async function init() {
     ui.pictureWall.addEventListener('click', onPictureTap);
     ui.zoomIn.addEventListener('click', () => setZoom(zoom * 1.6));
     ui.zoomOut.addEventListener('click', () => setZoom(zoom / 1.6));
+    ui.pictureScroll.addEventListener('scroll', updateHintViewport, { passive: true });
+    new ResizeObserver(updateHintViewport).observe(ui.pictureScroll);
+    setupMuralZoom({
+      viewport: ui.pictureScroll,
+      getZoom: () => zoom,
+      setZoom,
+      onGesture: () => { pictureTapBlockedUntil = performance.now() + 400; },
+    });
   }
 
   ui.startButton.textContent = 'Start';
   ui.startButton.disabled = false;
+  ui.menuDescription.hidden = false;
+  ui.menuSecondary.hidden = false;
 }
 
 async function loadData() {
-  const res = await fetch(OBJECTS_URL);
+  const res = await fetch(OBJECTS_URL, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Failed to load ${OBJECTS_URL}: ${res.status}`);
   const data = await res.json();
   const [sheet, profiles] = await Promise.all([loadSheetRiddles(data.riddleSheet), loadProfiles(data.profiles)]);
 
   const objects = data.objects
     .map((obj) => {
-      const row = sheet?.get(normalize(obj.product ?? obj.name));
+      const row = obj.riddleSource === 'local' ? null : sheet?.get(normalize(obj.product ?? obj.name));
       return row ? { ...obj, riddle: row.riddle, hint: row.hint || obj.hint } : obj;
     })
     .map((obj) => {
@@ -162,7 +197,7 @@ async function loadData() {
     })
     // objects with no riddle or no position yet are left out of the game
     .filter((obj) => obj.riddle && obj.location);
-  return { mural: data.mural, targets: data.targets, landmarks: data.landmarks ?? [], objects };
+  return { mural: data.mural, landmarks: data.landmarks ?? [], objects };
 }
 
 // ---------- Riddles from the Google Sheet ----------
@@ -253,13 +288,27 @@ function sceneLoaded() {
 // ---------- AR: where things are on the mural ----------
 //
 // Positions are in inches from the top-left corner of the painted area (x right, y down).
-// MindAR places each target 1 unit wide, centred on its anchor, with y pointing up,
-// so a mural position converts to anchor coordinates like this:
+// MindAR places each target image 1 unit wide, centred on its anchor, with y pointing up.
+// A straight-on target is a rectangle of the mural, so a mural position converts directly. A pre-tilted target
+// (for objects high on the wall) carries H, which maps mural inches to its image pixels.
 function toAnchor(target, x, y) {
+  if (target.H) {
+    const [[a, b, c], [d, e, f], [g, h, i]] = target.H;
+    const z = g * x + h * y + i;
+    const u = (a * x + b * y + c) / z, v = (d * x + e * y + f) / z;
+    const [pw, ph] = target.px;
+    return { x: (u - pw / 2) / pw, y: -(v - ph / 2) / pw };
+  }
   return {
     x: (x - (target.x + target.w / 2)) / target.w,
     y: -(y - (target.y + target.h / 2)) / target.w,
   };
+}
+
+// How big a stretch of the mural is in anchor units, measured across a point (works for tilted targets too).
+function anchorSpan(target, c, dx, dy) {
+  const a = toAnchor(target, c.x - dx / 2, c.y - dy / 2), b = toAnchor(target, c.x + dx / 2, c.y + dy / 2);
+  return Math.hypot(b.x - a.x, b.y - a.y);
 }
 
 const centre = (r) => ({ x: r.x + r.w / 2, y: r.y + r.h / 2 });
@@ -271,15 +320,50 @@ function contains(target, loc) {
   return w > 0 && h > 0 && (w * h) / (loc.w * loc.h) >= MIN_OVERLAP;
 }
 
-// One anchor per target. MindAR moves it to wherever it sees that part of the mural.
-// Anchors must be added before arSystem.start() is called.
-function addAnchor(target) {
+// One anchor per target slot; each riddle's targets fill slots 0, 1, 2. MindAR moves an anchor to wherever it
+// sees that part of the mural. Anchors must be added before arSystem.start() is called.
+function addAnchor(index) {
   const anchor = document.createElement('a-entity');
-  anchor.setAttribute('mindar-image-target', `targetIndex: ${target.index}`);
-  anchors.set(target.index, anchor);
-  anchor.addEventListener('targetFound', () => onTargetFound(target, anchor));
-  anchor.addEventListener('targetLost', () => onTargetLost(target));
+  anchor.setAttribute('mindar-image-target', `targetIndex: ${index}`);
+  anchors.set(index, anchor);
+  anchor.addEventListener('targetFound', () => targets[index] && onTargetFound(targets[index]));
+  anchor.addEventListener('targetLost', () => targets[index] && onTargetLost(targets[index]));
   sceneEl.appendChild(anchor);
+}
+
+// Each object has its own small recognition file (tools/wall/build.py): its targets only. Loading just the current
+// riddle's keeps the download small, lets MindAR lock on quickly, and means the wrong object can never match.
+function useTargets(obj) {
+  const sys = sceneEl.systems['mindar-image-system'];
+  if (arReady) for (const { el } of sys.anchorEntities) el.updateWorldMatrix(null); // let go of the last riddle's
+  visibleTarget = null;
+  ui.magnifier.classList.remove('ready');
+  targets = (obj?.ar?.targets ?? []).slice(0, MAX_TARGETS).map((t, index) => ({ ...t, index }));
+  const src = obj?.ar?.mind;
+  if (!src) return;
+  if (!arReady) { sys.imageTargetSrc = src; return; } // start() loads it
+  swapping = swapping.then(() => swapTargets(sys, src)).catch((err) => console.error('Could not load targets', src, err));
+}
+
+// Replaces what MindAR looks for without restarting the camera.
+async function swapTargets(sys, src) {
+  const ctrl = sys.controller;
+  if (ctrl.processingVideo) {
+    // let MindAR's video loop finish the frame it's on before its targets change underneath it
+    await new Promise((resolve) => {
+      const before = ctrl.onUpdate;
+      const finish = () => { ctrl.onUpdate = before; resolve(); };
+      ctrl.onUpdate = (e) => { before?.(e); if (e.type === 'processDone') finish(); };
+      setTimeout(finish, 1000);
+      sys.pause(true);
+    });
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  }
+  const { dimensions } = await ctrl.addImageTargets(src);
+  for (const { el, targetIndex } of sys.anchorEntities) {
+    if (targetIndex < dimensions.length) el.setupMarker(dimensions[targetIndex]);
+  }
+  if (mode === 'camera') sys.unpause();
 }
 
 // The camera can see part of the mural. Nothing happens until the player taps (see onSpyTap);
@@ -341,8 +425,8 @@ async function revealAt(obj, target, anchor) {
   const loc = obj.location;
   const c = centre(loc);
   const p = toAnchor(target, c.x, c.y);
-  const w = loc.w / target.w;
-  const h = loc.h / target.w;
+  const w = anchorSpan(target, c, loc.w, 0);
+  const h = anchorSpan(target, c, 0, loc.h);
   const r = Math.max(w, h) * 0.62; // lens radius, just big enough to frame the object
 
   const group = document.createElement('a-entity');
@@ -428,21 +512,20 @@ function showDirection(target, prefix = '') {
   }
   ui.direction.hidden = false;
   clearTimeout(directionTimer);
-  directionTimer = setTimeout(hideDirection, 4000);
+  directionTimer = setTimeout(hideDirection, 5500);
 }
 
 function hideDirection() {
   ui.direction.hidden = true;
 }
 
-// e.g. "about 9 ft to the right and higher up"
+// Direction in the mural, without physical distances players cannot judge on a phone.
 function describeOffset(dx, dy) {
   const parts = [];
   if (Math.abs(dx) > 12) parts.push(dx > 0 ? 'to the right' : 'to the left');
   if (Math.abs(dy) > 12) parts.push(dy > 0 ? 'lower down' : 'higher up');
   if (parts.length === 0) return 'looking a little closer around here';
-  const feet = Math.max(1, Math.round(Math.hypot(dx, dy) / 12));
-  return `about ${feet} ft ${parts.join(' and ')}`;
+  return `looking ${parts.join(' and ')}`;
 }
 
 // e.g. "Just left of the middle window: 9th panel from the left, top row"
@@ -463,21 +546,7 @@ function describeLocation(loc) {
 // Where a spot is relative to the nearest landmark, e.g. "just left of the middle window".
 // Returns null when no landmark is close enough to be a useful reference.
 function nearLandmark(loc) {
-  const c = centre(loc);
-  let best = null;
-  for (const lm of landmarks) {
-    const dx = c.x < lm.x ? c.x - lm.x : c.x > lm.x + lm.w ? c.x - (lm.x + lm.w) : 0;
-    const dy = c.y < lm.y ? c.y - lm.y : c.y > lm.y + lm.h ? c.y - (lm.y + lm.h) : 0;
-    const dist = Math.hypot(dx, dy);
-    if (!best || dist < best.dist) best = { lm, dx, dy, dist };
-  }
-  if (!best || best.dist > mural.panelSize * 1.5) return null;
-
-  const { lm, dx, dy, dist } = best;
-  if (dist === 0) return `in ${lm.name}`;
-  const side = Math.abs(dx) >= Math.abs(dy) ? (dx < 0 ? 'left of' : 'right of') : (dy < 0 ? 'above' : 'below');
-  const howFar = dist < mural.panelSize / 2 ? 'just' : `about ${Math.max(1, Math.round(dist / 12))} ft`;
-  return `${howFar} ${side} ${lm.name}`;
+  return landmarkClue(loc, landmarks, mural.panelSize);
 }
 
 function ordinal(n) {
@@ -506,12 +575,14 @@ function drawMiniMap(loc, svg = ui.miniMap) {
 
 function startGame() {
   mode = 'camera';
+  document.body.dataset.mode = mode;
   ui.startButton.disabled = true;
   ui.startScreen.hidden = true;
   resetQueue();
   nextRiddle();
   showFoundButton();
   loadModelViewer();
+  startedSrc = current?.ar?.mind ?? null;
   sceneEl.systems['mindar-image-system'].start(); // asks for camera permission
 }
 
@@ -544,6 +615,7 @@ function nextRiddle() {
   ui.magnifier.classList.toggle('ready', Boolean(visibleTarget));
 
   current = queue.shift() ?? null;
+  if (mode === 'camera') useTargets(current);
   if (!current) {
     ui.riddleCard.hidden = true;
     ui.magnifier.hidden = true;
@@ -553,9 +625,13 @@ function nextRiddle() {
 
   prefetchModel(modelUrl(current)); // download the 3D model while the player reads the riddle
   ui.riddleText.textContent = current.riddle;
-  ui.tapTip.textContent = mode === 'picture' ? 'Tap the object on the picture.' : 'Look at the mural, then tap the screen when you spy it.';
+  setRiddleCollapsed(false); // every new riddle starts open
+  ui.tapTip.textContent = mode === 'picture' ? 'Pinch to zoom. Scroll or drag to move. Tap to answer.' : 'Find it on the mural, then tap.';
   ui.hintText.textContent = current.hint ?? '';
   ui.hintText.hidden = true;
+  ui.hintMapButton.hidden = true;
+  ui.riddleCard.classList.remove('has-position-hint');
+  ui.hintButton.textContent = 'Hint';
   ui.hintButton.hidden = false; // even without a written hint, the hint turns on the "which way" arrow
   ui.progress.textContent = `(${Math.min(objects.length, found.size + 1)} of ${objects.length})`;
   ui.riddleCard.hidden = false;
@@ -563,13 +639,70 @@ function nextRiddle() {
 }
 
 function showHint() {
+  if (!current) return;
+  if (!ui.hintMapButton.hidden) {
+    ui.hintText.hidden = true;
+    ui.hintMapButton.hidden = true;
+    ui.riddleCard.classList.remove('has-position-hint');
+    ui.hintButton.textContent = 'Hint';
+    return;
+  }
   hintUsed = true;
-  ui.hintText.textContent = current.hint || (mode === 'picture'
-    ? "Tap anywhere on the picture and we'll show you which way to look."
-    : "Point your camera at the mural and tap the screen. We'll show you which way to look.");
+  const hint = positionHint(mural, current.location, landmarks);
+  if (!hint) return;
+  ui.hintText.textContent = `${current.hint ? `${current.hint} ` : ''}${hint.text}`;
   ui.hintText.hidden = false;
-  ui.hintButton.hidden = true;
+  ui.hintMap.setAttribute('viewBox', `0 0 ${mural.width} ${mural.height}`);
+  ui.hintMap.setAttribute('aria-label', `Mural overview. ${hint.text} Gold shows the search area.${mode === 'picture' ? ' Blue shows your current view.' : ''}`);
+  ui.hintMapImage.setAttribute('href', mural.picture);
+  ui.hintMapImage.setAttribute('width', mural.width);
+  ui.hintMapImage.setAttribute('height', mural.height);
+  setMapRect(ui.hintMapRegion, hint.region);
+  ui.hintMapButton.disabled = mode !== 'picture';
+  ui.hintMapButton.setAttribute('aria-label', mode === 'picture' ? 'Move the mural to the suggested search area' : 'Suggested search area on the mural');
+  ui.hintMapCaption.textContent = mode === 'picture' ? 'Gold: search · Blue: view · Tap to move' : 'Gold: suggested search area';
+  ui.hintMapButton.hidden = false;
+  ui.hintButton.textContent = 'Hide hint';
+  ui.riddleCard.classList.add('has-position-hint');
+  updateHintViewport();
   if (visibleTarget && !contains(visibleTarget, current.location)) showDirection(visibleTarget);
+}
+
+function setMapRect(element, rect) {
+  for (const key of ['x', 'y']) element.setAttribute(key, rect[key]);
+  element.setAttribute('width', rect.w);
+  element.setAttribute('height', rect.h);
+}
+
+function updateHintViewport() {
+  if (ui.hintMapButton.hidden) return;
+  ui.hintMapViewport.toggleAttribute('hidden', mode !== 'picture');
+  if (mode !== 'picture') return;
+  const viewport = ui.pictureScroll.getBoundingClientRect();
+  const region = visibleMuralRegion(mural, ui.pictureWall.getBoundingClientRect(), {
+    left: viewport.left, top: viewport.top, width: ui.pictureScroll.clientWidth, height: ui.pictureScroll.clientHeight,
+  });
+  ui.hintMapViewport.toggleAttribute('hidden', !region);
+  if (region) setMapRect(ui.hintMapViewport, region);
+}
+
+function focusHintArea() {
+  if (mode !== 'picture' || !current) return;
+  const hint = positionHint(mural, current.location, landmarks);
+  if (!hint) return;
+  const scroll = ui.pictureScroll;
+  let wall = ui.pictureWall.getBoundingClientRect();
+  const fit = Math.min(scroll.clientWidth / (hint.region.w / mural.width * wall.width / zoom),
+    scroll.clientHeight / (hint.region.h / mural.height * wall.height / zoom)) * 0.9;
+  setZoom(Math.min(zoom, fit));
+  wall = ui.pictureWall.getBoundingClientRect();
+  const viewport = scroll.getBoundingClientRect();
+  const c = centre(hint.region);
+  scroll.scrollTo({
+    left: scroll.scrollLeft + wall.left + c.x / mural.width * wall.width - viewport.left - scroll.clientWidth / 2,
+    top: scroll.scrollTop + wall.top + c.y / mural.height * wall.height - viewport.top - scroll.clientHeight / 2,
+    behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+  });
 }
 
 function skipRiddle() {
@@ -606,6 +739,7 @@ function showFound(obj) {
 
 function startPictureGame() {
   mode = 'picture';
+  document.body.dataset.mode = mode;
   ui.startScreen.hidden = true;
   ui.pictureView.hidden = false;
   if (!ui.pictureImg.src) ui.pictureImg.src = mural.picture;
@@ -616,14 +750,21 @@ function startPictureGame() {
   setZoom(1);
 }
 
-function setZoom(z) {
+function setZoom(z, anchor, previousAnchor = anchor) {
   const scroll = ui.pictureScroll;
-  const keepX = (scroll.scrollLeft + scroll.clientWidth / 2) / scroll.scrollWidth;
-  const keepY = (scroll.scrollTop + scroll.clientHeight / 2) / scroll.scrollHeight;
+  const viewport = scroll.getBoundingClientRect();
+  const before = ui.pictureWall.getBoundingClientRect();
+  if (!before.width || !before.height) return;
+  anchor ??= { x: viewport.left + scroll.clientWidth / 2, y: viewport.top + scroll.clientHeight / 2 };
+  previousAnchor ??= anchor;
+  const keepX = (previousAnchor.x - before.left) / before.width;
+  const keepY = (previousAnchor.y - before.top) / before.height;
   zoom = Math.min(4, Math.max(1, z));
   ui.pictureView.style.setProperty('--zoom', zoom);
-  scroll.scrollLeft = keepX * scroll.scrollWidth - scroll.clientWidth / 2;
-  scroll.scrollTop = keepY * scroll.scrollHeight - scroll.clientHeight / 2;
+  const after = ui.pictureWall.getBoundingClientRect();
+  scroll.scrollLeft += after.left + keepX * after.width - anchor.x;
+  scroll.scrollTop += after.top + keepY * after.height - anchor.y;
+  updateHintViewport();
 }
 
 // Where a tap lands on the wall, in inches.
@@ -636,7 +777,7 @@ function tapToWall(event) {
 }
 
 function onPictureTap(event) {
-  if (!current || !ui.foundCard.hidden || cardTimer) return;
+  if (!current || !ui.foundCard.hidden || cardTimer || performance.now() < pictureTapBlockedUntil) return;
   const p = tapToWall(event);
   const loc = current.location;
   const hit = p.x >= loc.x - TAP_SLACK_IN && p.x <= loc.x + loc.w + TAP_SLACK_IN
@@ -718,6 +859,13 @@ async function createViewer(obj, { zoom }) {
   return viewer;
 }
 
+function setRiddleCollapsed(collapsed) {
+  ui.riddleCard.classList.toggle('collapsed', collapsed);
+  const toggle = document.getElementById('riddle-toggle');
+  toggle.textContent = collapsed ? 'Show riddle' : 'Hide';
+  toggle.setAttribute('aria-expanded', String(!collapsed));
+}
+
 // ---------- Found so far ----------
 
 function loadFound() {
@@ -740,6 +888,7 @@ function markFound(obj) {
 
 function showFoundButton() {
   updateFoundButton();
+  ui.menuBack.hidden = false;
   ui.foundButton.hidden = false;
 }
 

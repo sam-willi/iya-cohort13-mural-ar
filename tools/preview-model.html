@@ -60,6 +60,9 @@
 
     <script type="module">
       import { createSpinningModel, modelUrl, prefetchModel } from '../js/popout.js';
+      import { addRoomEnvironment } from '../js/environment.js';
+
+      addRoomEnvironment(document.querySelector('a-scene'));
 
       const $ = (id) => document.getElementById(id);
       const BUDGET = { bytes: 1.5 * 1024 * 1024, triangles: 50000, texture: 2048 }; // same soft limits as tools/check-sizes.py

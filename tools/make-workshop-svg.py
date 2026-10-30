@@ -287,7 +287,10 @@ add(f"""<defs>
     <stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".5"/>
   </radialGradient>
   <clipPath id="round-window"><circle cx="450" cy="500" r="318"/></clipPath>
+  <clipPath id="magnifier-glass"><circle cx="700" cy="1072" r="76"/></clipPath>
 </defs>""")
+
+# js/lamps.js animates the lamp-light groups on the start screen with fresh random timing each cycle.
 
 # ---------------------------------------------------------------- back wall, shadows, white gaps
 
@@ -307,8 +310,10 @@ add('<g filter="url(#rough)">')
 for d in [poly((0, 40), (900, -20), (900, 30), (0, 95)), poly((0, 170), (380, 120), (380, 150), (0, 205)),
           poly((520, 115), (900, 150), (900, 185), (520, 145))]:
     wood(d, C["wood"], ink=6)
+add('<g class="workshop-gear">')
 add(f'<path d="{gear_path(880, 300, 110, 14)}" fill="{C["wood"]}" stroke="{INK}" stroke-width="6"/>')
 add(f'<circle cx="880" cy="300" r="38" fill="{C["wood_dd"]}" stroke="{INK}" stroke-width="5"/>')
+add('</g>')
 add("</g>")
 
 # ---------------------------------------------------------------- the round window (behind the badge)
@@ -320,7 +325,8 @@ add("</g>")
 add('<g clip-path="url(#round-window)">')
 add('<rect x="120" y="170" width="660" height="660" fill="url(#sky)"/>')
 for d in [rect(190, 470, 60, 400), rect(640, 420, 70, 450), poly((250, 640), (640, 560), (640, 590), (250, 672)),
-          poly((560, 260), (585, 215), (610, 260), (610, 520), (560, 520))]:
+          # Extend the obelisk past the round window's bottom; the window clip grounds its base.
+          poly((560, 260), (585, 215), (610, 260), (610, 840), (560, 840))]:
     add(f'<path d="{d}" fill="{C["stone"]}" opacity=".5"/>')
 add(f'<path d="M140 520 Q450 380 760 520" fill="none" stroke="{C["stone"]}" stroke-width="10" opacity=".6"/>')
 for cx, cy, s in [(250, 300, 1.1), (660, 370, .9), (300, 560, 1)]:
@@ -408,8 +414,11 @@ wood(poly((0, 600), (210, 640), (210, 1000), (0, 960)), C["wood_dd"], ink=0, str
 for y0 in (640, 780, 920):  # shelves angling towards the stairs
     wood(poly((0, y0), (200, y0 + 30), (200, y0 + 52), (0, y0 + 22)), C["wood_l"], ink=5)
 part(ellipse(60, 618, 30, 26), C["metal"])                                            # astronaut helmet
+add('<g class="workshop-eye-open">')
 add(f'<path d="M40 616 Q60 596 82 616 Q60 634 40 616 Z" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
 shine(50, 612, 58, 606, 3)
+add('</g>')
+add(f'<path class="workshop-eye-closed" d="M40 616 Q60 620 82 616" fill="none" stroke="{INK}" stroke-width="3" stroke-linecap="round" opacity="0"/>')
 part(rect(130, 620, 50, 26, 4), C["black"])                                           # binoculars
 for bx in (140, 168):
     add(f'<circle cx="{bx}" cy="633" r="9" fill="{C["glass"]}" stroke="{INK}" stroke-width="3"/>')
@@ -422,6 +431,8 @@ part(ellipse(70, 884, 32, 26), C["crimson"])                                    
 add(f'<path d="M100 878 Q126 868 118 852" fill="none" stroke="{INK}" stroke-width="9" stroke-linecap="round"/>')
 add(f'<path d="M100 878 Q126 868 118 852" fill="none" stroke="{C["crimson"]}" stroke-width="5" stroke-linecap="round"/>')
 part(rect(56, 852, 28, 9, 4), C["crimson"], ink=3)
+add(f'<path class="teapot-steam" d="M118 850 C112 842 125 838 119 830 C115 825 120 820 122 818" '
+    f'fill="none" stroke="{C["cream"]}" stroke-width="3.4" stroke-linecap="round" opacity="0"/>')
 for x0, x1 in ((178, 238), (218, 278)):                                               # ladder leaning on the shelves
     line(x0, 560, x1, 1060, INK, 11)
     line(x0, 560, x1, 1060, C["ochre_l"], 6)
@@ -476,6 +487,8 @@ add(f'<path d="M760 1130 L880 1250" stroke="{INK}" stroke-width="26" stroke-line
 add(f'<path d="M760 1130 L880 1250" stroke="{C["gold"]}" stroke-width="16" stroke-linecap="round"/>')
 add(f'<circle cx="700" cy="1072" r="84" fill="{C["sky"]}"/>')
 add('<path d="M650 1050 L686 1014 M644 1078 L706 1018 M700 1120 L744 1076" stroke="#fff" stroke-width="8" stroke-opacity=".8" stroke-linecap="round"/>')
+add('<g clip-path="url(#magnifier-glass)"><path class="magnifier-glint" '
+    'd="M670 970 L690 970 L758 1174 L738 1174 Z" fill="#fff" opacity="0"/></g>')
 add(f'<circle cx="700" cy="1072" r="84" fill="none" stroke="{INK}" stroke-width="14"/>')
 add(f'<circle cx="700" cy="1072" r="84" fill="none" stroke="{C["rim"]}" stroke-width="7"/>')
 add("</g>")
@@ -535,14 +548,19 @@ for draw, x, y, s, r in [
 # ---------------------------------------------------------------- lamps on chains, throwing light (drawn last)
 
 for lx in (190, 720):
+    light_class = "lamp-light lamp-light-right" if lx == 720 else "lamp-light"
+    add(f'<g class="{light_class}">')
     add(f'<path d="{poly((lx - 36, 250), (lx + 36, 250), (lx + 170, 1100), (lx - 170, 1100))}" fill="url(#beam)" opacity=".7"/>')
     halo(lx, 262, 130)
+    add('</g>')
 add('<g filter="url(#rough)">')
 for lx in (190, 720):
     for k in range(9):  # chain links
         add(f'<ellipse cx="{lx}" cy="{12 + k * 22}" rx="6" ry="11" fill="none" stroke="{INK}" stroke-width="4"/>')
     add(f'<path d="M{lx - 58} 256 Q{lx - 54} 202 {lx} 194 Q{lx + 54} 202 {lx + 58} 256 Z" fill="{C["ochre"]}" stroke="{INK}" stroke-width="6"/>')
-    add(f'<ellipse cx="{lx}" cy="260" rx="22" ry="12" fill="#fff6cf" stroke="{INK}" stroke-width="3"/>')
+    add(f'<ellipse cx="{lx}" cy="260" rx="22" ry="12" fill="{C["wood_d"]}" stroke="{INK}" stroke-width="3"/>')
+    light_class = "lamp-light lamp-light-right" if lx == 720 else "lamp-light"
+    add(f'<ellipse class="{light_class}" cx="{lx}" cy="260" rx="22" ry="12" fill="#fff6cf" stroke="{INK}" stroke-width="3"/>')
     add(f'<rect x="{lx - 62}" y="250" width="124" height="11" rx="5" fill="{C["wood"]}" stroke="{INK}" stroke-width="3"/>')
 add("</g>")
 

@@ -4,3 +4,6 @@ node_modules/
 *.log
 .impeccable/
 models/incoming/
+tools/models/blender/check/
+__pycache__/
+tools/wall/build/
